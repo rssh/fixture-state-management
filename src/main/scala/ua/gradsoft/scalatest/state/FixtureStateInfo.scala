@@ -1,16 +1,19 @@
 package ua.gradsoft.scalatest.state
 
+
 /**
  * information about possible states, on which tests depends on.
  **/
-trait FixtureStateInfo
+trait FixtureStateInfo[SelfType <: FixtureStateInfo[_]]
 {
+
+  this: SelfType =>
 
   /**
    * type of fixture, for which we manage states.
    * This can be db link (represented by jdbc connection)
    **/
-  type FixtureType;
+  type FixtureType ;
 
   /**
    * Set of possible start states, wich can be loaded.
@@ -20,10 +23,14 @@ trait FixtureStateInfo
   type StartStateType = startStates.Value;
 
   /**
-   * how to load given state: i.e. load database dump, initialize vars according, etc ..
+   * how to load given state: i.e. load database dump, initialize vars according, etc..
    **/
-  def load(s: StartStateType): FixtureType;
+  def load(f: Option[SelfType#FixtureType], s: SelfType#StartStateType): SelfType#FixtureType;
 
+  /**
+   * if fixture is resource, than  how to close one.
+   **/
+  def close(f: SelfType#FixtureType): Unit;
 
   /**
    * Set of possible state aspects. Aspect here is some part of state: test can use or change different

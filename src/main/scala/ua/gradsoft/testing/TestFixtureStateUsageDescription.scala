@@ -1,4 +1,4 @@
-package ua.gradsoft.scalatest.state
+package ua.gradsoft.testing
 
 /**
  * Description of one test.

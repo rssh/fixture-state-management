@@ -4,7 +4,7 @@ package ua.gradsoft.testing
  * DLS for fixture state
  * Usage: for fixture stat
  * @{{{
- *   `fixture state` any ();
+*   `fixture state` any ();
  *   `fixture state` any 
  *   `fixture state` any state
  *   require state  <state-name>
@@ -25,23 +25,42 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
     def value: TestFixtureStateUsageDescription[T]
   }
 
+  sealed trait FixtureStateAfterAny
+  {
+    def afterAny(v: DSLExpression): DSLExpression
+  }
+
+  sealed trait FixtureStateBeforeAny
+  {
+    this: DSLExpression =>
+    def any(afterAny:FixtureStateAfterAny) = afterAny.afterAny(this)
+  }
+
   class FixtureStateVerb extends DSLExpression
+                           with FixtureStateBeforeAny
   {
     val value = TestFixtureStateUsageDescription.apply[T](fixtureStateTypes);
 
-    def any = new FixtureStateVerbAny(this);
+    def any() = new FixtureStateVerbAnyExpression(this)
   }
 
-  class FixtureStateVerbAny(val upverb: DSLExpression)
+  val state = new FixtureStateVerbState
+
+  class FixtureStateVerbState extends FixtureStateAfterAny
   {
-    def state = new FixtureStateVerbAnyState(upverb);
+    def afterAny(v: DSLExpression) =
+                  new FixtureStateVerbStateExpression(v);
   }
 
-  class FixtureStateVerbAnyState(val upverb: DSLExpression) extends DSLExpression
+  class FixtureStateVerbStateExpression(val upverb: DSLExpression) extends DSLExpression
+                           with FixtureStateBeforeAny
   {
-
     def value = upverb.value.withAnyState;
+  }
 
+  class FixtureStateVerbAnyExpression(val upverb: DSLExpression) extends DSLExpression
+  {
+    def value = upverb.value.copy[T](precondition=AnyState[T](fixtureStateTypes));
   }
 
 }

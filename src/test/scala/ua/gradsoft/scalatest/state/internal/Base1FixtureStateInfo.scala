@@ -1,4 +1,4 @@
-package ua.gradsoft.scalates.state.internal
+package ua.gradsoft.scalatest.state.internal
 
 import org.scalatest._
 import ua.gradsoft.testing._

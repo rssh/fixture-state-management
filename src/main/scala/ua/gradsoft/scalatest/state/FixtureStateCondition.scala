@@ -1,8 +1,10 @@
 package ua.gradsoft.scalatest.state
 
 
-
-sealed abstract class StateCondition[SI <: FixtureStateInfo[_]](val stateInfo:SI)
+/**
+ * StateCondition - what states is needed and what aspects must be cleaned.
+ **/
+sealed abstract class FixtureStateCondition[SI <: FixtureStateTypes](val stateInfo:SI)
 {
 
   
@@ -28,14 +30,14 @@ sealed abstract class StateCondition[SI <: FixtureStateInfo[_]](val stateInfo:SI
    **/
   def stateToLoad: SI#StartStateType;
 
-  def and (other: StateCondition[SI]): StateCondition[SI];
-  def or  (other: StateCondition[SI]): StateCondition[SI];
+  def and (other: FixtureStateCondition[SI]): FixtureStateCondition[SI];
+  def or  (other: FixtureStateCondition[SI]): FixtureStateCondition[SI];
 
 }
 
 
-case class AnyState[SI <: FixtureStateInfo[_]](override val stateInfo:SI) 
-                                             extends StateCondition[SI](stateInfo)
+case class AnyState[SI <: FixtureStateTypes](override val stateInfo:SI) 
+                                             extends FixtureStateCondition[SI](stateInfo)
 {
 
   def allowedStartStates: Set[SI#StartStateType] =
@@ -45,13 +47,13 @@ case class AnyState[SI <: FixtureStateInfo[_]](override val stateInfo:SI)
 
   def stateToLoad: SI#StartStateType = stateInfo.startStates.values.head;
 
-  def and(other: StateCondition[SI]) = other;
-  def or(other: StateCondition[SI]) = this;
+  def and(other: FixtureStateCondition[SI]) = other;
+  def or(other: FixtureStateCondition[SI]) = this;
 
 }
 
-case class NoState[SI <: FixtureStateInfo[_]](override val stateInfo:SI) 
-                                             extends StateCondition(stateInfo)
+case class NoState[SI <: FixtureStateTypes](override val stateInfo:SI) 
+                                             extends FixtureStateCondition(stateInfo)
 {
   def allowedStartStates: Set[SI#StartStateType] = Set();
   def usedStateAspects: Set[SI#StateAspectType] = 
@@ -60,16 +62,16 @@ case class NoState[SI <: FixtureStateInfo[_]](override val stateInfo:SI)
   def stateToLoad: SI#StartStateType = 
          throw new IllegalStateException("NoState have no state to load");
 
-  def and(other: StateCondition[SI]) = this;
-  def or(other: StateCondition[SI]) = other;
+  def and(other: FixtureStateCondition[SI]) = this;
+  def or(other: FixtureStateCondition[SI]) = other;
 
 }
 
-case class SetOfStatesAndAspects[SI <: FixtureStateInfo[_]](
+case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
                         override val stateInfo: SI,
                         override val allowedStartStates: Set[SI#StartStateType],
                         override val usedStateAspects: Set[SI#StateAspectType]) 
-                            extends StateCondition(stateInfo)
+                            extends FixtureStateCondition(stateInfo)
 {
 
   def stateToLoad: SI#StartStateType = 
@@ -79,8 +81,11 @@ case class SetOfStatesAndAspects[SI <: FixtureStateInfo[_]](
          allowedStartStates.head
       }
 
+  def addState(s: SI#StartStateType) = SetOfStatesAndAspects[SI](stateInfo,
+                                                                 allowedStartStates + s,
+                                                                 usedStateAspects);
 
-  def and(other: StateCondition[SI]): StateCondition[SI] = 
+  def and(other: FixtureStateCondition[SI]): FixtureStateCondition[SI] = 
    other match {
      case AnyState(_)  => this
      case NoState(_) => other
@@ -90,7 +95,7 @@ case class SetOfStatesAndAspects[SI <: FixtureStateInfo[_]](
                                                         )
    }
                        
-  def or(other: StateCondition[SI]) = 
+  def or(other: FixtureStateCondition[SI]) = 
    other match {
      case AnyState(_) => other
      case NoState(_) => this

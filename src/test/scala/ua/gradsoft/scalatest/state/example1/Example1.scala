@@ -8,7 +8,7 @@ import ua.gradsoft.scalatest.state._
  * This is formal minimal example, where state
  * represented by int.
  **/
-class Example1StatesInfo extends FixtureStateInfo[Example1StatesInfo]
+class Example1FixtureStateTypes extends FixtureStateTypes
 {
 
   type FixtureType = Int;
@@ -20,22 +20,9 @@ class Example1StatesInfo extends FixtureStateInfo[Example1StatesInfo]
 
   val startStates = States;
 
-  override def load(f:Option[Example1StatesInfo#FixtureType], 
-                     s: Example1StatesInfo#StartStateType): Example1StatesInfo#FixtureType = 
-  {
-   import States._
-   s match {
-      case ONE => 1
-      case TWO => 2
-      case THREE => 3
-   }
-  }
-
-  override def close(f:Example1StatesInfo#FixtureType): Unit = { }
-
 }
 
-object Example1StatesInfo extends Example1StatesInfo;
+object Example1FixtureStateTypes extends Example1FixtureStateTypes;
 
 //class Example1TestSuites extends StatefullFixture.Suite(Examples1StatesInfo)
 class Example1TestSuites extends Suite

@@ -1,18 +1,18 @@
 package ua.gradsoft.scalatest.state
 
-class FixtureStateManager[SI <: FixtureStateInfo[_]](val stateInfo: FixtureStateInfo[SI])
+class FixtureStateManager[T <: FixtureStateTypes](val stateOps: FixtureStateOperations[T])
 {
 
-  var fixture: Option[SI#FixtureType] = None;
-  var currentStartState: Option[SI#StartStateType] = None;
-  var usedStateAspects: Set[SI#StateAspectType] = Set();
+  var fixture: Option[T#FixtureType] = None;
+  var currentStartState: Option[T#StartStateType] = None;
+  var usedStateAspects: Set[T#StateAspectType] = Set();
 
-  def doWith(statePrecondition: StateCondition[SI],
-             aspectsToUse:Set[SI#StateAspectType], 
-             stateChange: StateChange[SI],
-             f: SI#FixtureType => Unit): Unit =
+  def doWith(statePrecondition: FixtureStateCondition[T],
+             aspectsToUse:Set[T#StateAspectType], 
+             stateChange: FixtureStateChange[T],
+             f: T#FixtureType => Unit): Unit =
   {
-    stateInfo.synchronized {
+    stateOps.synchronized {
        if (currentStartState==None) {
            loadState(statePrecondition.stateToLoad);
        }else if(!statePrecondition.check(currentStartState.get)) {
@@ -27,7 +27,7 @@ class FixtureStateManager[SI <: FixtureStateInfo[_]](val stateInfo: FixtureState
          case SameState => /* do nothing */
          case NewState(x) => { currentStartState = Some(x); 
                                usedStateAspects = Set(); }
-         case UndefinedState => { stateInfo.close(fixture.get); 
+         case UndefinedState => { stateOps.close(fixture.get); 
                                   currentStartState=None;
                                   fixture=None;
                                 }
@@ -35,8 +35,8 @@ class FixtureStateManager[SI <: FixtureStateInfo[_]](val stateInfo: FixtureState
     }
   }
 
-  private[this] def loadState(s: SI#StartStateType) {
-      fixture = Some(stateInfo.load(fixture,s));
+  private[this] def loadState(s: T#StartStateType) {
+      fixture = Some(stateOps.load(fixture,s));
       currentStartState = Some(s); 
       usedStateAspects = Set();
   }

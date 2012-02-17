@@ -14,7 +14,7 @@ class StateConditionsTest extends FunSuite
 
 
   test("check that condition is choosed from set") { 
-    def precondition = new SetOfStatesAndAspects[Base1FixtureStateInfo](Base1FixtureStateInfo,
+    def precondition = new SetOfStatesAndAspects[Base1FixtureStateInfo.type](Base1FixtureStateInfo,
                                                                         Set(TWO),
                                                                         Set());
     val state = precondition.stateToLoad;

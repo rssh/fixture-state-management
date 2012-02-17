@@ -2,30 +2,49 @@ package ua.gradsoft.testing
 
 /**
  * Description of one test.
+ *@param stateTypes -- fixture state types.
+ *@param precondition --  what situation must be before test.
+ *                        Usually this is set of possible db states
+ *@param startStateChange - how test change state
+ *@param stateAspectsChanged - what aspects changed by this state if it runs succesfully. 
+ *  By default - All. If stateAspectsChanged is empty set, than this test does not change
+ *  aspects at all.
  **/
-abstract class TestFixtureStateUsageDescription[T <: FixtureStateTypes](stateInfo: T)
+case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
+                         val stateInfo: T,
+                         val precondition: FixtureStateCondition[T],
+                         val startStateChange: FixtureStateChange[T],
+                         val stateAspectsChanged: Set[T#StateAspectType])
 {
 
-   /**
-    * precondition, i. e. what situation must be before test.
-    * Usually this is set of possible db states
-    **/
-   def precondition: FixtureStateCondition[T];
+  def withAnyState: TestFixtureStateUsageDescription[T] =
+             copy[T](precondition=precondition.withAnyState);
 
-
-   /**
-    * changes - what start changes 
-    **/
-   def startStateChange: FixtureStateChange[T] = UndefinedState;
-
-   /**
-    * what aspects changed by this state if it runs succesfully. By default - All.
-    * If aspectsChanged == None than this test does not change
-    * state at all. (for example create and then remove object).
-    **/
-   def stateAspectsChanged: Set[T#StateAspectType] = 
-            stateInfo.stateAspects.values.asInstanceOf[Set[T#StateAspectType]];
+  def withStartState(s: T#StartStateType): TestFixtureStateUsageDescription[T] =
+             copy[T](precondition=precondition.withStartState(s));
 
 }
+
+
+                     
+object TestFixtureStateUsageDescription
+{
+
+  /**
+   * create state usage description with default values, which can be used for
+   * bulding of more complicated descriptions.
+   **/
+  def apply[T <: FixtureStateTypes](stateInfo:T) =
+           new TestFixtureStateUsageDescription[T](
+                         stateInfo = stateInfo,
+                         precondition = NoState[T](stateInfo),
+                         startStateChange = UndefinedState,
+                         stateAspectsChanged = 
+                            stateInfo.stateAspects.values.asInstanceOf[Set[T#StateAspectType]]
+           );
+
+
+}
+
 
 // vim: set ts=4 sw=4 et:

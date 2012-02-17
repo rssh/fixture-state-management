@@ -17,13 +17,9 @@ class Base1S1Test extends fixture.FunSuite
 
   val stateManager = new FixtureStateManager[FST](stateOps);
 
-  val fixtureStateData = new TestFixtureStateUsageDescription[FST](stateInfo) {
-    def precondition = new AnyState(stateInfo);
-  };
+  val fixtureStateData = TestFixtureStateUsageDescription[FST](stateInfo).withAnyState;
 
-  val dummyStateData = new TestFixtureStateUsageDescription[FST](stateInfo) {
-    def precondition = new AnyState(stateInfo);
-  };
+  val dummyStateData = TestFixtureStateUsageDescription[FST](stateInfo).withAnyState;
 
   val testStateUsageDescriptions : MutableMap[String, TestFixtureStateUsageDescription[FST]] = LinkedHashMap();
 
@@ -54,12 +50,8 @@ class Base1S1Test extends fixture.FunSuite
   import Base1FixtureStateInfo.States._;
 
   val testName = "receive state"
-  testStateUsageDescriptions(testName)=new TestFixtureStateUsageDescription[
-                                                      Base1FixtureStateInfo.type](stateInfo) {
-    def precondition = new SetOfStatesAndAspects[Base1FixtureStateInfo.type](stateInfo,
-                                                                        Set(TWO),
-                                                                        Set());
-  }
+  testStateUsageDescriptions(testName)=TestFixtureStateUsageDescription.apply[FST](stateInfo).
+                                                      withStartState(TWO);
   test(testName) { x =>
     assert(x==2);
   }

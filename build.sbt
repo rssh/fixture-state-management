@@ -1,5 +1,5 @@
 
-name:="scalatest-state"
+name:="fixture-state-management"
 
 version:="0.1.0"
 

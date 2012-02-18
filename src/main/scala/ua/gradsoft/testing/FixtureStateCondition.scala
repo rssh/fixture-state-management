@@ -35,11 +35,22 @@ sealed abstract class FixtureStateCondition[SI <: FixtureStateTypes](val stateIn
    **/
   def withStartState(s: SI#StartStateType): FixtureStateCondition[SI];
 
+
   /**
    * return condition where input state can be any (and used aspects same
    * as current)
    **/
   def withAnyState: FixtureStateCondition[SI];
+
+  /**
+   * return condition where input state is undefined.
+   **/
+  def withUndefinedState: FixtureStateCondition[SI];
+
+  /**
+   * return condition whith input states from s.
+   **/
+  def withStartStates(s: Seq[SI#StartStateType]): FixtureStateCondition[SI];
 
   def and (other: FixtureStateCondition[SI]): FixtureStateCondition[SI];
   def or  (other: FixtureStateCondition[SI]): FixtureStateCondition[SI];
@@ -64,6 +75,8 @@ case class AnyState[SI <: FixtureStateTypes](override val stateInfo:SI)
 
   def withAnyState: FixtureStateCondition[SI] = this;
 
+  def withUndefinedState: FixtureStateCondition[SI] = NoState[SI](stateInfo);
+
   def and(other: FixtureStateCondition[SI]) = other;
   def or(other: FixtureStateCondition[SI]) = this;
 
@@ -82,10 +95,15 @@ case class NoState[SI <: FixtureStateTypes](override val stateInfo:SI)
   def withStartState(s: SI#StartStateType): FixtureStateCondition[SI] = 
       SetOfStatesAndAspects[SI](stateInfo, Set(s), usedStateAspects);
 
+  def withStartStates(s: Seq[SI#StartStateType]): FixtureStateCondition[SI] =
+      SetOfStatesAndAspects[SI](stateInfo, s.toSet, usedStateAspects);
+
   def withAnyState: FixtureStateCondition[SI] = 
       SetOfStatesAndAspects[SI](stateInfo, 
                                 stateInfo.startStates.values.asInstanceOf[Set[SI#StartStateType]],
                                 usedStateAspects);
+
+  def withUndefinedState: FixtureStateCondition[SI] = this;
 
   def and(other: FixtureStateCondition[SI]) = this;
   def or(other: FixtureStateCondition[SI]) = other;
@@ -118,6 +136,11 @@ case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
                                 stateInfo.startStates.values.asInstanceOf[Set[SI#StartStateType]],
                                 usedStateAspects);
 
+  def withStartStates(s: Seq[SI#StartStateType]): FixtureStateCondition[SI] =
+      SetOfStatesAndAspects[SI](stateInfo, s.toSet, usedStateAspects);
+
+  def withUndefinedState: FixtureStateCondition[SI] = 
+      SetOfStatesAndAspects[SI](stateInfo, Set(), usedStateAspects);
 
   def and(other: FixtureStateCondition[SI]): FixtureStateCondition[SI] = 
    other match {

@@ -12,13 +12,13 @@ class FixtureDSLTest extends FunSuite
 
   def fixtureUsage  = new FixtureStateVerb;
 
-  test("fixtureUsageAnyState must be state") {
-    var x = fixtureUsage any state
+  test("fixtureUsageAnyState start state any") {
+    val x = fixtureUsage start state(any)
     assert(x.value.precondition.allowedStartStates.size == fixtureStateTypes.States.values.size);
   }
 
-  test("fixtureUsage state (s)") {
-    var x = fixtureUsage state (Base1FixturestateInfo.States.TWO)
+  test("fixtureUsage start state (s)") {
+    val x = fixtureUsage start state (Base1FixtureStateInfo.States.TWO) ;
     assert(x.value.precondition.allowedStartStates.size == 1);
   }
 

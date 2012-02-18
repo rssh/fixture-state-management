@@ -20,8 +20,14 @@ case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
   def withAnyState: TestFixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withAnyState);
 
+  def withUndefinedState: TestFixtureStateUsageDescription[T] =
+             copy[T](precondition=precondition.withUndefinedState);
+
   def withStartState(s: T#StartStateType): TestFixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withStartState(s));
+
+  def withStartStates(s: Seq[T#StartStateType]): TestFixtureStateUsageDescription[T] =
+             copy[T](precondition=precondition.withStartStates(s));
 
 }
 

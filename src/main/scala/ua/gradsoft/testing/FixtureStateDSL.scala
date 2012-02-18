@@ -26,7 +26,7 @@ package ua.gradsoft.testing
  *   `fixture state` start state(any) change noting
  *   `fixture state` start state(any) finish state(undefined)
  *   `fixture state` start state(S3) finish state(S4)
- *   `fixture state` start states(S1,S2,S3) aspects (1,2,3) change none
+ *   `fixture state` start states(S1,S2,S3) aspects (1,2,3) change(none)
  *   require state  <state-name>
  *   require states (<list-of-state-names>)
  *
@@ -103,6 +103,8 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   class FixtureStateVerbStartState(up:DSLExpression,x:T#StartStateType) 
                                                         extends DSLExpression
                                                         with FixtureStateVerb_Aspects
+                                                        with FixtureStateVerb_Finish
+                                                        with FixtureStateVerb_Change
   {
     def value = up.value.withStartState(x);
   }
@@ -110,6 +112,8 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   class FixtureStateVerbStartStates(up:DSLExpression,x:Seq[T#StartStateType]) 
                                                         extends DSLExpression
                                                         with FixtureStateVerb_Aspects
+                                                        with FixtureStateVerb_Finish
+                                                        with FixtureStateVerb_Change
   {
     def value = up.value.withStartStates(x);
   }
@@ -117,23 +121,69 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   class FixtureStateVerbStartStateAny(up:DSLExpression)
                                                         extends DSLExpression
                                                         with FixtureStateVerb_Aspects
+                                                        with FixtureStateVerb_Finish
+                                                        with FixtureStateVerb_Change
   {
     def value = up.value.withAnyState;
   }
 
   class FixtureStateVerbStartStateUndefined(up:DSLExpression)
                                                         extends DSLExpression
+                                                        with FixtureStateVerb_Finish
+                                                        with FixtureStateVerb_Change
   {
     def value = up.value.withUndefinedState;
   }
 
   trait FixtureStateVerb_Aspects extends DSLExpression
   {
-    def aspects(x: T#StateAspectType *): DSLExpression =
+    def aspects(x: T#StateAspectType *): FixtureStateVerbAspects =
     {
-     throw new RuntimeException("Not implemented");
+     new FixtureStateVerbAspects(this,x);
     }
   }
+
+  class FixtureStateVerbAspects(up:DSLExpression, x:Seq[T#StateAspectType]) 
+                                                         extends DSLExpression
+                                                         with FixtureStateVerb_Finish
+                                                         with FixtureStateVerb_Change
+  {
+    def value = up.value.withStateAspects(x);
+  }
+
+  trait FixtureStateVerb_Finish extends DSLExpression
+  {
+    def finish(x: FixtureStateVerb_STATE): FixtureStateVerbFinishState =
+          new FixtureStateVerbFinishState(this,x.s)
+
+    def finish(x: FixtureStateVerb_STATE_UNDEFINED.type):FixtureStateVerbFinishStateUndefined =
+          new FixtureStateVerbFinishStateUndefined(this)
+  }
+
+  class FixtureStateVerbFinishState(up:DSLExpression, x:T#StartStateType) extends DSLExpression
+  {
+    def value = up.value.withFinishState(x);
+  }
+
+  class FixtureStateVerbFinishStateUndefined(up:DSLExpression) extends DSLExpression
+  {
+    def value = up.value.withFinishStateUndefined;
+  }
+
+  trait FixtureStateVerb_Change extends DSLExpression
+  {
+    def change(x: FixtureStateVerb_NOTHING.type)
+         = new FixtureStateVerbChange(this);
+  }
+
+  class FixtureStateVerbChange(up:DSLExpression) extends DSLExpression
+  {
+   def value = up.value.withChangeNothing;
+  }
+
+  case object FixtureStateVerb_NOTHING
+
+  def nothing = FixtureStateVerb_NOTHING
 
 }
 

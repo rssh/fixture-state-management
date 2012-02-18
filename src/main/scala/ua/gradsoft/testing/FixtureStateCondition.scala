@@ -52,6 +52,11 @@ sealed abstract class FixtureStateCondition[SI <: FixtureStateTypes](val stateIn
    **/
   def withStartStates(s: Seq[SI#StartStateType]): FixtureStateCondition[SI];
 
+  /**
+   * return condition whith marked aspects from s
+   **/
+  def withStateAspects(s: Seq[SI#StateAspectType]): FixtureStateCondition[SI];
+
   def and (other: FixtureStateCondition[SI]): FixtureStateCondition[SI];
   def or  (other: FixtureStateCondition[SI]): FixtureStateCondition[SI];
 
@@ -76,6 +81,11 @@ case class AnyState[SI <: FixtureStateTypes](override val stateInfo:SI)
   def withAnyState: FixtureStateCondition[SI] = this;
 
   def withUndefinedState: FixtureStateCondition[SI] = NoState[SI](stateInfo);
+
+  def withStateAspects(s: Seq[SI#StateAspectType]): FixtureStateCondition[SI] =
+      SetOfStatesAndAspects[SI](stateInfo, 
+                                allowedStartStates,
+                                s.toSet)
 
   def and(other: FixtureStateCondition[SI]) = other;
   def or(other: FixtureStateCondition[SI]) = this;
@@ -104,6 +114,11 @@ case class NoState[SI <: FixtureStateTypes](override val stateInfo:SI)
                                 usedStateAspects);
 
   def withUndefinedState: FixtureStateCondition[SI] = this;
+
+  def withStateAspects(s: Seq[SI#StateAspectType]): FixtureStateCondition[SI] =
+      SetOfStatesAndAspects[SI](stateInfo, 
+                                allowedStartStates,
+                                s.toSet);
 
   def and(other: FixtureStateCondition[SI]) = this;
   def or(other: FixtureStateCondition[SI]) = other;
@@ -141,6 +156,11 @@ case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
 
   def withUndefinedState: FixtureStateCondition[SI] = 
       SetOfStatesAndAspects[SI](stateInfo, Set(), usedStateAspects);
+
+  def withStateAspects(s: Seq[SI#StateAspectType]): FixtureStateCondition[SI] =
+      SetOfStatesAndAspects[SI](stateInfo, 
+                                allowedStartStates,
+                                s.toSet);
 
   def and(other: FixtureStateCondition[SI]): FixtureStateCondition[SI] = 
    other match {

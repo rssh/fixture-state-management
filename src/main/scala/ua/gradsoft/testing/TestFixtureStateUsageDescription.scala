@@ -29,6 +29,20 @@ case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
   def withStartStates(s: Seq[T#StartStateType]): TestFixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withStartStates(s));
 
+  def withStateAspects(s: Seq[T#StateAspectType]): TestFixtureStateUsageDescription[T] =
+             copy[T](precondition=precondition.withStateAspects(s));
+
+  def withFinishState(s: T#StartStateType): TestFixtureStateUsageDescription[T] =
+             copy[T](startStateChange = NewState[T](s) );
+
+  def withFinishStateUndefined: TestFixtureStateUsageDescription[T] =
+             copy[T](startStateChange = UndefinedState );
+
+  def withChangeNothing: TestFixtureStateUsageDescription[T] =
+             copy[T](startStateChange = SameState,
+                     stateAspectsChanged = Set()
+                    );
+
 }
 
 

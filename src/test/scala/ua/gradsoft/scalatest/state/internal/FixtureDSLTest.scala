@@ -28,19 +28,19 @@ class FixtureDSLTest extends FunSuite
     assert(x.value.precondition.usedStateAspects.size == 1);
   }
 
-  test("fixtureUsageAnyState start state(any) finish state(undefined)") {
+  test("fixtureUsage start state(any) finish state(undefined)") {
     val x = fixtureUsage start state(any) finish state(undefined)
     assert(x.value.startStateChange == UndefinedState);
   }
 
-  test("fixtureUsageAnyState start state(s) finish state(s1)") {
+  test("fixtureUsage start state(s) finish state(s1)") {
     val x = fixtureUsage start state(Base1FixtureStateInfo.States.TWO
                                     ) finish state(
                                         Base1FixtureStateInfo.States.ONE)
     assert(x.value.startStateChange == NewState[Base1FixtureStateInfo.type](Base1FixtureStateInfo.States.ONE));
   }
 
-  test("fixtureUsageAnyState start state(s) aspects(a) finish state(s1)") {
+  test("fixtureUsage start state(s) aspects(a) finish state(s1)") {
     val x = fixtureUsage start state(Base1FixtureStateInfo.States.TWO
                                     ) aspects (
                                        Base1FixtureStateInfo.stateAspects(0)
@@ -50,8 +50,14 @@ class FixtureDSLTest extends FunSuite
     assert(x.value.precondition.usedStateAspects.size == 1);
   }
 
-  test("fixtureUsageAnyState start state(s) change(nothing) ") {
+  test("fixtureUsage start state(s) change(nothing) ") {
     val x = fixtureUsage start state(Base1FixtureStateInfo.States.TWO
+                                    ) change ( nothing )
+    assert(x.value.startStateChange == SameState);
+  }
+
+  test("start state(s) change(nothing) ") {
+    val x = start state(Base1FixtureStateInfo.States.TWO
                                     ) change ( nothing )
     assert(x.value.startStateChange == SameState);
   }

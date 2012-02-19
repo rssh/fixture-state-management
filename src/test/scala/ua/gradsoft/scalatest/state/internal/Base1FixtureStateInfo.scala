@@ -24,13 +24,14 @@ object Base1FixtureStateInfo extends FixtureStateTypes
 
 object Base1FixtureStateOperations extends FixtureStateOperations[Base1FixtureStateInfo.type]
 {
+  import Base1FixtureStateInfo.States._ ;
 
 
   override def load(f:Option[FixtureType], 
                     s: StartStateType): FixtureType = 
   {
    //System.err.println("load state:"+s);
-   import Base1FixtureStateInfo.States._ ;
+   emulatedState = s;
    s match {
       case ONE => 1
       case TWO => 2
@@ -39,6 +40,13 @@ object Base1FixtureStateOperations extends FixtureStateOperations[Base1FixtureSt
   }
 
   override def close(f:FixtureType): Unit = {} 
+
+  // set by tests. in real life 
+  // usually state are outside of program control.
+  def set(s: StartStateType):Unit = {
+     emulatedState = s;
+  }
+  private var emulatedState: StartStateType = ONE;
 
 }
 

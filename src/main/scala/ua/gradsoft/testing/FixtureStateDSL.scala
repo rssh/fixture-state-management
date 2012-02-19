@@ -45,6 +45,7 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
     def value: TestFixtureStateUsageDescription[T]
   }
 
+
   class FixtureStateVerb extends DSLExpression
                         with FixtureStateVerb_Start
   { 
@@ -71,8 +72,8 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
             new  FixtureStateVerbStartStates(this,x.args);
 
   }
-    
 
+    
   case class FixtureStateVerb_STATE(val s:T#StartStateType);
   case object FixtureStateVerb_STATE0;
   case object FixtureStateVerb_ANY;
@@ -90,6 +91,26 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
 
   def state(x:FixtureStateVerb_ANY.type) = FixtureStateVerb_STATE_ANY;
   def state(x:FixtureStateVerb_UNDEFINED.type) = FixtureStateVerb_STATE_UNDEFINED;
+
+  // also let-s expand start into top-level
+  class FixtureStateVerbStart extends DSLExpression
+  {
+    val value = TestFixtureStateUsageDescription[T](fixtureStateTypes);
+
+    def state(x: FixtureStateVerb_ANY.type) =
+            new FixtureStateVerbStartStateAny(this);
+
+    def state(x: FixtureStateVerb_UNDEFINED.type) =
+            new FixtureStateVerbStartStateUndefined(this);
+
+    def state(x:T#StartStateType) = 
+            new FixtureStateVerbStartState(this,x);
+
+    def states(x:T#StartStateType*) = 
+            new  FixtureStateVerbStartStates(this,x);
+  }
+ 
+  def start = new FixtureStateVerbStart
 
   class FixtureStateVerbStartState0(up: DSLExpression)
   {

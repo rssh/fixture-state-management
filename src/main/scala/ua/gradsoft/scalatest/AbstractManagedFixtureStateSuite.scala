@@ -2,6 +2,7 @@ package ua.gradsoft.scalatest
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;
+import scala.util.DynamicVariable;
 
 import org.scalatest._;
 import ua.gradsoft.testing._;
@@ -34,12 +35,26 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
    **/
   def fixtureStateTypes: T 
 
-  protected val fixtureStateManager = new FixtureStateManager[T](fixtureAccess);
+  protected def fixtureStateManager: FixtureStateManager[T] = if (isNested) {
+                                        _parent.get.fixtureStateManager
+                                      } else {
+                                         _fixtureStateManager 
+                                      }
 
-  private[scalatest] val neededFixtureStates: MutableMap[String,TestFixtureStateUsageDescription[T]] =
+
+  private lazy val _fixtureStateManager = new FixtureStateManager[T](fixtureAccess);
+
+  protected def neededFixtureStates: MutableMap[String, TestFixtureStateUsageDescription[T]] = 
+                                      if (isNested) {
+                                        _parent.get.neededFixtureStates
+                                      } else {
+                                        _neededFixtureStates
+                                      }
+
+  private lazy val _neededFixtureStates: MutableMap[String,TestFixtureStateUsageDescription[T]] =
                                                                                          LinkedHashMap();
 
-  private[scalatest] var defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
+  private[scalatest] val defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
   private[scalatest] var fixtureStateForNextTest = defaultFixtureState;
   
 
@@ -52,8 +67,46 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
   def fixtureUsage(dsl:DSLExpression):Unit = 
     { fixtureStateForNextTest = dsl.value; }
 
+  private[this] def isNested : Boolean = (_parent != None);
+
+  private[this] var _parent : Option[AbstractManagedFixtureStateSuite[T]] = {
+           ManagedFixtureStateSuiteConstructorKluge.currentParent.value map { x =>
+                ManagedFixtureStateSuiteConstructorKluge.currentParent.value=None;
+                x.asInstanceOf[AbstractManagedFixtureStateSuite[T]];
+           }
+  }
+
+  private[this] var _parentTestName : Option[String] = {
+           ManagedFixtureStateSuiteConstructorKluge.currentTestName.value map { x =>
+              ManagedFixtureStateSuiteConstructorKluge.currentTestName.value=None;
+              x;
+           }
+  }
+
+  protected def createNestedInstanceForTest(testName:String) = {
+    ManagedFixtureStateSuiteConstructorKluge.currentParent.withValue(Some(this)){
+      ManagedFixtureStateSuiteConstructorKluge.currentTestName.withValue(Some(testName)){
+         this.getClass.newInstance.asInstanceOf[AbstractManagedFixtureStateSuite[T]];
+      }
+    }
+  }
+
 
 }
+
+
+// used to pass parameter to nested constructor (since we have
+// test/describe methods, called during initialization, then we can't set nested
+// parameters after init: it's too late)
+object ManagedFixtureStateSuiteConstructorKluge
+{
+
+  val currentParent = new DynamicVariable[Option[AbstractManagedFixtureStateSuite[_]]](None);
+  val currentTestName = new DynamicVariable[Option[String]](None);
+
+}
+
+
 
 
 // vim: set ts=4 sw=4 et:

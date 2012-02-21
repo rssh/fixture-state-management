@@ -5,6 +5,7 @@ import ua.gradsoft.testing._
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;
+import scala.collection.immutable.ListSet;
 import scala.util._;
 
 
@@ -45,28 +46,35 @@ class Base1S4Test extends fixture.FunSuite
 
   // test, to check that we run all those tst sequentially in some order.
 
-  //def testNames = Map(
+  override def testNames: Set[String] = 
+   {
+    val l = ExecutionSequenceOptimizer.optimizeOrder(testStateUsageDescriptions).flatMap(identity)
+    throw new Exception("AAA");
+    System.err.println("l is:"+l);
+    ListSet(l:_*);
+   }
 
   fixtureUsage(start state(TWO) change(nothing))
-  test("withDSL [4]: start state(TWO) change nothing") { x =>
+  ignore("withDSL [4]: start state(TWO) change nothing") { x =>
     assert(x==2);
     assert(Base1S4TestMarkObject.x == "afterONE");
     Base1S4TestMarkObject.x = "afterTWO";
   }
 
   fixtureUsage(start state(ONE) finish state(TWO))
-  test("withDSL [4]: start state(ONE) finish state(TWO)") { x =>
+  ignore("withDSL [4]: start state(ONE) finish state(TWO)") { x =>
     assert(x==1);
     Base1S4TestMarkObject.x = "afterONE";
     fixtureAccess.set(TWO);    
   }
 
   fixtureUsage(start state(TWO) finish state(undefined))
-  test("withDSL [4]: start state(TWO) finish state(undefined)") { x =>
+  ignore("withDSL [4]: start state(TWO) finish state(undefined)") { x =>
     assert(x==2);
     // must be called after test with same state which change nothing.
     assert(Base1S4TestMarkObject.x == "afterTWO");
   }
+
 
 }
 

@@ -75,8 +75,8 @@ class Base1S3Test extends fixture.FunSuite
   }
 
 
-  override def nestedSuites = suitesToRun;
-  private[this] var suitesToRun: List[Base1S3Test] = Nil;
+  override def nestedSuites = suitesToRun.values.toList;
+  private[this] var suitesToRun: MutableMap[String,Suite] = MutableMap[String,Suite]();
 
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
     if (!isNested) {
@@ -84,7 +84,7 @@ class Base1S3Test extends fixture.FunSuite
       val nestedTestSuite = createNestedInstanceForTest(testName);
       // not needed - will be called during construction.
       //nestedTestSuite.test(testName, testTags: _* )(testFun);
-      suitesToRun = nestedTestSuite::suitesToRun;
+      suitesToRun(testName) = nestedTestSuite;
     } else {
       if (testName == _parentTestName.get) {
         super.test(testName, testTags: _* )(testFun);
@@ -92,32 +92,59 @@ class Base1S3Test extends fixture.FunSuite
     }
   }
 
-  /* TODO: run sequentially and with order, set by sorting by state usage.
-  protected def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
+  protected override def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
                                 configMap: Map[String, Any], 
-                                distributor: Option[Distributor], tracker: Tracker)
-  */
-
+                                distributor: Option[Distributor], tracker: Tracker)=
+  {
+   if (!isNested) {
+    val sequenceParts = ExecutionSequenceOptimizer.optimizeOrder(testStateUsageDescriptions);
+    for(l <- sequenceParts) {
+     if (l.size == 1 || distributor == None) {
+       // must be run without distributor
+       for(nested <- l) {
+          // TODO: think about stopRequested
+          suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
+       }
+     } else {
+       // start this testes in parallel
+       for(nested <- l) {
+         distributor.get.apply(suitesToRun(nested),tracker);
+       } 
+     }
+    }
+   } else {
+     super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
+   }
+  }
+  
+  override def suiteName = if (isNested) super.suiteName + ":" + _parentTestName
+                           else super.suiteName ;
   
 
   import Base1FixtureStateInfo.States._;
 
   // test, to check that we run all those tst sequentially in some order.
-  // (actually we does not use this approach, so will ignore all)
 
   fixtureUsage(start state(TWO) change(nothing))
-  ignore("withDSL [3]: start state(TWO) change nothing") { x =>
+  test("withDSL [3]: start state(TWO) change nothing") { x =>
     assert(x==2);
     assert(Base1S3TestMarkObject.x == "afterONE");
+    Base1S3TestMarkObject.x = "afterTWO_CN";
   }
 
   fixtureUsage(start state(ONE) finish state(TWO))
-  ignore("withDSL [3]: start state(ONE) finish state(TWO)") { x =>
+  test("withDSL [3]: start state(ONE) finish state(TWO)") { x =>
     assert(x==1);
     Base1S3TestMarkObject.x = "afterONE";
     fixtureAccess.set(TWO);    
   }
 
+  fixtureUsage(start state(TWO) finish state(THREE))
+  test("withDSL [3]: start state(TWO) finish state(THREE)") { x =>
+    assert(x==2);
+    assert(Base1S3TestMarkObject.x == "afterTWO_CN");
+    fixtureAccess.set(THREE);    
+  }
 
 }
 

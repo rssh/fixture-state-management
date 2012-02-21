@@ -50,7 +50,7 @@ class Base1S2Test extends fixture.FunSuite
   }
 
   fixtureUsage(start state(ONE) finish state(TWO))
-  ignore("withDSL: start state(ONE) finish state(TWO)") { x =>
+  test("withDSL: start state(ONE) finish state(TWO)") { x =>
     assert(x==1);
     fixtureAccess.set(TWO);    
   }

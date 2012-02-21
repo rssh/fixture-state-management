@@ -2,7 +2,7 @@ package ua.gradsoft.testing
 
 import scala.collection.mutable.{Queue => MutableQueue}
                      
-object ExecutionSequencOptimizer
+object ExecutionSequenceOptimizer
 {
 
 
@@ -11,7 +11,7 @@ object ExecutionSequencOptimizer
    * between.
    **/
   def optimizeOrder[T <: FixtureStateTypes](
-                usageDescriptions: Map[String,TestFixtureStateUsageDescription[T]]):List[List[String]] =
+         usageDescriptions: scala.collection.Map[String,TestFixtureStateUsageDescription[T]]):List[List[String]] =
   {
     var stateTransfer : Map[T#StartStateType, Map[T#StartStateType,List[String]]] = Map();
     var stateSame: Map[T#StartStateType, List[String]] = Map();
@@ -56,7 +56,7 @@ object ExecutionSequencOptimizer
                               None,
                               Set(),
                               Nil,
-                              Set(),
+                              usageDescriptions.keySet.toSet,
                               0);
     val sEnd = generateAndSelect(sBegin);
     sEnd.buildPath.reverse;
@@ -64,7 +64,7 @@ object ExecutionSequencOptimizer
 
                
   case class StepState[T <: FixtureStateTypes](
-        val  usageDescriptions: Map[String,TestFixtureStateUsageDescription[T]],
+        val  usageDescriptions: scala.collection.Map[String,TestFixtureStateUsageDescription[T]],
         val  stateSame:Map[T#StartStateType,List[String]],
         val  stateUndefined:Map[T#StartStateType,List[String]],
         val  stateTransfer : Map[T#StartStateType, Map[T#StartStateType,List[String]]],
@@ -117,9 +117,14 @@ object ExecutionSequencOptimizer
        case Some(l) =>
            var parallel = l.filter(in.compatibleWith(_,true));
            if (!parallel.isEmpty) {
+             val namesToLeft = (in.namesToLeft -- parallel);
              retval=in.copy[T](
+                       stateSame=in.stateSame.mapValues(_.filter(namesToLeft.contains(_)) ),
+                       stateUndefined=in.stateUndefined.mapValues(_.filter(namesToLeft.contains(_)) ),
+                       stateTransfer=in.stateTransfer.mapValues(_.mapValues( 
+                                                                  _.filter(namesToLeft.contains(_)) )),
                        buildPath=parallel::in.buildPath,
-                       namesToLeft = (in.namesToLeft -- parallel)
+                       namesToLeft = namesToLeft
                     )::retval;
              foundVariants = foundVariants + 1;
              stopSearch=true;
@@ -127,9 +132,14 @@ object ExecutionSequencOptimizer
              val sequential = l.filter(in.compatibleWith(_,false)).headOption;
              for(s <- sequential) {
                  val d = in.usageDescriptions(s);
+                 val namesToLeft = (in.namesToLeft - s);
                  retval=in.copy[T](
+                       stateSame=in.stateSame.mapValues(_.filter(namesToLeft.contains(_)) ),
+                       stateUndefined=in.stateUndefined.mapValues(_.filter(namesToLeft.contains(_)) ),
+                       stateTransfer=in.stateTransfer.mapValues(_.mapValues( 
+                                                                  _.filter(namesToLeft.contains(_)) )),
                        buildPath=List(s)::in.buildPath,
-                       namesToLeft = (in.namesToLeft - s),
+                       namesToLeft = namesToLeft,
                        currentUsedAspects = (in.currentUsedAspects union d.stateAspectsChanged)
                         )::retval;
                  foundVariants = foundVariants + 1;
@@ -145,11 +155,16 @@ object ExecutionSequencOptimizer
              val variants = l.mapValues( _.filter(in.compatibleWith(_,false))
                                        ).filterNot( _._2.isEmpty ).take(nVariants);
              for((n,s0) <- variants; s <- s0) {
+               val namesToLeft = (in.namesToLeft - s);
                retval=in.copy[T](
                     currentState = Some(n),
                     currentUsedAspects = Set[T#StateAspectType](),
                     buildPath = List(s)::in.buildPath,
-                    namesToLeft = (in.namesToLeft - s)  
+                    namesToLeft = namesToLeft,  
+                    stateSame=in.stateSame.mapValues(_.filter(namesToLeft.contains(_)) ),
+                    stateUndefined=in.stateUndefined.mapValues(_.filter(namesToLeft.contains(_)) ),
+                    stateTransfer=in.stateTransfer.mapValues(_.mapValues( 
+                                                              _.filter(namesToLeft.contains(_)) ))
                )::retval;
               foundVariants = foundVariants + 1;
              }
@@ -162,11 +177,16 @@ object ExecutionSequencOptimizer
          case Some(l) =>
             val variants = l.filter(in.compatibleWith(_,false)).take(nVariants);
             for(s <- variants) {
+               val namesToLeft = (in.namesToLeft - s);
                retval=in.copy[T](
                     currentState = None,
                     currentUsedAspects = Set(),
                     buildPath = List(s)::in.buildPath,
-                    namesToLeft = (in.namesToLeft - s)  
+                    namesToLeft = namesToLeft, 
+                    stateSame=in.stateSame.mapValues(_.filter(namesToLeft.contains(_)) ),
+                    stateUndefined=in.stateUndefined.mapValues(_.filter(namesToLeft.contains(_)) ),
+                    stateTransfer=in.stateTransfer.mapValues(_.mapValues( 
+                                                              _.filter(namesToLeft.contains(_)) ))
                )::retval;
                foundVariants = foundVariants + 1;
             }
@@ -181,12 +201,17 @@ object ExecutionSequencOptimizer
         // for now - just load this state. 
         val d = in.usageDescriptions(s);
         val state=d.precondition.stateToLoad;
+        val namesToLeft = (in.namesToLeft - s);
         retval=in.copy[T](
                  currentState=Some(state),
                  currentUsedAspects=d.stateAspectsChanged,
                  buildPath = List(s)::in.buildPath,
-                 namesToLeft = (in.namesToLeft - s),
-                 currentNLoads = in.currentNLoads + 1
+                 namesToLeft = namesToLeft,
+                 currentNLoads = in.currentNLoads + 1,
+                 stateSame=in.stateSame.mapValues(_.filter(namesToLeft.contains(_)) ),
+                 stateUndefined=in.stateUndefined.mapValues(_.filter(namesToLeft.contains(_)) ),
+                 stateTransfer=in.stateTransfer.mapValues(_.mapValues( 
+                                                              _.filter(namesToLeft.contains(_)) ))
                )::retval;
         foundVariants = foundVariants + 1;
      }

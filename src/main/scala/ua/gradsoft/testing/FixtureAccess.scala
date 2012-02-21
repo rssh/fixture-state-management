@@ -2,9 +2,10 @@ package ua.gradsoft.testing
 
 
 /**
- * information about possible states, on which tests depends on.
+ * Test authors must implement this trait for accessing
+ * managed structures.
  **/
-trait FixtureStateOperations[T <: FixtureStateTypes]
+trait FixtureAccess[T <: FixtureStateTypes]
 {
 
   type Types = T;
@@ -13,13 +14,22 @@ trait FixtureStateOperations[T <: FixtureStateTypes]
 
   /**
    * how to load given state: i.e. load database dump, initialize vars according, etc..
+   * after call of load, current must return fixture with access to given state
    **/
-  def load(f: Option[FixtureType], s: StartStateType): FixtureType;
+  def load(s: StartStateType);
 
   /**
-   * if fixture is resource, than  how to close one.
+   * get current value of fix
+   *@return fixture wich represent current state or Nothing, if current state is
+   *        not defined.
    **/
-  def close(f: FixtureType): Unit = { }
+  def current: Option[FixtureType];
+
+
+  /**
+   * if fixture is resource, than close one.
+   **/
+  def close(): Unit = { }
 
 }
 

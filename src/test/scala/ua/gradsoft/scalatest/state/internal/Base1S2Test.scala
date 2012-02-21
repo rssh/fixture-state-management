@@ -12,11 +12,11 @@ class Base1S2Test extends fixture.FunSuite
 {
 
   val fixtureStateTypes = Base1FixtureStateInfo;
-  val stateOps = Base1FixtureStateOperations;
+  val fixtureAccess = Base1FixtureAccess;
 
   type FST = Base1FixtureStateInfo.type;
 
-  val stateManager = new FixtureStateManager[FST](stateOps);
+  val stateManager = new FixtureStateManager[FST](fixtureAccess);
   val dummyStateData = TestFixtureStateUsageDescription[FST](fixtureStateTypes).withAnyState;
 
   type FixtureParam = FST#FixtureType;
@@ -32,10 +32,7 @@ class Base1S2Test extends fixture.FunSuite
   {
     // 
     val x = testStateUsageDescriptions.get(test.name).getOrElse( dummyStateData );
-    stateManager.doWith(x.precondition,
-                        x.stateAspectsChanged,
-                        x.startStateChange,
-                        test);
+    stateManager.doWith(x, test);
   }
 
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
@@ -53,9 +50,9 @@ class Base1S2Test extends fixture.FunSuite
   }
 
   fixtureUsage(start state(ONE) finish state(TWO))
-  test("withDSL: start state(ONE) finish state(TWO)") { x =>
+  ignore("withDSL: start state(ONE) finish state(TWO)") { x =>
     assert(x==1);
-    stateOps.set(TWO);    
+    fixtureAccess.set(TWO);    
   }
 
 

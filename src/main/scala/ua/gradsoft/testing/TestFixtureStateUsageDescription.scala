@@ -14,7 +14,8 @@ case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
                          val stateInfo: T,
                          val precondition: FixtureStateCondition[T],
                          val startStateChange: FixtureStateChange[T],
-                         val stateAspectsChanged: Set[T#StateAspectType])
+                         val stateAspectsChanged: Set[T#StateAspectType],
+                         val canRunParallel: Boolean)
 {
 
   def withAnyState: TestFixtureStateUsageDescription[T] =
@@ -60,7 +61,8 @@ object TestFixtureStateUsageDescription
                          precondition = NoState[T](stateInfo),
                          startStateChange = UndefinedState,
                          stateAspectsChanged = 
-                            stateInfo.stateAspects.values.asInstanceOf[Set[T#StateAspectType]]
+                            stateInfo.stateAspects.values.asInstanceOf[Set[T#StateAspectType]],
+                         canRunParallel = false
            );
 
 

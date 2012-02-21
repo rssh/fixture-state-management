@@ -11,11 +11,11 @@ class Base1S1Test extends fixture.FunSuite
 {
 
   val stateInfo = Base1FixtureStateInfo;
-  val stateOps = Base1FixtureStateOperations;
+  val fixtureAccess = Base1FixtureAccess;
 
   type FST = Base1FixtureStateInfo.type;
 
-  val stateManager = new FixtureStateManager[FST](stateOps);
+  val stateManager = new FixtureStateManager[FST](fixtureAccess);
 
   val fixtureStateData = TestFixtureStateUsageDescription[FST](stateInfo).withAnyState;
 
@@ -29,14 +29,10 @@ class Base1S1Test extends fixture.FunSuite
   {
     // 
     val x = testStateUsageDescriptions.get(test.name).getOrElse( dummyStateData );
-    stateManager.doWith(x.precondition,
-                        x.stateAspectsChanged,
-                        x.startStateChange,
-                        test);
+    stateManager.doWith(x,test);
   }
 
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
-    System.err.println("registeting test: "+testName);
     super.test(testName, testTags:_*)(testFun);
     //registerTest(testName, testFun, "testCannotAppearInsideAnotherTest", sourceFileName, "test", stackDepth, testTags: _*)
   }

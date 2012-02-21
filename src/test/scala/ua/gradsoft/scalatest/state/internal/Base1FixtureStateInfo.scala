@@ -22,24 +22,27 @@ object Base1FixtureStateInfo extends FixtureStateTypes
 
 }
 
-object Base1FixtureStateOperations extends FixtureStateOperations[Base1FixtureStateInfo.type]
+object Base1FixtureAccess extends FixtureAccess[Base1FixtureStateInfo.type]
 {
   import Base1FixtureStateInfo.States._ ;
 
 
-  override def load(f:Option[FixtureType], 
-                    s: StartStateType): FixtureType = 
+  override def load(s: StartStateType): Unit = 
   {
    //System.err.println("load state:"+s);
    emulatedState = s;
-   s match {
+  }
+
+  override def current: Option[FixtureType] =
+  {
+   Some(emulatedState match {
       case ONE => 1
       case TWO => 2
       case THREE => 3
-   }
+   })
   }
 
-  override def close(f:FixtureType): Unit = {} 
+  override def close(): Unit = {} 
 
   // set by tests. in real life 
   // usually state are outside of program control.

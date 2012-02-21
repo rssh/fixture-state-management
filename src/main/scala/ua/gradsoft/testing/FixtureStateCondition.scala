@@ -22,7 +22,7 @@ sealed abstract class FixtureStateCondition[SI <: FixtureStateTypes](val stateIn
   /**
    * set of state aspects, which must be clean
    **/
-  def usedStateAspects: Set[SI#StateAspectType] ;
+  def neededStateAspects: Set[SI#StateAspectType] ;
 
   /**
    * Choose one state from correct, which is loaded by engine
@@ -70,7 +70,7 @@ case class AnyState[SI <: FixtureStateTypes](override val stateInfo:SI)
   def allowedStartStates: Set[SI#StartStateType] =
        stateInfo.startStates.values.asInstanceOf[Set[SI#StartStateType]];
   
-  def usedStateAspects:Set[SI#StateAspectType] = Set();
+  def neededStateAspects:Set[SI#StateAspectType] = Set();
 
   def stateToLoad: SI#StartStateType = stateInfo.startStates.values.head;
 
@@ -96,22 +96,22 @@ case class NoState[SI <: FixtureStateTypes](override val stateInfo:SI)
                                              extends FixtureStateCondition(stateInfo)
 {
   def allowedStartStates: Set[SI#StartStateType] = Set();
-  def usedStateAspects: Set[SI#StateAspectType] = 
+  def neededStateAspects: Set[SI#StateAspectType] = 
                      stateInfo.stateAspects.values.asInstanceOf[Set[SI#StateAspectType]]
 
   def stateToLoad: SI#StartStateType = 
          throw new IllegalStateException("NoState have no state to load");
 
   def withStartState(s: SI#StartStateType): FixtureStateCondition[SI] = 
-      SetOfStatesAndAspects[SI](stateInfo, Set(s), usedStateAspects);
+      SetOfStatesAndAspects[SI](stateInfo, Set(s), neededStateAspects);
 
   def withStartStates(s: Seq[SI#StartStateType]): FixtureStateCondition[SI] =
-      SetOfStatesAndAspects[SI](stateInfo, s.toSet, usedStateAspects);
+      SetOfStatesAndAspects[SI](stateInfo, s.toSet, neededStateAspects);
 
   def withAnyState: FixtureStateCondition[SI] = 
       SetOfStatesAndAspects[SI](stateInfo, 
                                 stateInfo.startStates.values.asInstanceOf[Set[SI#StartStateType]],
-                                usedStateAspects);
+                                neededStateAspects);
 
   def withUndefinedState: FixtureStateCondition[SI] = this;
 
@@ -128,7 +128,7 @@ case class NoState[SI <: FixtureStateTypes](override val stateInfo:SI)
 case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
                         override val stateInfo: SI,
                         override val allowedStartStates: Set[SI#StartStateType],
-                        override val usedStateAspects: Set[SI#StateAspectType]) 
+                        override val neededStateAspects: Set[SI#StateAspectType]) 
                             extends FixtureStateCondition(stateInfo)
 {
 
@@ -141,21 +141,21 @@ case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
 
   def addState(s: SI#StartStateType) = SetOfStatesAndAspects[SI](stateInfo,
                                                                  allowedStartStates + s,
-                                                                 usedStateAspects);
+                                                                 neededStateAspects);
 
   def withStartState(s: SI#StartStateType): FixtureStateCondition[SI] = 
-      SetOfStatesAndAspects[SI](stateInfo, allowedStartStates+s, usedStateAspects);
+      SetOfStatesAndAspects[SI](stateInfo, allowedStartStates+s, neededStateAspects);
  
   def withAnyState: FixtureStateCondition[SI]=
       SetOfStatesAndAspects[SI](stateInfo, 
                                 stateInfo.startStates.values.asInstanceOf[Set[SI#StartStateType]],
-                                usedStateAspects);
+                                neededStateAspects);
 
   def withStartStates(s: Seq[SI#StartStateType]): FixtureStateCondition[SI] =
-      SetOfStatesAndAspects[SI](stateInfo, s.toSet, usedStateAspects);
+      SetOfStatesAndAspects[SI](stateInfo, s.toSet, neededStateAspects);
 
   def withUndefinedState: FixtureStateCondition[SI] = 
-      SetOfStatesAndAspects[SI](stateInfo, Set(), usedStateAspects);
+      SetOfStatesAndAspects[SI](stateInfo, Set(), neededStateAspects);
 
   def withStateAspects(s: Seq[SI#StateAspectType]): FixtureStateCondition[SI] =
       SetOfStatesAndAspects[SI](stateInfo, 
@@ -168,7 +168,7 @@ case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
      case NoState(_) => other
      case SetOfStatesAndAspects(x,s,a)  => SetOfStatesAndAspects[SI](stateInfo, 
                           allowedStartStates intersect s,
-                          usedStateAspects union a
+                          neededStateAspects union a
                                                         )
    }
                        
@@ -178,7 +178,7 @@ case class SetOfStatesAndAspects[SI <: FixtureStateTypes](
      case NoState(_) => this
      case SetOfStatesAndAspects(x,s,a) => SetOfStatesAndAspects[SI](stateInfo, 
                                            allowedStartStates union s,
-                                           usedStateAspects intersect a
+                                           neededStateAspects intersect a
                                                         )
    }
 

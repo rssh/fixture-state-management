@@ -25,7 +25,7 @@ class FixtureDSLTest extends FunSuite
   test("fixtureUsage start state (s) aspects(a)") {
     val x = fixtureUsage start state (Base1FixtureStateInfo.States.TWO) aspects (
                                                Base1FixtureStateInfo.stateAspects(0));
-    assert(x.value.precondition.usedStateAspects.size == 1);
+    assert(x.value.precondition.neededStateAspects.size == 1);
   }
 
   test("fixtureUsage start state(any) finish state(undefined)") {
@@ -47,7 +47,7 @@ class FixtureDSLTest extends FunSuite
                                     ) finish state(
                                         Base1FixtureStateInfo.States.ONE)
     assert(x.value.startStateChange == NewState[Base1FixtureStateInfo.type](Base1FixtureStateInfo.States.ONE));
-    assert(x.value.precondition.usedStateAspects.size == 1);
+    assert(x.value.precondition.neededStateAspects.size == 1);
   }
 
   test("fixtureUsage start state(s) change(nothing) ") {

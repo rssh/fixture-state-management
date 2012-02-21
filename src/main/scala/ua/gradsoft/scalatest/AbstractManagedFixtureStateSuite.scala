@@ -27,14 +27,14 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
   /**
    * Must be defined in subclass.
    **/
-  def fixtureStateOperations: FixtureStateOperations[T]
+  def fixtureAccess: FixtureAccess[T]
 
   /**
    * must be defined in subclass.
    **/
   def fixtureStateTypes: T 
 
-  protected lazy val fixtureStateManager = new FixtureStateManager[T](fixtureStateOperations);
+  protected val fixtureStateManager = new FixtureStateManager[T](fixtureAccess);
 
   private[scalatest] val neededFixtureStates: MutableMap[String,TestFixtureStateUsageDescription[T]] =
                                                                                          LinkedHashMap();
@@ -46,10 +46,7 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
   def withFixture(test: OneArgTest) =
   {
     val x = neededFixtureStates.get(test.name).getOrElse(defaultFixtureState);
-    fixtureStateManager.doWith(x.precondition,
-                               x.stateAspectsChanged,
-                               x.startStateChange,
-                               test);
+    fixtureStateManager.doWith(x, test);
   }
 
   def fixtureUsage(dsl:DSLExpression):Unit = 

@@ -70,6 +70,10 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scala
   def fixtureUsage(dsl:DSLExpression):Unit = 
     { fixtureStateForNextTest = Some(dsl.value); }
 
+  def fixtureUsage(usage: TestFixtureStateUsageDescription[T]):Unit = 
+    { fixtureStateForNextTest = Some(usage); }
+
+
   protected def isNested : Boolean = (_parent != None);
 
   protected var _parent : Option[AbstractManagedFixtureStateSuite[T]] = {

@@ -28,12 +28,16 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
     behavior.of(description);
   }
 
-  def setFixtureStateForTest(testName:String, testFun: FixtureParam=>Any ) =
+  def setFixtureStateForTest(verb: String, rest:String, tags: List[Tag], testFun: FixtureParam=>Any ) =
   {
+    val testName = fullTestName(verb+" "+rest);
     neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
     val nestedTestSuite = createNestedInstanceForTest(testName);
-    // not needed - will be called during construction.
-    //nestedTestSuite.test(testName, testTags: _* )(testFun);
+    // need to register test in nested suite (since this verbs not in out constructor)
+    currentBranchName.foreach(
+       nestedTestSuite.behavior.of(_)
+    );
+    nestedTestSuite.it_verbStringTaggedAs_in(verb,rest,tags,testFun);
     suitesToRun(testName) = nestedTestSuite;
   }
 
@@ -47,9 +51,8 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
 
   def it_verbStringTaggedAs_in(verb: String, name: String ,tags: List[Tag], testFun: FixtureParam => Any): Unit =
   {
-   val testName = fullTestName(verb+" "+name);
    if (!isNested) {
-     setFixtureStateForTest(testName, testFun)
+     setFixtureStateForTest(verb, name, tags, testFun)
    } else {
      new ItVerbStringTaggedAs(verb, name, tags).in(testFun);
    }
@@ -110,18 +113,37 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
   // access to private methods:
   def _info = info;
 
-  def _runTests(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    runTests(testName, reporter, stopper, filter, configMap, distributor, tracker);
-  }
+
+  def _fixtureUsage(usage: TestFixtureStateUsageDescription[T])
+  {  fixtureUsage(usage); }
+
+
+  def _fixtureUsage(dsl: DSLExpression)
+  {  fixtureUsage(dsl.value); }
 
   //
   override def createNestedInstanceForTest(testName: String) =
   {
     FlatSpecConstructorKluge.currentOwner.withValue(Some(owner)){
-        super.createNestedInstanceForTest(testName);
-    }
+        super.createNestedInstanceForTest(testName)
+    }.asInstanceOf[InternalFlatSpec[T]];
   }
+
+/*
+  // just interceptors to see debug.
+  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
+      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
+    super.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
+  }
+
+  protected override def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
+                                configMap: Map[String, Any],
+                                distributor: Option[Distributor], tracker: Tracker)=
+  {
+    super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
+  }
+*/
+  
 
 }
 
@@ -129,6 +151,7 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
  * export FlatSpec API
  **/
 trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVerb with CanVerb 
+                                           with FixtureStateDSL[T]
 { 
 
   type FixtureStateTypes = T;
@@ -143,6 +166,11 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
    * must be defined in subclass.
    **/
   def fixtureStateTypes: T
+
+  override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
+  {
+   internalSpec._fixtureUsage(value);
+  }
 
 
   // here we recreate internal suite and will be pass to one all 'real' functionality.
@@ -322,9 +350,9 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
     }
   }
 
-  protected override def runTests(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
+  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    internalSpec._runTests(testName, reporter, stopper, filter, configMap, distributor, tracker);
+    internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
   }
 
   protected val behave = new BehaveWord

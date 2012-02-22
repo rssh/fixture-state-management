@@ -1,7 +1,7 @@
-package ua.gradsoft.scalatest.managedfixture
+package org.scalatest.managedfixture
 
 import org.scalatest._
-//import FixtureNodeFamily._
+import org.scalatest.fixture.NoArgTestWrapper
 import verb.{ResultOfTaggedAsInvocation, ResultOfStringPassedToVerb, BehaveWord, ShouldVerb, MustVerb, CanVerb}
 import scala.collection.immutable.ListSet
 import java.util.concurrent.atomic.AtomicReference
@@ -28,10 +28,7 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
     behavior.of(description);
   }
 
-  def it_ItVerbStringTaggedAs(verb: String, name: String,  tags: List[Tag]) = 
-            new ItVerbStringTaggedAs(verb,name,tags);
-
-  def setFixtureStateForTest(testName:String, testFun: OneArgTest) =
+  def setFixtureStateForTest(testName:String, testFun: FixtureParam=>Any ) =
   {
     neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
     val nestedTestSuite = createNestedInstanceForTest(testName);
@@ -46,7 +43,9 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
                      //  and must be called via scalatest API which not exists yet.
   private[scalatest] def fullTestName(text:String) = currentBranchName.getOrElse("")+" "+text;
 
-  def it_ItVerbStringTaggedAs_in(verb: String, name: String ,tags: List[Tag], testFun: OneArgTest): Unit =
+  // exoressions in FlatSpec API
+
+  def it_verbStringTaggedAs_in(verb: String, name: String ,tags: List[Tag], testFun: FixtureParam => Any): Unit =
   {
    val testName = fullTestName(verb+" "+name);
    if (!isNested) {
@@ -56,28 +55,59 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
    }
   }
 
-  def it_ItVerbStringTaggedAs_in(verb: String, name: String ,tags: List[Tag], testFun: ()=>Any): Unit =
+  def it_verbStringTaggedAs_is(verb: String, name: String ,tags: List[Tag], testFun: =>PendingNothing ): Unit =
   {
-    throw new Exception("not implemented");
-     // it_ItVerbStringTaggedAs_in(verb, name, tags, new NoArgTestWrapper(testFun))
+    new ItVerbStringTaggedAs(verb, name, tags).is(testFun);
   }
-                         
-  def it_ItVerbString(verb: String, name: String) = 
-            new ItVerbString(verb,name);
 
-  def ignore_IgnoreVerbStringTaggedAs(verb: String, name: String, tags: List[Tag])
-            = new IgnoreVerbStringTaggedAs(verb, name, tags);
+  def it_verbStringTaggedAs_ignore(verb: String, name: String ,tags: List[Tag], testFun: FixtureParam => Any): Unit =
+  {
+    new ItVerbStringTaggedAs(verb, name, tags).ignore(testFun);
+  }
 
-  def ignore_IgnoreVerbString(verb: String, name: String)
-            = new IgnoreVerbString(verb, name);
+  def it_verbStringTaggedAs_ignore(verb: String, name: String ,tags: List[Tag], testFun: () => Any): Unit =
+  {
+    new ItVerbStringTaggedAs(verb, name, tags).ignore(testFun);
+  }
+  
 
-  def _InAndIgnoreMethods(resultOfStringPassedToVerb: ResultOfStringPassedToVerb) 
-            = new InAndIgnoreMethods(resultOfStringPassedToVerb);
-            
-  def _InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation: ResultOfTaggedAsInvocation) 
-            = new InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation);
+  def ignore_verbStringTaggedAs_in(verb: String, name: String, tags: List[Tag], testFun: FixtureParam => Any) =
+             new IgnoreVerbStringTaggedAs(verb, name, tags).in(testFun)
 
-  // access to private method.
+  def ignore_verbStringTaggedAs_is(verb: String, name: String, tags: List[Tag], testFun: => PendingNothing) =
+             new IgnoreVerbStringTaggedAs(verb, name, tags).is(testFun)
+
+
+  def inAndIgnoreMethods_in(resultOfStringPassedToVerb: ResultOfStringPassedToVerb, testFun: FixtureParam => Any) =
+  {
+    import resultOfStringPassedToVerb._
+    it_verbStringTaggedAs_in(verb,rest,List(),testFun)
+  }
+
+  def inAndIgnoreMethods_ignore(resultOfStringPassedToVerb: ResultOfStringPassedToVerb, testFun: FixtureParam => Any) =
+  {
+    import resultOfStringPassedToVerb._
+    it_verbStringTaggedAs_ignore(verb,rest,List(),testFun)
+  }
+
+  def inAndIgnoreMethodsAfterTaggedAs_in(resultOfTaggedAsInvocation: ResultOfTaggedAsInvocation, testFun: FixtureParam => Any) =
+  {
+    import resultOfTaggedAsInvocation.verb
+    import resultOfTaggedAsInvocation.rest
+    import resultOfTaggedAsInvocation.{tags=>tagsList}
+    it_verbStringTaggedAs_in(verb,rest,tagsList,testFun)
+  }
+
+  def inAndIgnoreMethodsAfterTaggedAs_ignore(resultOfTaggedAsInvocation: ResultOfTaggedAsInvocation, 
+                                             testFun: FixtureParam => Any) =
+  {
+    import resultOfTaggedAsInvocation.verb
+    import resultOfTaggedAsInvocation.rest
+    import resultOfTaggedAsInvocation.{tags=>tagsList}
+    it_verbStringTaggedAs_in(verb,rest,tagsList,testFun)
+  }
+
+  // access to private methods:
   def _info = info;
 
   def _runTests(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
@@ -129,37 +159,37 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
 
   protected final class ItVerbStringTaggedAs(verb: String, name: String, tags: List[Tag]) {
     def in(testFun: () => Any) {
-      internalSpec.it_ItVerbStringTaggedAs_in(verb,name,tags,testFun)
+      internalSpec.it_verbStringTaggedAs_in(verb,name,tags,new NoArgTestWrapper(testFun))
     }
     def in(testFun: FixtureParam => Any) {
-      internalSpec.it_ItVerbStringTaggedAs_in(verb,name,tags,testFun)
+      internalSpec.it_verbStringTaggedAs_in(verb,name,tags,testFun)
     }
     def is(testFun: => PendingNothing) {
-      internalSpec.it_ItVerbStringTaggedAs(verb,name,tags).is(testFun)
+      internalSpec.it_verbStringTaggedAs_is(verb,name,tags,testFun)
     }
     def ignore(testFun: () => Any) {
-      internalSpec.it_ItVerbStringTaggedAs(verb,name,tags).ignore(testFun)
+      internalSpec.it_verbStringTaggedAs_ignore(verb,name,tags,testFun)
     }
     def ignore(testFun: FixtureParam => Any) {
-      internalSpec.it_ItVerbStringTaggedAs(verb,name,tags).ignore(testFun)
+      internalSpec.it_verbStringTaggedAs_ignore(verb,name,tags,testFun)
     }
   }
 
   protected final class ItVerbString(verb: String, name: String) {
     def in(testFun: () => Any) {
-      internalSpec.it_ItVerbString(verb,name).in(testFun)
+      internalSpec.it_verbStringTaggedAs_in(verb,name,List(),new NoArgTestWrapper(testFun))
     }
     def in(testFun: FixtureParam => Any) {
-      internalSpec.it_ItVerbString(verb,name).in(testFun)
+      internalSpec.it_verbStringTaggedAs_in(verb,name,List(),testFun)
     }
     def is(testFun: => PendingNothing) {
-      internalSpec.it_ItVerbString(verb,name).is(testFun)
+      internalSpec.it_verbStringTaggedAs_is(verb,name,List(),testFun)
     }
     def ignore(testFun: () => Any) {
-      internalSpec.it_ItVerbString(verb,name).ignore(testFun)
+      internalSpec.it_verbStringTaggedAs_ignore(verb,name,List(),testFun)
     }
     def ignore(testFun: FixtureParam => Any) {
-      internalSpec.it_ItVerbString(verb,name).ignore(testFun)
+      internalSpec.it_verbStringTaggedAs_ignore(verb,name,List(),testFun)
     }
     def taggedAs(firstTestTag: Tag, otherTestTags: Tag*) = {
       val tagList = firstTestTag :: otherTestTags.toList
@@ -179,26 +209,25 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
 
   protected final class IgnoreVerbStringTaggedAs(verb: String, name: String, tags: List[Tag]) {
     def in(testFun: () => Any) {
-      internalSpec.ignore_IgnoreVerbStringTaggedAs(verb, name, tags).in(testFun);
+      internalSpec.ignore_verbStringTaggedAs_in(verb, name, tags, new NoArgTestWrapper(testFun));
     }
     def in(testFun: FixtureParam => Any) {
-      internalSpec.ignore_IgnoreVerbStringTaggedAs(verb, name, tags).in(testFun);
+      internalSpec.ignore_verbStringTaggedAs_in(verb, name, tags, testFun);
     }
     def is(testFun: => PendingNothing) {
-      internalSpec.ignore_IgnoreVerbStringTaggedAs(verb, name, tags).is(testFun);
+      internalSpec.ignore_verbStringTaggedAs_is(verb, name, tags, testFun);
     }
   }
 
   protected final class IgnoreVerbString(verb: String, name: String) {
     def in(testFun: () => Any) {
-      // our .. here
-      internalSpec.ignore_IgnoreVerbString(verb, name).in(testFun);
+      internalSpec.ignore_verbStringTaggedAs_in(verb, name, List(), new NoArgTestWrapper(testFun));
     }
     def in(testFun: FixtureParam => Any) {
-      internalSpec.ignore_IgnoreVerbString(verb, name).in(testFun);
+      internalSpec.ignore_verbStringTaggedAs_in(verb, name, List(), testFun);
     }
     def is(testFun: => PendingNothing) {
-      internalSpec.ignore_IgnoreVerbString(verb, name).is(testFun);
+      internalSpec.ignore_verbStringTaggedAs_is(verb, name, List(), testFun);
     }
     def taggedAs(firstTestTag: Tag, otherTestTags: Tag*) = {
       val tagList = firstTestTag :: otherTestTags.toList
@@ -216,21 +245,20 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
 
   protected final class InAndIgnoreMethods(resultOfStringPassedToVerb: ResultOfStringPassedToVerb) {
     def in(testFun: () => Any) {
-      internalSpec._InAndIgnoreMethods(resultOfStringPassedToVerb).in(testFun);
+      internalSpec.inAndIgnoreMethods_in(resultOfStringPassedToVerb, new NoArgTestWrapper(testFun));
     }
 
     def ignore(testFun: () => Any) {
-      internalSpec._InAndIgnoreMethods(resultOfStringPassedToVerb).in(testFun);
-      //registerTestToIgnore(verb + " " + rest, "ignore", List(), new NoArgTestWrapper(testFun))
+      internalSpec.inAndIgnoreMethods_ignore(resultOfStringPassedToVerb,new NoArgTestWrapper(testFun));
     }
 
     def in(testFun: FixtureParam => Any) {
-      internalSpec._InAndIgnoreMethods(resultOfStringPassedToVerb).in(testFun);
+      internalSpec.inAndIgnoreMethods_in(resultOfStringPassedToVerb,testFun);
       //registerTestToRun(verb + " " + rest, "in", List(), testFun)
     }
 
     def ignore(testFun: FixtureParam => Any) {
-      internalSpec._InAndIgnoreMethods(resultOfStringPassedToVerb).ignore(testFun);
+      internalSpec.inAndIgnoreMethods_ignore(resultOfStringPassedToVerb,testFun);
       //registerTestToIgnore(verb + " " + rest, "ignore", List(), testFun)
     }
   }
@@ -239,27 +267,24 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
     new InAndIgnoreMethods(resultOfStringPassedToVerb)
 
   protected final class InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation: ResultOfTaggedAsInvocation) {
-    import resultOfTaggedAsInvocation.verb
-    import resultOfTaggedAsInvocation.rest
-    import resultOfTaggedAsInvocation.{tags => tagsList}
 
     def in(testFun: () => Any) {
-      internalSpec._InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation).in(testFun);
+      internalSpec.inAndIgnoreMethodsAfterTaggedAs_in(resultOfTaggedAsInvocation, new NoArgTestWrapper(testFun));
       //registerTestToRun(verb + " " + rest, "in", tagsList, new NoArgTestWrapper(testFun))
     }
 
     def ignore(testFun: () => Any) {
-      internalSpec._InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation).ignore(testFun);
+      internalSpec.inAndIgnoreMethodsAfterTaggedAs_ignore(resultOfTaggedAsInvocation, new NoArgTestWrapper(testFun));
       //registerTestToIgnore(verb + " " + rest, "ignore", tagsList, new NoArgTestWrapper(testFun))
     }
 
     def in(testFun: FixtureParam => Any) {
-      internalSpec._InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation).in(testFun);
+      internalSpec.inAndIgnoreMethodsAfterTaggedAs_in(resultOfTaggedAsInvocation, testFun);
       //registerTestToRun(verb + " " + rest, "in", tagsList, testFun)
     }
 
     def ignore(testFun: FixtureParam => Any) {
-      internalSpec._InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation).ignore(testFun);
+      internalSpec.inAndIgnoreMethodsAfterTaggedAs_ignore(resultOfTaggedAsInvocation, testFun);
       //registerTestToIgnore(verb + " " + rest, "ignore", tagsList, testFun)
     }
   }
@@ -267,34 +292,12 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
   protected implicit def convertToInAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation: ResultOfTaggedAsInvocation) =
     new InAndIgnoreMethodsAfterTaggedAs(resultOfTaggedAsInvocation)
 
-  /**
-   * Supports the shorthand form of test registration.
-   *
-   * <p>
-   * For example, this method enables syntax such as the following:
-   * </p>
-   *
-   * <pre class="stHighlight">
-   * "A Stack (when empty)" should "be empty" in { ... }
-   *                        ^
-   * </pre>
-   *
-   * <p>
-   * This function is passed as an implicit parameter to a <code>should</code> method
-   * provided in <code>ShouldVerb</code>, a <code>must</code> method
-   * provided in <code>MustVerb</code>, and a <code>can</code> method
-   * provided in <code>CanVerb</code>. When invoked, this function registers the
-   * subject description (the first parameter to the function) and returns a <code>ResultOfStringPassedToVerb</code>
-   * initialized with the verb and rest parameters (the second and third parameters to
-   * the function, respectively).
-   * </p>
-   */
   protected implicit val shorthandTestRegistrationFunction: (String, String, String) => ResultOfStringPassedToVerb = {
     (subject, verb, rest) => {
       behavior.of(subject)
       new ResultOfStringPassedToVerb(verb, rest) {
         def is(testFun: => PendingNothing) {
-          internalSpec.it_ItVerbString(verb, rest).is(testFun);
+          internalSpec.it_verbStringTaggedAs_is(verb, rest, List(),testFun);
           //registerTestToRun(verb + " " + rest, "is", List(), unusedFixtureParam => testFun)
         }
         def taggedAs(firstTestTag: Tag, otherTestTags: Tag*) = {
@@ -303,7 +306,7 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
             // "A Stack" must "test this" taggedAs(mytags.SlowAsMolasses) is (pending)
             //                                                            ^
             def is(testFun: => PendingNothing) {
-              internalSpec.it_ItVerbStringTaggedAs(verb, rest, tags).is(testFun);
+              internalSpec.it_verbStringTaggedAs_is(verb, rest, tags,testFun);
               //registerTestToRun(verb + " " + rest, "is", tags, new NoArgTestWrapper(testFun _))
             }
           }

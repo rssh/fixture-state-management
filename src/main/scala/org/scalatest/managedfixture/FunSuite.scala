@@ -1,4 +1,4 @@
-package ua.gradsoft.scalatest.managedfixture
+package org.scalatest.managedfixture
 
 import org.scalatest._
 import ua.gradsoft.testing._

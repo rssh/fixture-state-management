@@ -1,4 +1,4 @@
-package ua.gradsoft.scalatest.managedfixture
+package org.scalatest.managedfixture
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;

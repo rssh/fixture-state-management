@@ -1,4 +1,4 @@
-package ua.gradsoft.scalatest
+package ua.gradsoft.scalatest.fixture.managed
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;
@@ -18,7 +18,7 @@ import ua.gradsoft.testing._;
  * Typical usecase for such scenario -- where fixture is a relational database which 
  * must situated in given state.
  **/
-trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.Suite
+trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.Suite
                                                                with FixtureStateDSL[T]
 {
 
@@ -54,6 +54,10 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
   private lazy val _neededFixtureStates: MutableMap[String,TestFixtureStateUsageDescription[T]] =
                                                                                          LinkedHashMap();
 
+  override def nestedSuites = suitesToRun.values.toList;
+  protected lazy val suitesToRun: MutableMap[String,Suite] = MutableMap[String,Suite]();
+
+
   private[scalatest] val defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
   private[scalatest] var fixtureStateForNextTest = defaultFixtureState;
   
@@ -67,16 +71,16 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
   def fixtureUsage(dsl:DSLExpression):Unit = 
     { fixtureStateForNextTest = dsl.value; }
 
-  private[this] def isNested : Boolean = (_parent != None);
+  protected def isNested : Boolean = (_parent != None);
 
-  private[this] var _parent : Option[AbstractManagedFixtureStateSuite[T]] = {
+  protected var _parent : Option[AbstractManagedFixtureStateSuite[T]] = {
            ManagedFixtureStateSuiteConstructorKluge.currentParent.value map { x =>
                 ManagedFixtureStateSuiteConstructorKluge.currentParent.value=None;
                 x.asInstanceOf[AbstractManagedFixtureStateSuite[T]];
            }
   }
 
-  private[this] var _parentTestName : Option[String] = {
+  protected var _parentTestName : Option[String] = {
            ManagedFixtureStateSuiteConstructorKluge.currentTestName.value map { x =>
               ManagedFixtureStateSuiteConstructorKluge.currentTestName.value=None;
               x;
@@ -89,6 +93,32 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends fixture.S
          this.getClass.newInstance.asInstanceOf[AbstractManagedFixtureStateSuite[T]];
       }
     }
+  }
+
+  protected override def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
+                                configMap: Map[String, Any],
+                                distributor: Option[Distributor], tracker: Tracker)=
+  {
+   if (!isNested) {
+    // run subsuites in terms of order
+    val sequenceParts = ExecutionSequenceOptimizer.optimizeOrder(neededFixtureStates);
+    for(l <- sequenceParts) {
+     if (l.size == 1 || distributor == None) {
+       // must be run without distributor
+       for(nested <- l) {
+          // TODO: think about stopRequested
+          suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
+       }
+     } else {
+       // start this testes in parallel
+       for(nested <- l) {
+         distributor.get.apply(suitesToRun(nested),tracker);
+       }
+     }
+    }
+   } else {
+     super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
+   }
   }
 
 

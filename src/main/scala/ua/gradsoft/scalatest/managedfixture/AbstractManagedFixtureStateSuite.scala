@@ -1,4 +1,4 @@
-package ua.gradsoft.scalatest.fixture.managed
+package ua.gradsoft.scalatest.managedfixture
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;
@@ -57,9 +57,8 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scala
   override def nestedSuites = suitesToRun.values.toList;
   protected lazy val suitesToRun: MutableMap[String,Suite] = MutableMap[String,Suite]();
 
-
-  private[scalatest] val defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
-  private[scalatest] var fixtureStateForNextTest = defaultFixtureState;
+  private[scalatest] lazy val defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
+  private[scalatest] var fixtureStateForNextTest:Option[TestFixtureStateUsageDescription[T]] = None;
   
 
   def withFixture(test: OneArgTest) =
@@ -69,7 +68,7 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scala
   }
 
   def fixtureUsage(dsl:DSLExpression):Unit = 
-    { fixtureStateForNextTest = dsl.value; }
+    { fixtureStateForNextTest = Some(dsl.value); }
 
   protected def isNested : Boolean = (_parent != None);
 

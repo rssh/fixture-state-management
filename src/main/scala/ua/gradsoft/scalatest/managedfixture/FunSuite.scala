@@ -1,4 +1,4 @@
-package ua.gradsoft.scalatest.fixture.managed
+package ua.gradsoft.scalatest.managedfixture
 
 import org.scalatest._
 import ua.gradsoft.testing._
@@ -11,7 +11,8 @@ trait FunSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.FunSuite
 
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
     if (!isNested) {
-      neededFixtureStates(testName) = fixtureStateForNextTest;
+                                      // think: may be better complain ?
+      neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
       val nestedTestSuite = createNestedInstanceForTest(testName);
       // not needed - will be called during construction.
       //nestedTestSuite.test(testName, testTags: _* )(testFun);

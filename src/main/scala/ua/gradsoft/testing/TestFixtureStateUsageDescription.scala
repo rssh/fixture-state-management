@@ -56,6 +56,10 @@ object TestFixtureStateUsageDescription
    * bulding of more complicated descriptions.
    **/
   def apply[T <: FixtureStateTypes](stateInfo:T) =
+      {
+           if (stateInfo==null) {
+              throw new IllegalArgumentException("stateInfo must not be null");
+           }
            new TestFixtureStateUsageDescription[T](
                          stateInfo = stateInfo,
                          precondition = NoState[T](stateInfo),
@@ -64,6 +68,7 @@ object TestFixtureStateUsageDescription
                             stateInfo.stateAspects.values.asInstanceOf[Set[T#StateAspectType]],
                          canRunParallel = false
            );
+      }
 
 
 }

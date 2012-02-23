@@ -24,6 +24,12 @@ trait FunSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.FunSuite
     }
   }
 
+  protected override def ignore(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
+    if (!isNested) {
+      // all ignred comt to top-level.
+      super.ignore(testName, testTags:_*)(testFun);
+    } 
+  }
   
 
 }

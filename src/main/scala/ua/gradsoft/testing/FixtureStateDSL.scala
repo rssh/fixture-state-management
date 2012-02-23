@@ -7,11 +7,12 @@ package ua.gradsoft.testing
  * <pre>   
  * TestUsageDescription:  Mark ([StartDescription] | 
  *                              [FinishDescription] | 
- *                              [ChangeDescription])*
+ *                              [ChangeDescription] |
+ *                              [ExecutionDescription] )*
  *
- * StartDescription: start StartStateDescription [aspects (all | '(' {ID}* ')' | none) ]
- * FinishDescription: finish FinishStateDescription
- * CnangesDescription: change [nothing| all] 
+ * StartDescription: start(StartStateDescription) [aspects (all | '(' {ID}* ')' | none) ]
+ * FinishDescription: finish(FinishStateDescription)
+ * CnangesDescription: change [nothing| any] 
  *
  * StartStateDescription: state (any | undefined | {ID} )
  *                       |
@@ -19,18 +20,16 @@ package ua.gradsoft.testing
  *
  * FinishStateDescription: state (undefined | {ID} )
  *
+ * 
  *
  * </pre>
  * @{{{
- *   `fixture state` start state(any)
- *   `fixture state` start state(any) change noting
- *   `fixture state` start state(any) finish state(undefined)
- *   `fixture state` start state(S3) finish state(S4)
- *   `fixture state` start states(S1,S2,S3) aspects (1,2,3) change(none)
- *   require state  <state-name>
- *   require states (<list-of-state-names>)
- *
- *   require clear aspects
+ *   start state(any)
+ *   start state(any) change(noting)
+ *   start state(any) finish state(undefined)
+ *   start state(S3) finish state(S4)
+ *   start states(S1,S2,S3) aspects (1,2,3) change(nothing)
+ *   start state(S3) change(nothing) parallel
  * }}}@
  *
  **/

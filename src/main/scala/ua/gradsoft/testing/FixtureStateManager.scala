@@ -9,7 +9,10 @@ class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAcce
   def doWith(usage: TestFixtureStateUsageDescription[T],
              f: T#FixtureType => Unit): Unit =
   {
-    fixtureAccess.synchronized {
+   this.synchronized {
+     val optLock = fixtureAccess.testLevelLock;
+     optLock.foreach( _.acquire() );
+     try{
        if (currentStartState==None) {
            loadState(usage.precondition.stateToLoad);
        }else if(!usage.precondition.check(currentStartState.get)) {
@@ -18,23 +21,27 @@ class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAcce
        if (!(usedStateAspects intersect usage.precondition.neededStateAspects).isEmpty) {
            loadState(usage.precondition.stateToLoad);
        }
-       try {
-        fixtureAccess.current match {
-         case Some(fixture) => f(fixture)
+       fixtureAccess.acquire() match {
+         case Some(fixture) => try {
+                                 f(fixture)
+                               } finally {
+                                 fixtureAccess.release(fixture);
+                               }
          case None => throw new IllegalStateException("FixturAccess does not return reference to loaded structure");
-        }
-       } finally {
-         usedStateAspects = (usedStateAspects union usage.stateAspectsChanged);
-         usage.startStateChange match {
+       }
+     }finally{
+       optLock.foreach( _.release() );
+       usedStateAspects = (usedStateAspects union usage.stateAspectsChanged);
+       usage.startStateChange match {
            case SameState => /* do nothing */
            case NewState(x) => { currentStartState = Some(x); 
                                  usedStateAspects = Set(); }
            case UndefinedState => {  
                                     currentStartState=None;
                                   }
-         }
        }
-    }
+     }
+   }
   }
 
   private[this] def loadState(s: T#StartStateType) {

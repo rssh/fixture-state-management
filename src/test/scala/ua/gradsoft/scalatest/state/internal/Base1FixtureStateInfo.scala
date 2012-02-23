@@ -33,7 +33,7 @@ object Base1FixtureAccess extends FixtureAccess[Base1FixtureStateInfo.type]
    emulatedState = s;
   }
 
-  override def current: Option[FixtureType] =
+  override def acquire(): Option[FixtureType] =
   {
    Some(emulatedState match {
       case ONE => 1
@@ -41,8 +41,6 @@ object Base1FixtureAccess extends FixtureAccess[Base1FixtureStateInfo.type]
       case THREE => 3
    })
   }
-
-  override def close(): Unit = {} 
 
   // set by tests. in real life 
   // usually state are outside of program control.

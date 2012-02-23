@@ -105,19 +105,25 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scala
    if (!isNested) {
     // run subsuites in terms of order
     val sequenceParts = ExecutionSequenceOptimizer.optimizeOrder(neededFixtureStates);
-    for(l <- sequenceParts) {
-     if (l.size == 1 || distributor == None) {
+    val optLock = fixtureAccess.suiteLevelLock;
+    optLock.foreach( _.acquire() )
+    try {
+     for(l <- sequenceParts) {
+      if (l.size == 1 || distributor == None) {
        // must be run without distributor
        for(nested <- l) {
           // TODO: think about stopRequested
           suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
        }
-     } else {
+      } else {
        // start this testes in parallel
        for(nested <- l) {
          distributor.get.apply(suitesToRun(nested),tracker);
        }
+      }
      }
+    } finally {
+      optLock.foreach( _.release() )
     }
    } else {
      super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);

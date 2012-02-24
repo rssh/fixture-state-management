@@ -9,7 +9,7 @@ trait FixtureStateTypes
 
   /**
    * type of fixture, for which we manage states.
-   * This can be db link (represented by jdbc connection)
+   * (i.e. db link for databases, etc). 
    **/
   type FixtureType ;
 
@@ -18,15 +18,23 @@ trait FixtureStateTypes
    **/
   val startStates: Enumeration;
 
+  /**
+   * Enumeration type for startStates
+   **/
   type StartStateType = startStates.Value;
 
   /**
    * Set of possible state aspects. Aspect here is some part of state: test can use or change different
-   * aspects of same state. Individuial test can change some of those aspects. This means, that
-   * other test, which use different aspects than first, can run after first without state reloading.
+   * aspects of same state. I.e. if one test use one set of aspects, than other test, which use different 
+   * aspects than first, can run after first without reloading of fixture state.
+   *
+   * By default all tests use one global aspect.
    **/
   val stateAspects: Enumeration = FixtureStateTypes.OneAspectForAll;
 
+  /**
+   * Enumearation type for stateAspects
+   **/
   type StateAspectType = stateAspects.Value;
 
 }

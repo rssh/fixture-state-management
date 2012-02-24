@@ -93,8 +93,16 @@
       <pre>$ git clone git://github.com/rssh/fixture-state-management</pre>
     </p>
     <p>
-      You can also get artifacts on <a href="http://rssh.github.com/fixture-state-management/repo">
-         http://rssh.github.com/fixture-state-management/repo </a>
+      You can also get artifacts on
+         http://rssh.github.com/fixture-state-management/repo using sbt tool:
+      <font size="-1">
+<pre>
+resolvers += Resolver.url("github repo",
+    url("http://rssh.github.com/fixture-state-management/repo")(Resolver.ivyStylePatterns)
+
+libraryDependencies += "ua.gradsoft" %% "fixture-state-management" % "0.3.0-SNAPSHOT" % "test"
+      </pre>
+</font >
     </p>
     <div class="footer">
       get the source code on GitHub : <a href="https://github.com/rssh/fixture-state-management">rssh/fixture-state-management</a>

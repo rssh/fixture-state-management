@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ua.gradsoft</groupId>
+    <artifactId>fixture-state-management_2.9.1</artifactId>
+    <packaging>jar</packaging>
+    <description>fixture-state-management</description>
+    <version>0.3.0-SNAPSHOT</version>
+    <name>fixture-state-management</name>
+    <organization>
+        <name>ua.gradsoft</name>
+    </organization>
+    <url>http://rssh.github.com/fixture-state-management</url>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>pt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>git@github.com:rssh/fixture-state-management.git</url>
+        <connection>scm:git:git@github.com:rssh/fixture-state-management.git</connection>
+    </scm>
+    <developers>
+        <developer>
+            <id>rssh</id>
+            <name>Ruslan Shevchenko</name>
+            <url>http://www.gradsoft.ua</url>
+        </developer>
+    </developers>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.9.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.9.1</artifactId>
+            <version>1.7.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

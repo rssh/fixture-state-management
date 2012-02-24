@@ -3,8 +3,7 @@ package ua.gradsoft.testing
 import scala.concurrent.Lock;
 
 /**
- * Test authors must implement this trait for accessing
- * managed structures.
+ * Test authors must implement this trait for wrapping access to managed fixture.
  **/
 trait FixtureAccess[T <: FixtureStateTypes]
 {

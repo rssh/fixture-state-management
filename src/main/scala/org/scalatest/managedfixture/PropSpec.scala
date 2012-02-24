@@ -8,7 +8,7 @@ import org.scalatest.fixture.NoArgTestWrapper
 /**
  * A sister trait to <code>org.scalatest.PropSpec</code> that can pass a managed fixture object into its tests.
  *
- *<pre class="stHightlight">
+ *{{{
  *
  *import org.scalatest._
  *import ua.gradsoft.testing._
@@ -27,7 +27,7 @@ import org.scalatest.fixture.NoArgTestWrapper
  *
  *
  *}
- *</pre>
+ *}}}
  *
  */
 trait PropSpec[T <: FixtureStateTypes] extends fixture.PropSpec

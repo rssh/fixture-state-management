@@ -83,6 +83,32 @@ private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](val owner: Fre
 /**
  * A sister trait to <code>org.scalatest.FreeSpec</code> that can pass a managed fixture object into its tests.
  *
+ *{{{
+ *  class MyFreeSpec extends managedfixture.FreeSpec[MyFixtureStateTypes]
+ *  {
+ *     val fixtureStateTypes = MyFixtureStateTypes;
+ *     val fixtureAccess = MyFixtureAccess;
+ *
+ *     "A system" - {
+ *
+ *         start state(INITIAL) change nothing
+ *         "shoud not find any user in empty db" in 
+ *           inTransaction{ 
+ *               assert (db.findUserByName("Jon").isEmpty)
+ *           } 
+ *
+ *         start state(DATASET1) change nothing
+ *         "shoud find user Jon in dataset 1" in 
+ *           inTransaction{ 
+ *               assertNot (db.findUserByName("Jon").isEmpty)
+ *           }
+ *
+ *     }
+ *
+ *
+ *  }
+ *}}}
+ *@see [[ua.gradsoft.testing]], [[org.scalatest.managedsuite]]
  */
 trait FreeSpec[T <: FixtureStateTypes] extends Suite 
                                         with FixtureStateDSL[T]
@@ -184,7 +210,7 @@ trait FreeSpec[T <: FixtureStateTypes] extends Suite
   protected val behave = new BehaveWord
 }
 
-object FreeSpecConstructorKluge
+private[scalatest] object FreeSpecConstructorKluge
 {
  val currentOwner = new DynamicVariable[Option[FreeSpec[_]]](None);
 }

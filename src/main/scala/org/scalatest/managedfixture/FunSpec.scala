@@ -50,6 +50,33 @@ private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[
 /**
  * A sister trait to <code>org.scalatest.FunSpec</code> that can pass a managed fixture object into its tests.
  *
+ * {{{
+ *  class MyFunSpec extends managedfixture.FunSpec[StackStateTypes]
+ *  {
+ *    val fixtureStateTypes = StackStateTypes
+ *    val fixtureAccess = StackAccess
+ *
+ *    describe("A Stack") {
+ *
+ *      start state(nonEmpty) finish state(undefined)
+ *      it "shoud pop a value" { stack =>
+ *         val x = stack.pop
+ *      }
+ *
+ *      start state(empty) change(nothing)
+ *      it "shoud not pop a value" { stack =>
+ *         intercept[NoSuchElementException] {
+ *           val x = stack.pop
+ *         }
+ *      }
+ *      
+ *
+ *    }
+ *
+ *  }
+ *
+ * }}}
+ *
  */
 trait FunSpec[T <: FixtureStateTypes] extends fixture.Suite
                                           with ExternalSuite[T]

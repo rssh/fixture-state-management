@@ -18,7 +18,7 @@ import ua.gradsoft.testing._;
  * Typical usecase for such scenario -- where fixture is a relational database which 
  * must situated in given state.
  **/
-trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.Suite
+private[scalatest] trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.Suite
                                                                with FixtureStateDSL[T]
 {
 
@@ -137,7 +137,7 @@ trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scala
 // used to pass parameter to nested constructor (since we have
 // test/describe methods, called during initialization, then we can't set nested
 // parameters after init: it's too late)
-object ManagedFixtureStateSuiteConstructorKluge
+private[scalatest] object ManagedFixtureStateSuiteConstructorKluge
 {
 
   val currentParent = new DynamicVariable[Option[AbstractManagedFixtureStateSuite[_]]](None);

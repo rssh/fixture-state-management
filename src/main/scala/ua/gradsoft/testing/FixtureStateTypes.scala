@@ -2,7 +2,7 @@ package ua.gradsoft.testing
 
 
 /**
- * information about possible states, on which tests depends on.
+ * information about possible states on which tests depends on.
  **/
 trait FixtureStateTypes
 {

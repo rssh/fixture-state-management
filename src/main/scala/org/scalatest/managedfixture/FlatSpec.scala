@@ -148,8 +148,37 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
 }
 
 /**
- * export FlatSpec API
- **/
+  * export [[org.scalatest.fixture.FlatSpec]] API to world of managed fixtures. 
+  *
+  *{{{
+  * import ua.gradsoft.testing._
+  * import org.scalatest.managedfixture._
+  *
+  * class MyFlatSpec extends managedfixture.[DBFixtureStateTypes.type]
+  * {
+  *  val fuxtureStateTypes = DBFixtureStateTypes
+  *  val fuxtureAccess = DBFixtureAccess
+  *  import DBFixtureStateTypes.States._
+  *
+  *  behavior of "My datababase"
+  *  
+  *  start state(INITIAL) finish state(WITH_USERS)
+  *  it should "be able to add user " in {
+  *     .....
+  *  }
+  *
+  *  start state(WITH_USERS) change undefined
+  *  it should "retrieve user with name Jon in our test dataset" in {
+  *     inTransaction { 
+  *        val x = db.selectUser("Jon").headOption;      
+  *        assert(x!=None)
+  *        assert(x.name == "Jon")
+  *     }
+  *  }
+  *
+  *
+  *}}} 
+  */
 trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVerb with CanVerb 
                                            with FixtureStateDSL[T]
 { 
@@ -358,7 +387,7 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
   protected val behave = new BehaveWord
 }
 
-object FlatSpecConstructorKluge
+private[scalatest] object FlatSpecConstructorKluge
 {
 
   val currentOwner = new DynamicVariable[Option[FlatSpec[_]]](None);

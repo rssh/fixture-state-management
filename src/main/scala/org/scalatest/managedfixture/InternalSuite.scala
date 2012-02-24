@@ -74,7 +74,7 @@ private[scalatest] abstract class InternalSuite[T <: FixtureStateTypes,
 
 }
 
-object InternalSuiteConstructorKluge
+private[scalatest] object InternalSuiteConstructorKluge
 {
   val currentOwner = new DynamicVariable[Option[ExternalSuite[_]]](None);
 }

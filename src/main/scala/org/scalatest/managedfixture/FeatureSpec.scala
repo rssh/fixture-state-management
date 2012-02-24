@@ -60,11 +60,53 @@ private[scalatest] class InternalFeatureSpec[T <: FixtureStateTypes](val owner: 
 
 }
 
-object FeatureSpecConstructorKluge
+private[scalatest] object FeatureSpecConstructorKluge
 {
   val currentOwner = new DynamicVariable[Option[FeatureSpec[_]]](None);
 }
 
+/**
+ * sister trait for [[org.scalatest.fixture.FeatureSpec]]
+ *
+ * Let's translate example from original scalatest scaladoc:
+ *{{{
+ *class StackSpec extends managedfixture.FeatureSpec[StackStateTypes]
+ *{
+ *  val fixtureStateTypes ...
+ *  val fixtureAccess = ...
+ *
+ *  feature("pushing a value onto a stack") {
+ *
+ *     start state(any) finish state(nonEmpty)
+ *     scenario("User pashes a value") { stack =>
+ *        stack.push(9)
+ *        assert(stack.head == 9)
+ *     }
+ *
+ *  }
+ *
+ *  feature("Popping a value off a stack") {
+ *
+ *     start state(nonEmpty) finish state(undefined)
+ *     scenario("User pops a value from nonEmpty stack") { stack =>
+ *        val s1 = stack.size;
+ *        val top = stack.pop;
+ *        assert(stack.size == s1-1);
+ *     }
+ * 
+ *     start state(empty) change nothing 
+ *     scenario("User pops a value from empty stack") { stack =>
+ *       intercept[NoSuchElementException] {
+ *           (new Stack[Int]).pop()
+ *       }
+ *     }
+ *
+ *  }
+ *
+ *}
+ *
+ *}}}
+ */
 trait FeatureSpec[T <: FixtureStateTypes] extends Suite
                                           with FixtureStateDSL[T]
 {

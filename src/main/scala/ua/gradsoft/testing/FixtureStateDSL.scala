@@ -1,10 +1,12 @@
 package ua.gradsoft.testing
 
 /**
- * DLS for fixture state
- * Usage: for fixture state
- * Grammar
- * <pre>   
+ * DLS for fixture state: sentence in this DSL describe: how some test is related to fixture,
+ * i.e. it expect that fixture must be in some concerete state at the end leave state unchanged
+ * after test execution, or may be execution invalidate current fixture state and so on.
+ *
+ * Grammar:
+ * {{{
  * TestUsageDescription:  Mark ([StartDescription] | 
  *                              [FinishDescription] | 
  *                              [ChangeDescription] |
@@ -16,21 +18,22 @@ package ua.gradsoft.testing
  *
  * StartStateDescription: state (any | undefined | {ID} )
  *                       |
- *                        states({ID}*)
+ *                        states({ID}[,{ID}]*)
  *
  * FinishStateDescription: state (undefined | {ID} )
  *
+ * ExecutionDescription: sequential | parallel
+ * }}}
  * 
- *
- * </pre>
- * @{{{
+ * Examples of such expession
+ * {{{
  *   start state(any)
  *   start state(any) change(noting)
  *   start state(any) finish state(undefined)
  *   start state(S3) finish state(S4)
  *   start states(S1,S2,S3) aspects (1,2,3) change(nothing)
  *   start state(S3) change(nothing) parallel
- * }}}@
+ * }}}
  *
  **/
 trait FixtureStateDSL[T <: FixtureStateTypes]

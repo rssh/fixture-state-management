@@ -8,7 +8,8 @@
   <style type="text/css">
     body {
       margin-top: 1.0em;
-      background-color: #d3928c;
+      /* background-color: #d3928c; */
+      background-color: #ccffff; 
       font-family: Helvetica, Arial, FreeSans, san-serif;
       color: #000000;
     }
@@ -51,13 +52,20 @@
     </div>
 
     
-      <p>It's about tests which operate on fixtures containing external state, such as relational databases.
-
-
-
-
-</p>
-    
+      <p>It's about tests which operate on fixtures containing external state.
+     Idea that before each test we describe state of fixture, needed for this test in micro-dsl and provide 
+     operations for load needed fixture state from some external source.
+     </p>
+     <p>
+      Than test running engine will prepare fixture with needed state before calling each test, according to 
+      given description and will execute states in order which minimize number of state loads.
+     </p>
+     <p>
+      Typical usecase for such scenario -- where fixture is a connection to relational database and tests
+      'knows' that database situated in some concrete state.
+      </p>
+      <p> Here is <a href="api/index.html"> API description </a>
+      </p>
 
     
       <h2>Dependencies</h2>

@@ -25,12 +25,13 @@ class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAcce
          case Some(fixture) => try {
                                  f(fixture)
                                } finally {
-                                 fixtureAccess.release(fixture);
+                                 fixtureAccess.release(fixture)
                                }
          case None => throw new IllegalStateException("FixturAccess does not return reference to loaded structure");
        }
      }finally{
        optLock.foreach( _.release() );
+       fixtureAccess.markStateChanges(usage.startStateChange, usage.stateAspectsChanged);
        usedStateAspects = (usedStateAspects union usage.stateAspectsChanged);
        usage.startStateChange match {
            case SameState => /* do nothing */

@@ -11,12 +11,29 @@ trait FixtureAccess[T <: FixtureStateTypes]
   type Types = T;
   type FixtureType = T#FixtureType;
   type StartStateType = T#StartStateType;
+  type StateAspectType = T#StateAspectType;
 
   /**
    * how to load given state: i.e. load database dump, initialize vars according, etc..
    * after call of load, current must return fixture with access to given state
    **/
   def load(s: StartStateType);
+
+
+  /**
+   * retrive information about current state if possible.
+   **/
+  def current:Option[(StartStateType,Set[StateAspectType])]
+    = None;
+
+  /**
+   * used to mark state changes if wer track changes in datastore.
+   * Common approach is to have special test-specifics tables in relational database
+   * and check one in load state.
+   * By default -- do nothing.
+   **/
+  def markStateChanges(stateChange: FixtureStateChange[T], stateAspectsChanges: Set[StateAspectType])
+  {  }
 
   /**
    * get current value of fixtire.  This value can be used by fixtuee

@@ -116,8 +116,11 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes
           suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
        }
       } else {
-       // start this testes in parallel
-       for(nested <- l) {
+       // start this tests in parallel
+       for(nested <- l.par) {
+         //TODO:  rethibk parallel works of reporters.
+         // suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
+         //  does not use distributor becouse we does not know how to lock arround one.
          distributor.get.apply(suitesToRun(nested),tracker);
        }
       }

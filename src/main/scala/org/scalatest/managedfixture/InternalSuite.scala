@@ -51,13 +51,14 @@ private[scalatest] abstract class InternalSuite[T <: FixtureStateTypes,
 
   var currentBranchName: Option[String] = None;
 
+
   def putTestWhenNested(specTest: String, tags: List[Tag], testFun: FixtureParam=>Any):Unit ;
                          
 
   def setFixtureStateForTest(specText: String, tags: List[Tag], testFun: FixtureParam=>Any ) =
   {
     val testName = fullTestName(specText);
-    neededFixtureStates(specText) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
+    neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
     val nestedTestSuite = createNestedInstanceForTest(testName);
     nestedTestSuite.putTestWhenNested(specText, tags, testFun) ;
     suitesToRun(testName) = nestedTestSuite;

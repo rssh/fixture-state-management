@@ -78,14 +78,12 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes
 
   protected var _parent : Option[AbstractManagedFixtureStateSuite[T]] = {
            ManagedFixtureStateSuiteConstructorKluge.currentParent.value map { x =>
-                ManagedFixtureStateSuiteConstructorKluge.currentParent.value=None;
                 x.asInstanceOf[AbstractManagedFixtureStateSuite[T]];
            }
   }
 
   protected var _parentTestName : Option[String] = {
            ManagedFixtureStateSuiteConstructorKluge.currentTestName.value map { x =>
-              ManagedFixtureStateSuiteConstructorKluge.currentTestName.value=None;
               x;
            }
   }

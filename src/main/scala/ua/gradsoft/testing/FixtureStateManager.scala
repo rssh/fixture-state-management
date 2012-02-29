@@ -21,26 +21,29 @@ class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAcce
        if (!(usedStateAspects intersect usage.precondition.neededStateAspects).isEmpty) {
            loadState(usage.precondition.stateToLoad);
        }
-       fixtureAccess.acquire() match {
+       try {
+        fixtureAccess.acquire() match {
          case Some(fixture) => try {
                                  f(fixture)
                                } finally {
                                  fixtureAccess.release(fixture)
                                }
          case None => throw new IllegalStateException("FixturAccess does not return reference to loaded structure");
-       }
-     }finally{
-       optLock.foreach( _.release() );
-       fixtureAccess.markStateChanges(usage.startStateChange, usage.stateAspectsChanged);
-       usedStateAspects = (usedStateAspects union usage.stateAspectsChanged);
-       usage.startStateChange match {
+        }
+       } finally {
+        fixtureAccess.markStateChanges(usage.startStateChange, usage.stateAspectsChanged);
+        usedStateAspects = (usedStateAspects union usage.stateAspectsChanged);
+        usage.startStateChange match {
            case SameState => /* do nothing */
            case NewState(x) => { currentStartState = Some(x); 
                                  usedStateAspects = Set(); }
            case UndefinedState => {  
                                     currentStartState=None;
                                   }
+        }
        }
+     }finally{
+       optLock.foreach( _.release() );
      }
    }
   }

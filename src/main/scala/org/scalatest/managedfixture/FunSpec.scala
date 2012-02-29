@@ -15,6 +15,10 @@ private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[
                                     with fixture.FunSpec
 {
 
+  def this() =
+     this(InternalSuiteConstructorKluge.currentOwner.value.get.asInstanceOf[FunSpec[T]])
+
+
   def putTestWhenNested(specTest: String, tags: List[Tag], testFun: FixtureParam=>Any):Unit =
   {
    _parent.get.asInstanceOf[InternalFunSpec[T]].currentBranchName match {
@@ -25,7 +29,7 @@ private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[
 
 
   def it_apply(specText: String, testTags: Tag*)(testFun: FixtureParam => Any):Unit = {
-    if (isNested) {
+    if (!isNested) {
        setFixtureStateForTest(specText, testTags.toList, testFun);
     } else {
        it(specText, testTags:_*)(testFun);
@@ -83,6 +87,9 @@ trait FunSpec[T <: FixtureStateTypes] extends fixture.Suite
 { 
 
   protected override val internalSpec = new InternalFunSpec[T](this);
+
+  override def withFixture(test: OneArgTest): Unit =
+          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
 
   protected final class ItWord {
 

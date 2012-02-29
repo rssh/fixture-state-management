@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-	<info organisation="ua.gradsoft" module="fixture-state-management_2.9.1" revision="0.3.0-SNAPSHOT" status="release" publication="20120224153614">
+	<info organisation="ua.gradsoft" module="fixture-state-management_2.9.1" revision="0.3.0-SNAPSHOT" status="release" publication="20120229091318">
 		<description>
 		fixture-state-management
 		</description>

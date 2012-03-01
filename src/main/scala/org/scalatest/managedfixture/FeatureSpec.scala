@@ -6,33 +6,30 @@ import org.scalatest.fixture.NoArgTestWrapper;
 
 import scala.util.DynamicVariable;
 
-private[scalatest] class InternalFeatureSpec[T <: FixtureStateTypes](val owner: FeatureSpec[T])
-                                         extends fixture.FeatureSpec
-                                              with AbstractManagedFixtureStateSuite[T]
+private[scalatest] class InternalFeatureSpec[T <: FixtureStateTypes](owner: FeatureSpec[T])
+                                     extends InternalSuite[T,FeatureSpec[T]](owner)
+                                         with fixture.FeatureSpec
 {
 
   def this() = 
-   this(FeatureSpecConstructorKluge.currentOwner.value.get.asInstanceOf[FeatureSpec[T]])
+   this(InternalSuiteConstructorKluge.currentOwner.value.get.asInstanceOf[FeatureSpec[T]])
 
-  def fixtureStateTypes = owner.fixtureStateTypes;
-  def fixtureAccess = owner.fixtureAccess;
+  def putTestWhenNested(specTest: String, tags: List[Tag], testFun: FixtureParam=>Any):Unit =
+  {
+   _parent.get.asInstanceOf[InternalFeatureSpec[T]].currentBranchName match {
+     case Some(x) => feature(x){ scenario(specTest,tags:_*)(testFun) }
+     case None => scenario(specTest,tags:_*)(testFun)
+   }
+  }
+
+ private[scalatest] override def fullTestName(text:String) = 
+                          currentBranchName.getOrElse("")+" Scenario: "+text;
+
+
 
   def _info: Informer = info
 
-  def currentFeature: Option[String] = None;
-
-  def setFixtureStateForTest(specText: String, tags: List[Tag], testFun: FixtureParam=>Any ) =
-  {
-    val testName = fullTestName(specText);
-    neededFixtureStates(specText) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
-    val nestedTestSuite = createNestedInstanceForTest(testName);
-    currentFeature.foreach(
-      nestedTestSuite.feature(_) {
-        () => nestedTestSuite.scenario(specText,tags:_*)(testFun);
-      }
-    );
-    suitesToRun(testName) = nestedTestSuite;
-  }
+  
 
   def _scenario(specText: String, testTags: Tag*)(testFun: FixtureParam => Any) {
     if (!isNested) {
@@ -47,23 +44,12 @@ private[scalatest] class InternalFeatureSpec[T <: FixtureStateTypes](val owner: 
 
 
   def _feature(description: String)(fun: => Unit) = {
+     currentBranchName = Some(description); 
      feature(description)(fun); 
   }
  
-  private[scalatest] def fullTestName(text:String) = currentFeature.getOrElse("")+" "+text;
-
-  override def createNestedInstanceForTest(testName:String) = {
-    FeatureSpecConstructorKluge.currentOwner.withValue(Some(owner)){
-        super.createNestedInstanceForTest(testName)
-    }.asInstanceOf[InternalFeatureSpec[T]]
-  }
-
 }
 
-private[scalatest] object FeatureSpecConstructorKluge
-{
-  val currentOwner = new DynamicVariable[Option[FeatureSpec[_]]](None);
-}
 
 /**
  * sister trait for [[org.scalatest.fixture.FeatureSpec]]
@@ -107,12 +93,10 @@ private[scalatest] object FeatureSpecConstructorKluge
  *
  *}}}
  */
-trait FeatureSpec[T <: FixtureStateTypes] extends Suite
-                                          with FixtureStateDSL[T]
+trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
+                                          with ExternalSuite[T]
 {
 
-  type FixtureStateTypes = T;
-  type FixtureParam = T#FixtureType;
 
   /**
    * Must be defined in subclass.
@@ -124,31 +108,24 @@ trait FeatureSpec[T <: FixtureStateTypes] extends Suite
    **/
   def fixtureStateTypes: T
 
-  private lazy val internalSpec = new InternalFeatureSpec[T](this);
+  protected override lazy val internalSpec = new InternalFeatureSpec[T](this);
+
+  override def withFixture(test: OneArgTest): Unit =
+          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
+
 
   override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
   {
    internalSpec.fixtureUsage(value);
   }
 
-  implicit protected def info: Informer = internalSpec._info
-
   protected def scenario(specText: String, testTags: Tag*)(testFun: FixtureParam => Any) =
   {
     internalSpec._scenario(specText, testTags:_*)(testFun);
   }
 
-  protected def scenario(specText: String, testTags: Tag*)(testFun: () => Any) =
-  {
-    internalSpec._scenario(specText, testTags:_*)(new NoArgTestWrapper(testFun));
-  }
-
   protected def ignore(specText: String, testTags: Tag*)(testFun: FixtureParam => Any) = {
     internalSpec._ignore(specText, testTags:_*)(testFun);
-  }
-
-  protected def ignore(specText: String, testTags: Tag*)(testFun: () => Any) = {
-    internalSpec._ignore(specText, testTags:_*)(new NoArgTestWrapper(testFun));
   }
 
   protected def feature(description: String)(fun: => Unit) {

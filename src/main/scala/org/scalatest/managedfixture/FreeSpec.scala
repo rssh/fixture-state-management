@@ -11,35 +11,23 @@ import ua.gradsoft.testing._
 import scala.util.DynamicVariable;
 
 
-private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](val owner: FreeSpec[T]) 
-                                                                      extends fixture.FreeSpec
-                                                                       with AbstractManagedFixtureStateSuite[T]
+private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](owner: FreeSpec[T]) 
+                                            extends InternalSuite[T, FreeSpec[T]](owner)
+                                             with fixture.FreeSpec
 {
 
   def this() =
-    this( FreeSpecConstructorKluge.currentOwner.value.get.asInstanceOf[FreeSpec[T]] )
+    this(InternalSuiteConstructorKluge.currentOwner.value.get.asInstanceOf[FreeSpec[T]])
 
-  def fixtureStateTypes = owner.fixtureStateTypes;
-  def fixtureAccess = owner.fixtureAccess;
 
-  var currentBranchName: Option[String] = None;
-
-  def setFixtureStateForTest(specText:String, tags: List[Tag], testFun: FixtureParam=>Any ): Unit =
+  def putTestWhenNested(specTest: String, tags: List[Tag], testFun: FixtureParam=>Any):Unit =
   {
-    val testName = fullTestName(specText);
-    neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
-    val nestedTestSuite = createNestedInstanceForTest(testName);
-    currentBranchName.foreach(
-       nestedTestSuite.stringWrapper_minus(_, {
-           nestedTestSuite.taggedInvocationOnString_in(specText,tags,testFun);
-         }
-       )
-    );
-    suitesToRun(testName) = nestedTestSuite;
+   _parent.get.asInstanceOf[InternalFreeSpec[T]].currentBranchName match {
+     case Some(x) => x - { taggedInvocationOnString_in(specTest,tags,testFun) }
+     case None => "" - { taggedInvocationOnString_in(specTest,tags,testFun) }
+   }
   }
 
-  
-  private[scalatest] def fullTestName(text:String) = currentBranchName.getOrElse("")+" "+text;
 
   def taggedInvocationOnString_in(specText: String, tags: List[Tag], testFun: FixtureParam => Any): Unit = 
    {
@@ -62,18 +50,18 @@ private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](val owner: Fre
 
   def stringWrapper_minus(description: String, branch: => Unit) = 
    {
-     currentBranchName = Some(description)
+     val sv = currentBranchName;
+     if (currentBranchName == None) {
+        currentBranchName = Some(description)
+     } else {
+        currentBranchName = Some(currentBranchName.get+" "+description)
+     }
      description - branch
+     currentBranchName = sv;
    }
 
   def _info = info;
 
-  override def createNestedInstanceForTest(testName: String) =
-  {
-    FreeSpecConstructorKluge.currentOwner.withValue(Some(owner)){
-        super.createNestedInstanceForTest(testName)
-    }.asInstanceOf[InternalFreeSpec[T]];
-  }
 
 
 }
@@ -92,16 +80,18 @@ private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](val owner: Fre
  *     "A system" - {
  *
  *         start state(INITIAL) change nothing
- *         "shoud not find any user in empty db" in 
+ *         "shoud not find any user in empty db" in { db =>
  *           inTransaction{ 
  *               assert (db.findUserByName("Jon").isEmpty)
  *           } 
+           }
  *
  *         start state(DATASET1) change nothing
- *         "shoud find user Jon in dataset 1" in 
+ *         "shoud find user Jon in dataset 1" in { db =>
  *           inTransaction{ 
  *               assertNot (db.findUserByName("Jon").isEmpty)
  *           }
+           }
  *
  *     }
  *
@@ -110,12 +100,10 @@ private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](val owner: Fre
  *}}}
  *@see [[ua.gradsoft.testing]], [[org.scalatest.managedsuite]]
  */
-trait FreeSpec[T <: FixtureStateTypes] extends Suite 
-                                        with FixtureStateDSL[T]
+trait FreeSpec[T <: FixtureStateTypes] extends fixture.Suite 
+                                        with ExternalSuite[T]
 { 
 
-  type FixtureStateTypes = T;
-  type FixtureParam = T#FixtureType;
 
   /**
    * Must be defined in subclass.
@@ -127,17 +115,12 @@ trait FreeSpec[T <: FixtureStateTypes] extends Suite
    **/
   def fixtureStateTypes: T
 
-  override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
-  {
-   internalSpec.fixtureUsage(value);
-  }
+  override final def withFixture(test: OneArgTest): Unit =
+          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
 
-  lazy val internalSpec = new InternalFreeSpec[T];
-
-  implicit protected def info: Informer = internalSpec._info;
+  protected lazy val internalSpec = new InternalFreeSpec[T](this);
 
   protected final class ResultOfTaggedAsInvocationOnString(specText: String, tags: List[Tag]) {
-
     def in(testFun: FixtureParam => Any) {
       internalSpec.taggedInvocationOnString_in(specText, tags, testFun);
       //registerTestToRun(specText, "in", tags, testFun)
@@ -210,8 +193,4 @@ trait FreeSpec[T <: FixtureStateTypes] extends Suite
   protected val behave = new BehaveWord
 }
 
-private[scalatest] object FreeSpecConstructorKluge
-{
- val currentOwner = new DynamicVariable[Option[FreeSpec[_]]](None);
-}
 

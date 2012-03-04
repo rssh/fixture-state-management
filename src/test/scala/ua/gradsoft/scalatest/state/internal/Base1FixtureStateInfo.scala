@@ -47,6 +47,8 @@ object Base1FixtureAccess extends FixtureAccess[Base1FixtureStateInfo.type]
   def set(s: StartStateType):Unit = {
      emulatedState = s;
   }
+
+  @volatile
   private var emulatedState: StartStateType = ONE;
 
 }

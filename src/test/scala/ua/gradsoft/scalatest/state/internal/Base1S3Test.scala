@@ -97,20 +97,18 @@ class Base1S3Test extends fixture.FunSuite
                                 distributor: Option[Distributor], tracker: Tracker)=
   {
    if (!isNested) {
-    val sequenceParts = ExecutionSequenceOptimizer.optimizeOrder(testStateUsageDescriptions);
-    for(l <- sequenceParts) {
-     if (l.size == 1 || distributor == None) {
+    fixtureAccess.suiteLevelLock.map(_.acquire);
+    try {
+     val sequenceParts = ExecutionSequenceOptimizer.optimizeOrder(testStateUsageDescriptions);
+     for(l <- sequenceParts) {
        // must be run without distributor
        for(nested <- l) {
           // TODO: think about stopRequested
           suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
        }
-     } else {
-       // start this testes in parallel
-       for(nested <- l) {
-         distributor.get.apply(suitesToRun(nested),tracker);
-       } 
      }
+    } finally {
+      fixtureAccess.suiteLevelLock.map(_.release);
     }
    } else {
      super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);

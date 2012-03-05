@@ -95,14 +95,22 @@
     <p>
       You can also get artifacts on
          http://rssh.github.com/fixture-state-management/repo using sbt tool:
-      <font size="-1">
-<pre>
-resolvers += Resolver.url("github repo",
-    url("http://rssh.github.com/fixture-state-management/repo")(Resolver.ivyStylePatterns)
-
-libraryDependencies += "ua.gradsoft" %% "fixture-state-management" % "0.3.0-SNAPSHOT" % "test"
-      </pre>
-</font >
+      <ul>
+       <li> lates snapshot:
+        <font size="-1.6">
+        <pre style="margin-left:-20px">
+libraryDependencies += "ua.gradsoft" %% "fixture-state-management" % "0.4.0-SNAPSHOT" % "test"
+        </pre>
+        </font >
+       </li> 
+       <li> lates stable release:
+        <font size="-1.6">
+        <pre style="margin-left:-20px">
+libraryDependencies += "ua.gradsoft" %% "fixture-state-management" % "0.3.0" % "test"
+        </pre>
+        </font >
+       </li> 
+      </ul>
     </p>
     <div class="footer">
       get the source code on GitHub : <a href="https://github.com/rssh/fixture-state-management">rssh/fixture-state-management</a>

@@ -3,7 +3,7 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
-version:="0.3.0-SNAPSHOT"
+version:="0.3.0"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.7.1" 
 

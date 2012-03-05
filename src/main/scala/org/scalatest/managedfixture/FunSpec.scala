@@ -5,12 +5,12 @@ import org.scalatest.events._
 import org.scalatest.fixture.NoArgTestWrapper
 import verb.BehaveWord
 
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 
 /**
  * internal trait where all expression are reevaluated
  **/
-private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[T]) 
+private[scalatest] class InternalFunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes](owner: FunSpec[T]) 
                                 extends InternalSuite[T,FunSpec[T]](owner)
                                     with fixture.FunSpec
 {
@@ -82,7 +82,7 @@ private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[
  * }}}
  *
  */
-trait FunSpec[T <: FixtureStateTypes] extends fixture.Suite
+trait FunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.Suite
                                           with ExternalSuite[T]
 { 
 

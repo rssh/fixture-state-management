@@ -5,7 +5,7 @@ import scala.collection.mutable.LinkedHashMap;
 import scala.util.DynamicVariable;
 
 import org.scalatest._;
-import ua.gradsoft.testing._;
+import ua.gradsoft.managedfixture._;
 
 
 /**
@@ -18,7 +18,8 @@ import ua.gradsoft.testing._;
  * Typical usecase for such scenario -- where fixture is a relational database which 
  * must situated in given state.
  **/
-private[scalatest] trait AbstractManagedFixtureStateSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.Suite
+private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes] 
+                                                               extends org.scalatest.fixture.Suite
                                                                with FixtureStateDSL[T]
 {
 

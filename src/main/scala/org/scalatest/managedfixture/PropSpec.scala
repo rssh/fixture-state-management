@@ -1,6 +1,6 @@
 package org.scalatest.managedfixture
 
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 import org.scalatest._
 import org.scalatest.fixture.NoArgTestWrapper
 
@@ -11,7 +11,7 @@ import org.scalatest.fixture.NoArgTestWrapper
  *{{{
  *
  *import org.scalatest._
- *import ua.gradsoft.testing._
+ *import org.scalates.managedfixture._
  *
  *class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
  *{
@@ -30,7 +30,7 @@ import org.scalatest.fixture.NoArgTestWrapper
  *}}}
  *
  */
-trait PropSpec[T <: FixtureStateTypes] extends fixture.PropSpec
+trait PropSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.PropSpec
                                          with AbstractManagedFixtureStateSuite[T]
 { 
 

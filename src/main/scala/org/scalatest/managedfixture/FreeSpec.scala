@@ -6,12 +6,12 @@ import org.scalatest.events._
 import org.scalatest.fixture.NoArgTestWrapper;
 
 
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 
 import scala.util.DynamicVariable;
 
 
-private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](owner: FreeSpec[T]) 
+private[scalatest] class InternalFreeSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes](owner: FreeSpec[T]) 
                                             extends InternalSuite[T, FreeSpec[T]](owner)
                                              with fixture.FreeSpec
 {
@@ -98,9 +98,9 @@ private[scalatest] class InternalFreeSpec[T <: FixtureStateTypes](owner: FreeSpe
  *
  *  }
  *}}}
- *@see [[ua.gradsoft.testing]], [[org.scalatest.managedsuite]]
+ *@see [[ua.gradsoft.managedfixture]], [[org.scalatest.fixture]]
  */
-trait FreeSpec[T <: FixtureStateTypes] extends fixture.Suite 
+trait FreeSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.Suite 
                                         with ExternalSuite[T]
 { 
 

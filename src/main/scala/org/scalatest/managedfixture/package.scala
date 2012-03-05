@@ -5,7 +5,6 @@ package org.scalatest
   * according to next pattern:
   *
   * {{{
-  * import ua.gradsoft.testing._
   * import org.scalates.managedfixture._
   *  
   * object MyFixtureStateTypes extends FixtureStateTypes
@@ -33,8 +32,8 @@ package org.scalatest
   * }
   * }}}
   *
-  * For description of idea behind managedfixture see [[ua.gradsoft.testing]],
-  * [[ua.gradsoft.testing.FixtureStateTypes]], [[ua.gradsoft.testing.FixtureAccess]]
+  * For description of idea behind managedfixture see [[ua.gradsoft.managedfixture]],
+  * [[ua.gradsoft.managedfixture.FixtureStateTypes]], [[ua.gradsoft.managedfixture.FixtureAccess]]
   *
   * Next types of suites have version with managedfixture support:
   * <ul>

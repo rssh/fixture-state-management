@@ -1,7 +1,7 @@
 package ua.gradsoft.scalates.state.example1
 
 import org.scalatest._
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 
 
 /**

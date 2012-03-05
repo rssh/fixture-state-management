@@ -1,4 +1,4 @@
-package ua.gradsoft.testing
+package ua.gradsoft.managedfixture
 
 import scala.concurrent.Lock;
 

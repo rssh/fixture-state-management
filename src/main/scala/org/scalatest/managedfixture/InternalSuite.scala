@@ -1,12 +1,12 @@
 package org.scalatest.managedfixture
 
 import org.scalatest._
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 import org.scalatest.fixture.NoArgTestWrapper;
 
 import scala.util.DynamicVariable;
 
-private[scalatest] trait ExternalSuite[T <: FixtureStateTypes] extends fixture.Suite
+private[scalatest] trait ExternalSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.Suite
                                                                   with FixtureStateDSL[T]
 {
 
@@ -35,7 +35,7 @@ private[scalatest] trait ExternalSuite[T <: FixtureStateTypes] extends fixture.S
 
 }
 
-private[scalatest] abstract class InternalSuite[T <: FixtureStateTypes,
+private[scalatest] abstract class InternalSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes,
                                              S <: ExternalSuite[T] ](val owner: S)
                                          extends Suite
                                               with AbstractManagedFixtureStateSuite[T]

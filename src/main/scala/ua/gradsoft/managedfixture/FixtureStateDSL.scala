@@ -1,4 +1,4 @@
-package ua.gradsoft.testing
+package ua.gradsoft.managedfixture
 
 /**
  * DLS for fixture state: sentence in this DSL describe: how some test is related to fixture,

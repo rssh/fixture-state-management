@@ -1,7 +1,7 @@
 package org.scalatest.managedfixture
 
 import org.scalatest._
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 
 /**
  * Sister trait for <code> org.scalates.fixture.FunSuite </code> 
@@ -38,7 +38,7 @@ import ua.gradsoft.testing._
  * }}}
  *
  **/
-trait FunSuite[T <: FixtureStateTypes] extends org.scalatest.fixture.FunSuite
+trait FunSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends org.scalatest.fixture.FunSuite
                                            with AbstractManagedFixtureStateSuite[T]
 {
   thisSuite =>

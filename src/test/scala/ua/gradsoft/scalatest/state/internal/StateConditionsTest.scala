@@ -1,7 +1,7 @@
 package ua.gradsoft.scalatest.state.internal
 
 import org.scalatest._
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;
@@ -14,7 +14,8 @@ class StateConditionsTest extends FunSuite
 
 
   test("check that condition is choosed from set") { 
-    def precondition = new SetOfStatesAndAspects[Base1FixtureStateInfo.type](Base1FixtureStateInfo,
+    def precondition = new SetOfStatesAndAspects[Base1FixtureStateInfo.type](
+                                                                        Base1FixtureStateInfo,
                                                                         Set(TWO),
                                                                         Set());
     val state = precondition.stateToLoad;

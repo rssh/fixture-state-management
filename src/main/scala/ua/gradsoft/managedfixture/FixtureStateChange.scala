@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ua.gradsoft.testing
+package ua.gradsoft.managedfixture
 
 
 sealed trait FixtureStateChange[+T <: FixtureStateTypes];

@@ -1,4 +1,12 @@
-package ua.gradsoft.testing
+/*
+ * Copyright 2012 Ruslan Shevchenko
+ * Copyright 2012 GradSoft Ltd
+ *
+ * Default licensing: Apache
+ *
+ */
+
+package ua.gradsoft.managedfixture
 
 import scala.collection.mutable.{Queue => MutableQueue}
                      

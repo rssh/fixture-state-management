@@ -9,7 +9,7 @@ import java.util.ConcurrentModificationException
 import org.scalatest.events._
 import scala.util.DynamicVariable
 
-import ua.gradsoft.testing._
+import ua.gradsoft.managedfixture._
 
 private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:FlatSpec[T]) extends fixture.FlatSpec
                                                   with AbstractManagedFixtureStateSuite[T]
@@ -151,7 +151,6 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
   * export [[org.scalatest.fixture.FlatSpec]] API to world of managed fixtures. 
   *
   *{{{
-  * import ua.gradsoft.testing._
   * import org.scalatest.managedfixture._
   *
   * class MyFlatSpec extends managedfixture.[DBFixtureStateTypes.type]

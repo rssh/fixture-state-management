@@ -1,8 +1,6 @@
 package ua.gradsoft.scalatest.state.internal
 
 import org.scalatest._
-import ua.gradsoft.testing._
-import ua.gradsoft.scalatest._
 
 import scala.collection.mutable.{Map => MutableMap};
 import scala.collection.mutable.LinkedHashMap;

@@ -1,4 +1,4 @@
-package ua.gradsoft.testing
+package ua.gradsoft.managedfixture
 
 class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAccess[T])
 {

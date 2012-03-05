@@ -30,7 +30,6 @@
       
           <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Extensions to scalatest for running tests with managed fixtures.
 according to next pattern:</p><pre>
-import ua.gradsoft.testing._
 import org.scalates.managedfixture._
 
 object MyFixtureStateTypes extends FixtureStateTypes
@@ -56,8 +55,8 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
     .... tests, which needed state s2 and can be executed in parallel
 
 }
-</pre><p>For description of idea behind managedfixture see <a name="ua.gradsoft.testing" class="extype" href="../../../ua/gradsoft/testing/package.html">testing</a>,
-<a name="ua.gradsoft.testing.FixtureStateTypes" class="extype" href="../../../ua/gradsoft/testing/FixtureStateTypes.html">FixtureStateTypes</a>, <a name="ua.gradsoft.testing.FixtureAccess" class="extype" href="../../../ua/gradsoft/testing/FixtureAccess.html">FixtureAccess</a></p><p>Next types of suites have version with managedfixture support:</p><ul><li> <a name="org.scalatest.managedfixture.FunSuite" class="extype" href="FunSuite.html">FunSuite</a></li><li> <a name="org.scalatest.managedfixture.FlatSpec" class="extype" href="FlatSpec.html">FlatSpec</a></li><li> <a name="org.scalatest.managedfixture.FreeSpec" class="extype" href="FreeSpec.html">FreeSpec</a></li><li> <a name="org.scalatest.managedfixture.FeatureSpec" class="extype" href="FeatureSpec.html">FeatureSpec</a></li><li> <a name="org.scalatest.managedfixture.PropSpec" class="extype" href="PropSpec.html">PropSpec</a></li></ul></div></div>
+</pre><p>For description of idea behind managedfixture see <a name="ua.gradsoft.managedfixture" class="extype" href="../../../ua/gradsoft/managedfixture/package.html">managedfixture</a>,
+<a name="ua.gradsoft.managedfixture.FixtureStateTypes" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateTypes.html">FixtureStateTypes</a>, <a name="ua.gradsoft.managedfixture.FixtureAccess" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureAccess.html">FixtureAccess</a></p><p>Next types of suites have version with managedfixture support:</p><ul><li> <a name="org.scalatest.managedfixture.FunSuite" class="extype" href="FunSuite.html">FunSuite</a></li><li> <a name="org.scalatest.managedfixture.FlatSpec" class="extype" href="FlatSpec.html">FlatSpec</a></li><li> <a name="org.scalatest.managedfixture.FreeSpec" class="extype" href="FreeSpec.html">FreeSpec</a></li><li> <a name="org.scalatest.managedfixture.FeatureSpec" class="extype" href="FeatureSpec.html">FeatureSpec</a></li><li> <a name="org.scalatest.managedfixture.PropSpec" class="extype" href="PropSpec.html">PropSpec</a></li></ul></div></div>
         
 
       <div id="template">
@@ -83,7 +82,7 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FeatureSpec.html"><span class="name">FeatureSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends Suite with FixtureStateDSL[T]</span>
+        <span class="result"> extends Suite with ExternalSuite[T]</span>
       </span>
       </h4>
       <p class="comment cmt">sister trait for org.scalatest.fixture.FeatureSpec</p>
@@ -105,7 +104,7 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FreeSpec.html"><span class="name">FreeSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends Suite with FixtureStateDSL[T]</span>
+        <span class="result"> extends Suite with ExternalSuite[T]</span>
       </span>
       </h4>
       <p class="comment cmt">A sister trait to <code>org.scalatest.FreeSpec</code> that can pass a managed fixture object into its tests.</p>

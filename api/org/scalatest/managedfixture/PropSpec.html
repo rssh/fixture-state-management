@@ -23,7 +23,7 @@
       <span class="kind">trait</span>
       <span class="symbol"> 
         <span class="name">PropSpec</span>
-        <span class="tparams">[<span name="T">T &lt;: <a name="ua.gradsoft.testing.FixtureStateTypes" class="extype" href="../../../ua/gradsoft/testing/FixtureStateTypes.html">FixtureStateTypes</a></span>]</span>
+        <span class="tparams">[<span name="T">T &lt;: <a name="ua.gradsoft.managedfixture.FixtureStateTypes" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateTypes.html">FixtureStateTypes</a></span>]</span>
         <span class="result"> extends <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span> with <span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T]</span>
       </span>
       </h4>
@@ -31,7 +31,7 @@
           <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>A sister trait to <code>org.scalatest.PropSpec</code> that can pass a managed fixture object into its tests.</p><pre>
 
 import org.scalatest._
-import ua.gradsoft.testing._
+import org.scalates.managedfixture._
 
 class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
 {
@@ -49,7 +49,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
 }
 </pre></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T], <a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a>[T], <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span>, <span name="org.scalatest.fixture.Suite" class="extype">Suite</span>, <span name="org.scalatest.Suite" class="extype">Suite</span>, <span name="java.io.Serializable" class="extype">Serializable</span>, <span name="org.scalatest.AbstractSuite" class="extype">AbstractSuite</span>, <span name="org.scalatest.Assertions" class="extype">Assertions</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T], <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a>[T], <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span>, <span name="org.scalatest.fixture.Suite" class="extype">Suite</span>, <span name="org.scalatest.Suite" class="extype">Suite</span>, <span name="java.io.Serializable" class="extype">Serializable</span>, <span name="org.scalatest.AbstractSuite" class="extype">AbstractSuite</span>, <span name="org.scalatest.Assertions" class="extype">Assertions</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div></div>
         
 
@@ -65,7 +65,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall out"><span>Hide All</span></li>
                 <li class="showall in"><span>Show all</span></li></ol>
-                <ol id="linearization"><li name="org.scalatest.managedfixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="in"><span>AbstractManagedFixtureStateSuite</span></li><li name="ua.gradsoft.testing.FixtureStateDSL" class="in"><span>FixtureStateDSL</span></li><li name="org.scalatest.fixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.fixture.Suite" class="in"><span>Suite</span></li><li name="org.scalatest.Suite" class="in"><span>Suite</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="org.scalatest.AbstractSuite" class="in"><span>AbstractSuite</span></li><li name="org.scalatest.Assertions" class="in"><span>Assertions</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+                <ol id="linearization"><li name="org.scalatest.managedfixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="in"><span>AbstractManagedFixtureStateSuite</span></li><li name="ua.gradsoft.managedfixture.FixtureStateDSL" class="in"><span>FixtureStateDSL</span></li><li name="org.scalatest.fixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.fixture.Suite" class="in"><span>Suite</span></li><li name="org.scalatest.Suite" class="in"><span>Suite</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="org.scalatest.AbstractSuite" class="in"><span>AbstractSuite</span></li><li name="org.scalatest.Assertions" class="in"><span>Assertions</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -88,12 +88,12 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>Suite</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.DSLExpression" data-isabs="true">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.DSLExpression" data-isabs="true">
       <a id="DSLExpression:DSLExpression"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$DSLExpression.html"><span class="name">DSLExpression</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$DSLExpression.html"><span class="name">DSLExpression</span></a>
         
         <span class="result"> extends AnyRef</span>
       </span>
@@ -121,188 +121,188 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb" data-isabs="false">
       <a id="FixtureStateVerb:FixtureStateVerb"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb.html"><span class="name">FixtureStateVerb</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb.html"><span class="name">FixtureStateVerb</span></a>
         
         <span class="result"> extends DSLExpression with FixtureStateVerb_Start</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbAspects" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbAspects" data-isabs="false">
       <a id="FixtureStateVerbAspects:FixtureStateVerbAspects"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbAspects.html"><span class="name">FixtureStateVerbAspects</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbAspects.html"><span class="name">FixtureStateVerbAspects</span></a>
         
         <span class="result"> extends DSLExpression with FixtureStateVerb_Finish with FixtureStateVerb_Change</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbChangeNothing" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbChangeNothing" data-isabs="false">
       <a id="FixtureStateVerbChangeNothing:FixtureStateVerbChangeNothing"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbChangeNothing.html"><span class="name">FixtureStateVerbChangeNothing</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbChangeNothing.html"><span class="name">FixtureStateVerbChangeNothing</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbFinishState" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbFinishState" data-isabs="false">
       <a id="FixtureStateVerbFinishState:FixtureStateVerbFinishState"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbFinishState.html"><span class="name">FixtureStateVerbFinishState</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbFinishState.html"><span class="name">FixtureStateVerbFinishState</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbFinishStateUndefined" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbFinishStateUndefined" data-isabs="false">
       <a id="FixtureStateVerbFinishStateUndefined:FixtureStateVerbFinishStateUndefined"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbFinishStateUndefined.html"><span class="name">FixtureStateVerbFinishStateUndefined</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbFinishStateUndefined.html"><span class="name">FixtureStateVerbFinishStateUndefined</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStart" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStart" data-isabs="false">
       <a id="FixtureStateVerbStart:FixtureStateVerbStart"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStart.html"><span class="name">FixtureStateVerbStart</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStart.html"><span class="name">FixtureStateVerbStart</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStartState" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStartState" data-isabs="false">
       <a id="FixtureStateVerbStartState:FixtureStateVerbStartState"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStartState.html"><span class="name">FixtureStateVerbStartState</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStartState.html"><span class="name">FixtureStateVerbStartState</span></a>
         
         <span class="result"> extends DSLExpression with FixtureStateVerb_Aspects with FixtureStateVerb_Finish with FixtureStateVerb_Change</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStartState0" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStartState0" data-isabs="false">
       <a id="FixtureStateVerbStartState0:FixtureStateVerbStartState0"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStartState0.html"><span class="name">FixtureStateVerbStartState0</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStartState0.html"><span class="name">FixtureStateVerbStartState0</span></a>
         
         <span class="result"> extends AnyRef</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStartStateAny" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStartStateAny" data-isabs="false">
       <a id="FixtureStateVerbStartStateAny:FixtureStateVerbStartStateAny"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStartStateAny.html"><span class="name">FixtureStateVerbStartStateAny</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStartStateAny.html"><span class="name">FixtureStateVerbStartStateAny</span></a>
         
         <span class="result"> extends DSLExpression with FixtureStateVerb_Aspects with FixtureStateVerb_Finish with FixtureStateVerb_Change</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStartStateUndefined" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStartStateUndefined" data-isabs="false">
       <a id="FixtureStateVerbStartStateUndefined:FixtureStateVerbStartStateUndefined"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStartStateUndefined.html"><span class="name">FixtureStateVerbStartStateUndefined</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStartStateUndefined.html"><span class="name">FixtureStateVerbStartStateUndefined</span></a>
         
         <span class="result"> extends DSLExpression with FixtureStateVerb_Finish with FixtureStateVerb_Change</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStartStates" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStartStates" data-isabs="false">
       <a id="FixtureStateVerbStartStates:FixtureStateVerbStartStates"></a>
       <h4 class="signature">
       <span class="kind">class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStartStates.html"><span class="name">FixtureStateVerbStartStates</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStartStates.html"><span class="name">FixtureStateVerbStartStates</span></a>
         
         <span class="result"> extends DSLExpression with FixtureStateVerb_Aspects with FixtureStateVerb_Finish with FixtureStateVerb_Change</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_Aspects" data-isabs="true">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_Aspects" data-isabs="true">
       <a id="FixtureStateVerb_Aspects:FixtureStateVerb_Aspects"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_Aspects.html"><span class="name">FixtureStateVerb_Aspects</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_Aspects.html"><span class="name">FixtureStateVerb_Aspects</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_Change" data-isabs="true">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_Change" data-isabs="true">
       <a id="FixtureStateVerb_Change:FixtureStateVerb_Change"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_Change.html"><span class="name">FixtureStateVerb_Change</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_Change.html"><span class="name">FixtureStateVerb_Change</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_Finish" data-isabs="true">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_Finish" data-isabs="true">
       <a id="FixtureStateVerb_Finish:FixtureStateVerb_Finish"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_Finish.html"><span class="name">FixtureStateVerb_Finish</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_Finish.html"><span class="name">FixtureStateVerb_Finish</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATE" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE" data-isabs="false">
       <a id="FixtureStateVerb_STATE:FixtureStateVerb_STATE"></a>
       <h4 class="signature">
       <span class="kind">case class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATE.html"><span class="name">FixtureStateVerb_STATE</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE.html"><span class="name">FixtureStateVerb_STATE</span></a>
         
-        <span class="params">(<span name="s">s: _167.startStates.Value forSome { val _167: T }</span>)</span><span class="result"> extends Product with Serializable</span>
+        <span class="params">(<span name="s">s: _163.startStates.Value forSome { val _163: T }</span>)</span><span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATES" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATES" data-isabs="false">
       <a id="FixtureStateVerb_STATES:FixtureStateVerb_STATES"></a>
       <h4 class="signature">
       <span class="kind">case class</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATES.html"><span class="name">FixtureStateVerb_STATES</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATES.html"><span class="name">FixtureStateVerb_STATES</span></a>
         
-        <span class="params">(<span name="args">args: Seq[_172.startStates.Value forSome { val _172: T }]</span>)</span><span class="result"> extends Product with Serializable</span>
+        <span class="params">(<span name="args">args: Seq[_168.startStates.Value forSome { val _168: T }]</span>)</span><span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_Start" data-isabs="true">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_Start" data-isabs="true">
       <a id="FixtureStateVerb_Start:FixtureStateVerb_Start"></a>
       <h4 class="signature">
       <span class="kind">trait</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_Start.html"><span class="name">FixtureStateVerb_Start</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_Start.html"><span class="name">FixtureStateVerb_Start</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
@@ -320,7 +320,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="symbol"> 
         <span class="name">fixtureAccess</span>
         
-        <span class="result">: <a name="ua.gradsoft.testing.FixtureAccess" class="extype" href="../../../ua/gradsoft/testing/FixtureAccess.html">FixtureAccess</a>[T]</span>
+        <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureAccess" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureAccess.html">FixtureAccess</a>[T]</span>
       </span>
       </h4>
       <p class="shortcomment cmt">Must be defined in subclass.</p><div class="fullcomment"><div class="comment cmt"><p>Must be defined in subclass.
@@ -336,7 +336,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <p class="shortcomment cmt">must be defined in subclass.</p><div class="fullcomment"><div class="comment cmt"><p>must be defined in subclass.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → <a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li></ol>
             </div>
 
@@ -397,67 +397,67 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_ANY" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_ANY" data-isabs="false">
       <a id="FixtureStateVerb_ANY:FixtureStateVerb_ANY"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_ANY$.html"><span class="name">FixtureStateVerb_ANY</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_ANY$.html"><span class="name">FixtureStateVerb_ANY</span></a>
         
         <span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_NOTHING" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_NOTHING" data-isabs="false">
       <a id="FixtureStateVerb_NOTHING:FixtureStateVerb_NOTHING"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_NOTHING$.html"><span class="name">FixtureStateVerb_NOTHING</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_NOTHING$.html"><span class="name">FixtureStateVerb_NOTHING</span></a>
         
         <span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATE0" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE0" data-isabs="false">
       <a id="FixtureStateVerb_STATE0:FixtureStateVerb_STATE0"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATE0$.html"><span class="name">FixtureStateVerb_STATE0</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE0$.html"><span class="name">FixtureStateVerb_STATE0</span></a>
         
         <span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATE_ANY" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE_ANY" data-isabs="false">
       <a id="FixtureStateVerb_STATE_ANY:FixtureStateVerb_STATE_ANY"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATE_ANY$.html"><span class="name">FixtureStateVerb_STATE_ANY</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE_ANY$.html"><span class="name">FixtureStateVerb_STATE_ANY</span></a>
         
         <span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATE_UNDEFINED" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE_UNDEFINED" data-isabs="false">
       <a id="FixtureStateVerb_STATE_UNDEFINED:FixtureStateVerb_STATE_UNDEFINED"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATE_UNDEFINED$.html"><span class="name">FixtureStateVerb_STATE_UNDEFINED</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE_UNDEFINED$.html"><span class="name">FixtureStateVerb_STATE_UNDEFINED</span></a>
         
         <span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_UNDEFINED" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_UNDEFINED" data-isabs="false">
       <a id="FixtureStateVerb_UNDEFINED:FixtureStateVerb_UNDEFINED"></a>
       <h4 class="signature">
       <span class="kind">object</span>
       <span class="symbol"> 
-        <a href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_UNDEFINED$.html"><span class="name">FixtureStateVerb_UNDEFINED</span></a>
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_UNDEFINED$.html"><span class="name">FixtureStateVerb_UNDEFINED</span></a>
         
         <span class="result"> extends Product with Serializable</span>
       </span>
@@ -485,7 +485,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#any" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#any" data-isabs="false">
       <a id="any:PropSpec.this.FixtureStateVerb_ANY.type"></a>
       <h4 class="signature">
       <span class="kind">val</span>
@@ -495,7 +495,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
         <span class="result">: PropSpec.this.FixtureStateVerb_ANY.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
       <a id="asInstanceOf[T0]:T0"></a>
       <h4 class="signature">
@@ -740,7 +740,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="symbol"> 
         <span class="name">fixtureStateManager</span>
         
-        <span class="result">: <a name="ua.gradsoft.testing.FixtureStateManager" class="extype" href="../../../ua/gradsoft/testing/FixtureStateManager.html">FixtureStateManager</a>[T]</span>
+        <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateManager" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateManager.html">FixtureStateManager</a>[T]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
@@ -751,7 +751,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="symbol"> 
         <span class="name">fixtureUsage</span>
         
-        <span class="params">(<span name="usage">usage: <a name="ua.gradsoft.testing.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/testing/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="usage">usage: <a name="ua.gradsoft.managedfixture.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/managedfixture/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
@@ -762,17 +762,17 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="symbol"> 
         <span class="name">fixtureUsage</span>
         
-        <span class="params">(<span name="dsl">dsl: <a name="ua.gradsoft.testing.FixtureStateDSL.DSLExpression" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL$DSLExpression.html">DSLExpression</a></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="dsl">dsl: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.DSLExpression" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$DSLExpression.html">DSLExpression</a></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="prt" name="ua.gradsoft.testing.FixtureStateDSL#fixtureUsageDSLAction" data-isabs="false">
+    </li><li visbl="prt" name="ua.gradsoft.managedfixture.FixtureStateDSL#fixtureUsageDSLAction" data-isabs="false">
       <a id="fixtureUsageDSLAction[A&lt;:DSLExpression](A):A"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">fixtureUsageDSLAction</span>
-        <span class="tparams">[<span name="A">A &lt;: <a name="ua.gradsoft.testing.FixtureStateDSL.DSLExpression" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL$DSLExpression.html">DSLExpression</a></span>]</span>
+        <span class="tparams">[<span name="A">A &lt;: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.DSLExpression" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$DSLExpression.html">DSLExpression</a></span>]</span>
         <span class="params">(<span name="dsl">dsl: A</span>)</span><span class="result">: A</span>
       </span>
       </h4>
@@ -780,7 +780,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
 perform some custom steps after receiving new value in this DSL.</p><div class="fullcomment"><div class="comment cmt"><p>optional action which can be used by client, overriding this method to
 perform some custom steps after receiving new value in this DSL.
 By default- do nothing and return given value.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="prt" name="org.scalatest.managedfixture.PropSpec#fixtureUsageDSLValueAction" data-isabs="false">
       <a id="fixtureUsageDSLValueAction(⇒ TestFixtureStateUsageDescription[T]):Unit"></a>
       <h4 class="signature">
@@ -788,11 +788,11 @@ By default- do nothing and return given value.
       <span class="symbol"> 
         <span class="name">fixtureUsageDSLValueAction</span>
         
-        <span class="params">(<span name="value">value: ⇒ <a name="ua.gradsoft.testing.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/testing/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="value">value: ⇒ <a name="ua.gradsoft.managedfixture.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/managedfixture/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">called when we receive new value.</p><div class="fullcomment"><div class="comment cmt"><p>called when we receive new value. (by default - nothing).
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → <a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
       <a id="getClass():java.lang.Class[_]"></a>
       <h4 class="signature">
@@ -888,7 +888,7 @@ By default- do nothing and return given value.
       <span class="symbol"> 
         <span class="name">neededFixtureStates</span>
         
-        <span class="result">: <span name="scala.collection.mutable.Map" class="extype">Map</span>[String, <a name="ua.gradsoft.testing.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/testing/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]]</span>
+        <span class="result">: <span name="scala.collection.mutable.Map" class="extype">Map</span>[String, <a name="ua.gradsoft.managedfixture.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/managedfixture/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
@@ -903,7 +903,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → Suite → AbstractSuite</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#nothing" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#nothing" data-isabs="false">
       <a id="nothing:PropSpec.this.FixtureStateVerb_NOTHING.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -913,7 +913,7 @@ By default- do nothing and return given value.
         <span class="result">: PropSpec.this.FixtureStateVerb_NOTHING.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
       <a id="notify():Unit"></a>
       <h4 class="signature">
@@ -1024,18 +1024,18 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>PropSpec → Suite → AbstractSuite</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#start" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#start" data-isabs="false">
       <a id="start:FixtureStateVerbStart"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">start</span>
         
-        <span class="result">: <a name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerbStart" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerbStart.html">FixtureStateVerbStart</a></span>
+        <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStart" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbStart.html">FixtureStateVerbStart</a></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#state" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
       <a id="state(PropSpec.this.FixtureStateVerb_UNDEFINED.type):PropSpec.this.FixtureStateVerb_STATE_UNDEFINED.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -1045,8 +1045,8 @@ By default- do nothing and return given value.
         <span class="params">(<span name="x">x: PropSpec.this.FixtureStateVerb_UNDEFINED.type</span>)</span><span class="result">: PropSpec.this.FixtureStateVerb_STATE_UNDEFINED.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#state" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
       <a id="state(PropSpec.this.FixtureStateVerb_ANY.type):PropSpec.this.FixtureStateVerb_STATE_ANY.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -1056,19 +1056,19 @@ By default- do nothing and return given value.
         <span class="params">(<span name="x">x: PropSpec.this.FixtureStateVerb_ANY.type</span>)</span><span class="result">: PropSpec.this.FixtureStateVerb_STATE_ANY.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#state" data-isabs="false">
-      <a id="state(_178.startStates.Value forSome { val _178: T }):FixtureStateVerb_STATE"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
+      <a id="state(_174.startStates.Value forSome { val _174: T }):FixtureStateVerb_STATE"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">state</span>
         
-        <span class="params">(<span name="x">x: _178.startStates.Value forSome { val _178: T }</span>)</span><span class="result">: <a name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATE" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATE.html">FixtureStateVerb_STATE</a></span>
+        <span class="params">(<span name="x">x: _174.startStates.Value forSome { val _174: T }</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE.html">FixtureStateVerb_STATE</a></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#state" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
       <a id="state:PropSpec.this.FixtureStateVerb_STATE0.type"></a>
       <h4 class="signature">
       <span class="kind">val</span>
@@ -1078,18 +1078,18 @@ By default- do nothing and return given value.
         <span class="result">: PropSpec.this.FixtureStateVerb_STATE0.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#states" data-isabs="false">
-      <a id="states(_181.startStates.Value forSome { val _181: T }*):FixtureStateVerb_STATES"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#states" data-isabs="false">
+      <a id="states(_177.startStates.Value forSome { val _177: T }*):FixtureStateVerb_STATES"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">states</span>
         
-        <span class="params">(<span name="x">x: _181.startStates.Value forSome { val _181: T }*</span>)</span><span class="result">: <a name="ua.gradsoft.testing.FixtureStateDSL.FixtureStateVerb_STATES" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL$FixtureStateVerb_STATES.html">FixtureStateVerb_STATES</a></span>
+        <span class="params">(<span name="x">x: _177.startStates.Value forSome { val _177: T }*</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATES" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATES.html">FixtureStateVerb_STATES</a></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.Suite#suiteName" data-isabs="false">
       <a id="suiteName:String"></a>
       <h4 class="signature">
@@ -1156,7 +1156,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.testing.FixtureStateDSL#undefined" data-isabs="false">
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#undefined" data-isabs="false">
       <a id="undefined:PropSpec.this.FixtureStateVerb_UNDEFINED.type"></a>
       <h4 class="signature">
       <span class="kind">val</span>
@@ -1166,7 +1166,7 @@ By default- do nothing and return given value.
         <span class="result">: PropSpec.this.FixtureStateVerb_UNDEFINED.type</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
       <a id="wait():Unit"></a>
       <h4 class="signature">
@@ -1266,8 +1266,8 @@ By default- do nothing and return given value.
 
         <div name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="parent">
               <h3>Inherited from <span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T]</h3>
-            </div><div name="ua.gradsoft.testing.FixtureStateDSL" class="parent">
-              <h3>Inherited from <a name="ua.gradsoft.testing.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/testing/FixtureStateDSL.html">FixtureStateDSL</a>[T]</h3>
+            </div><div name="ua.gradsoft.managedfixture.FixtureStateDSL" class="parent">
+              <h3>Inherited from <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a>[T]</h3>
             </div><div name="org.scalatest.fixture.PropSpec" class="parent">
               <h3>Inherited from <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span></h3>
             </div><div name="org.scalatest.fixture.Suite" class="parent">

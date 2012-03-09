@@ -3,9 +3,10 @@ package ua.gradsoft.managedfixture
 import java.sql.Connection;
 
 /**
- * Helper for implementing FixtureAccess for relation database.
- *Usually when we use RDB as managedfixture, we add own table
- * which used for storing db states. 
+ * FixtureAccess helper for relation databases.
+ *It can be mixed in you implementation of fixture acceess for
+ *functionality of restoring and saving information about states.
+ *
  */
 trait RdbAccessHelper[T <: FixtureStateTypes]
 {
@@ -14,12 +15,38 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
 
   val fixtureStateTypes: T ;
 
+  /**
+   * name of table, where test states information is live.
+   * by default: test_states.
+   */
   def testStatesTableName = "test_states";
   
   def acquireJdbcConnection: Connection;
 
   def releaseJdbcConnection(cn: Connection)
   { cn.close(); }
+
+  /**
+   * output DDL for creating of test table,
+   * which have next strcture:
+   * {{{
+   *  create table {testStatesTableName} (
+   *    rtype   VARCHAR(6) not null,
+   *    value   VARCHAR(128) not null,
+   *     primary key(rtype, value)
+   *  );
+   * }}}
+   */
+  def testStatesTableDdl: String =
+  {
+     """
+        create table %s(
+          rtype  varchar(6) not null,
+          value  varchar(128) not null,
+          primary key(rtype,value)
+        );
+     """.format(testStatesTableName);
+  }
 
   override def current:Option[(T#StartStateType,Set[T#StateAspectType])] =
   {
@@ -45,7 +72,7 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
       } else if (rs.getString("rtype")=="ASPECT") {
          a = a ++ fixtureStateTypes.stateAspects.values.find(_.toString == sv);
       } else {
-        throw new IllegalStateException("invaid type of items in test_states");
+        throw new IllegalStateException("invaid type of items in "+testStatesTableName);
       }
      }
     } finally {
@@ -82,9 +109,9 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
                  try {
                    for(a <- toAdd) {
                      val st = cn.prepareStatement(
-                                    """insert into test_states(rtype, value)
+                                    """insert into %s(rtype, value)
                                                 values('ASPECT',?)
-                                     """);
+                                     """.format(testStatesTableName));
                      st.setString(1,a.toString);
                      st.executeUpdate();
                    }
@@ -101,11 +128,11 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
               var cn = acquireJdbcConnection;
               try {
                  val st = cn.createStatement;
-                 st.executeUpdate("delete from test_states");
+                 st.executeUpdate("delete from "+testStatesTableName);
                  val st1 = cn.prepareStatement("""
-                                   insert into test_states(rtype,value)
+                                   insert into %s(rtype,value)
                                            values('STATE',?);
-                                """);
+                                """.format(testStatesTableName));
                  st1.setString(1,x.toString);
                  st1.executeUpdate();
               } finally {
@@ -115,14 +142,13 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
       case UndefinedState => 
               val cn = acquireJdbcConnection;
               try {
-                cn.createStatement.executeUpdate("delete from test_states");
+                cn.createStatement.executeUpdate("delete from "+testStatesTableName);
               } finally {
                 releaseJdbcConnection(cn);
               }
               cashedCurrent = None;
     }
   }
-
 
 
   var cashedCurrent:Option[(StartStateType,Set[T#StateAspectType])] = None;

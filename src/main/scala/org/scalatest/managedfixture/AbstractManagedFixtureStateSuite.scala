@@ -97,6 +97,28 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
     }
   }
 
+  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
+                   configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) = {
+    if (testNames.isEmpty) {
+      if (!nestedSuites.isEmpty) {
+       if (testName==None) {
+          this.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
+       } else {
+          for(suite <- nestedSuites) {
+            if (suite.testNames.contains(testName.get)) {
+               suite.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
+            }
+          }
+       }
+      } else {
+       // nothing to test. do nothing here.
+      }
+    } else {
+       super.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
+    }
+  }
+
+
   protected override def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
                                 configMap: Map[String, Any],
                                 distributor: Option[Distributor], tracker: Tracker)=

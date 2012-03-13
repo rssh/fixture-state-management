@@ -6,8 +6,8 @@ class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAcce
   var currentStartState: Option[T#StartStateType] = None;
   var usedStateAspects: Set[T#StateAspectType] = Set();
 
-  def doWith(usage: TestFixtureStateUsageDescription[T],
-             f: T#FixtureType => Unit): Unit =
+  def doWith[A](usage: TestFixtureStateUsageDescription[T],
+                f: T#FixtureType => A): A =
   {
    this.synchronized {
      val optLock = fixtureAccess.testLevelLock;

@@ -27,7 +27,7 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
   { cn.close(); }
 
   /**
-   * output DDL for creating of test table,
+   * output DDL for creating of table for test states,
    * which have next strcture:
    * {{{
    *  create table {testStatesTableName} (
@@ -37,7 +37,7 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
    *  );
    * }}}
    */
-  def testStatesTableDdl: String =
+  def testStatesCreateTableDdl: String =
   {
      """
         create table %s(
@@ -48,6 +48,49 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
      """.format(testStatesTableName);
   }
 
+  /**
+   * create test states table if it not exists yet.
+   */
+  def createTestStatesTableIfNeeded:Unit =
+  {
+   val cn = acquireJdbcConnection;
+   try{
+     createTestStatesTableIfNeeded(cn:Connection);
+   }finally{
+     releaseJdbcConnection(cn);
+   }
+  }
+
+  private def createTestStatesTableIfNeeded(cn:Connection) :Unit =
+  {
+   val rs = cn.getMetaData.getTables(null,null,testStatesTableName,Array[String]("TABLE"));
+   if (!rs.next) {
+     val st = cn.createStatement();
+     st.executeUpdate(testStatesCreateTableDdl);
+   }
+  }
+
+  /**
+   * output DDL for dropping of test states table
+   */
+  def testStatesDropTableDdl: String =
+  {
+    "drop table "+testStatesTableName;
+  }
+
+
+  def dropTestStatesTable:Unit =
+  {
+   val cn = acquireJdbcConnection;
+   try{
+     val st = cn.createStatement();
+     st.executeUpdate(testStatesDropTableDdl);
+   }finally{
+     releaseJdbcConnection(cn);
+   }
+  }
+
+
   override def current:Option[(T#StartStateType,Set[T#StateAspectType])] =
   {
    if (cashedCurrent==None) {
@@ -55,6 +98,7 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
     var a: Set[T#StateAspectType] = Set();
     val cn = acquireJdbcConnection;
     try {
+     createTestStatesTableIfNeeded(cn);
      var st = cn.createStatement();
      var rs = st.executeQuery("select * from %s".format(testStatesTableName));
      while(rs.next) {

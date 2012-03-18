@@ -3,7 +3,7 @@ package ua.gradsoft.managedfixture
 
 /**
  * information about possible states on which tests depends on.
- **/
+ */
 trait FixtureStateTypes
 {
 

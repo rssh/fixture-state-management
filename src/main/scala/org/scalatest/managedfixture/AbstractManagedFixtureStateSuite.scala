@@ -36,14 +36,7 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
    **/
   def fixtureStateTypes: T 
 
-  protected def fixtureStateManager: FixtureStateManager[T] = if (isNested) {
-                                        _parent.get.fixtureStateManager
-                                      } else {
-                                         _fixtureStateManager 
-                                      }
-
-
-  private lazy val _fixtureStateManager = new FixtureStateManager[T](fixtureAccess);
+  protected def fixtureStateManager: FixtureStateManager[T] = fixtureAccess.fixtureStateManager;
 
   protected def neededFixtureStates: MutableMap[String, TestFixtureStateUsageDescription[T]] = 
                                       if (isNested) {

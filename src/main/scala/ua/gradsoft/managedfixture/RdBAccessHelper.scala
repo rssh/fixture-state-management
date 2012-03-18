@@ -13,8 +13,6 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
 
   this: FixtureAccess[T] => 
 
-  val fixtureStateTypes: T ;
-
   /**
    * name of table, where test states information is live.
    * by default: test_states.

@@ -26,6 +26,7 @@ object Base1FixtureAccess extends FixtureAccess[Base1FixtureStateInfo.type]
 {
   import Base1FixtureStateInfo.States._ ;
 
+  val fixtureStateTypes = Base1FixtureStateInfo;
 
   override def load(s: StartStateType): Unit = 
   {

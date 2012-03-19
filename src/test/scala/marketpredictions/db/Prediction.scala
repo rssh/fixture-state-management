@@ -17,6 +17,7 @@ case class Prediction(val id: Long,
                       val actualSum: BigDecimal,
                       val minSum: BigDecimal,
                       val closed: Boolean,
+                      val failed: Option[Boolean],
                       val result:  Option[Int],
                       val authorId: Long
                     ) extends KeyedEntity[Long]
@@ -31,11 +32,15 @@ case class Prediction(val id: Long,
                     actualSum = BigDecimal(0L),
                     minSum = BigDecimal(0L),
                     closed=false,
+                    failed=Some(false),
                     result=Some(0),
                     authorId=0L);
  
   lazy val author: ManyToOne[Member] = authority.right(this);
   
+  lazy val bids = from(MPSchema.bids)(b => where(b.predictionId===id)
+                                                               select(b));
+
 }
                                  
 

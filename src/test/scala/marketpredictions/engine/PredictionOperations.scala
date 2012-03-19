@@ -38,6 +38,7 @@ trait PredictionOperations
                                               actualSum=BigDecimal(0L),
                                               minSum=minSum,
                                               closed=false,
+                                              failed=None,
                                               result=None,
                                               authorId=userId
                                             );
@@ -82,14 +83,56 @@ trait PredictionOperations
           
   def markPredictionResult(predictionId: Long,
                            alternative: Int): Unit =
-  {
+  inTransaction {
    val p = predictions.lookup(predictionId).get
    if (p.closed) {
      throw new IllegalArgumentException("p is already closed");
    }
-
+   var failed:Boolean=true;
+   if (p.actualSum < p.minSum) {
+     returnBids(p);
+   }
+   val bids = p.bids.toList;
+   if (bids.isEmpty) {
+     // do nothing, no bids has been bidded.
+   } else if (bids.length==1) {
+     // only one member, so return 
+     returnBids(p);
+   } else {
+     val byAlternatives = bids.groupBy(_.alternative);
+     byAlternatives.get(alternative) match {
+        case None => returnBids(p);
+        case Some(rightBids) => 
+                   val rightSum = rightBids.map(_.sum).sum;
+                   val allSum = bids.map(_.sum).sum;
+                   val up = allSum*(1.0-organizerComission);
+                   val down = rightSum;
+                   for(bid <- bids) {
+                     if (bid.alternative == alternative) {
+                       // add to member 
+                       for( m <- members.lookup(bid.memberId) ) {
+                          val gain = (bid.sum * up / down).setScale(2,BigDecimal.RoundingMode.HALF_EVEN);
+                          members update m.copy(balance = m.balance+gain)
+                       }
+                     }
+                   }
+                   failed=false;
+     }
+   }
+   predictions update p.copy(closed=true, failed=Some(failed), result=Some(alternative))
   }
                            
+  private def returnBids(p:Prediction): Unit = 
+  inTransaction {
+    // return all money to bid authors.
+    for(bid <- p.bids) {
+       update(members)(m => where(m.id === bid.memberId)
+                           set( m.balance := m.balance + bid.sum )
+                     );
+    }
+  }
+
+  def organizerComission = 0.01;
 
 }
 

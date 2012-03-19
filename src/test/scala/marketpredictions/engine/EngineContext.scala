@@ -9,6 +9,10 @@ import java.sql.Connection
 trait EngineContext
 {
 
+   def onInit;
+
+   def onShutdown;
+
    def now: Timestamp
 
    def sqlConnection: Connection

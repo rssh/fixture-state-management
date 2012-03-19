@@ -2,7 +2,9 @@ package marketpredictions.engine
 
 import marketpredictions.db._
 
-class Api
+trait Api extends EngineContext 
+              with UserOperations
+              with PredictionOperations
 {
 
 

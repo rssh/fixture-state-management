@@ -3,12 +3,21 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
-version:="0.4.0-SNAPSHOT"
+version:="0.5.0-SNAPSHOT"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "1.7.1" 
+libraryDependencies += "org.scalatest" %% "scalatest" % "1.7.1" intransitive()
+
+libraryDependencies +=  "org.specs2" %% "specs2" % "1.8.2" intransitive()
+
+// for examples:
+
+libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-RC2" % "test"
+
+libraryDependencies +=  "com.h2database" % "h2" % "1.2.127" % "test"
+
+
 
 publishMavenStyle := true
-
 
 publishTo <<= version { (v: String) =>
   val nexus = "https://oss.sonatype.org/"

@@ -5,6 +5,7 @@ import marketpredictions.db._
 trait Api extends EngineContext 
               with UserOperations
               with PredictionOperations
+              with PaymentOperations
 {
 
 

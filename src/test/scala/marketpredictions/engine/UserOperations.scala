@@ -20,6 +20,9 @@ trait UserOperations
     newUser.id
   }
 
+ def findUser(name: String): Option[Member] =
+  inTransaction { from(members)(m => where(m.name === name) select(m)).headOption }
+
  def dropUser(id: Long): Boolean =
   inTransaction {
     members.deleteWhere(u => (u.id === id)) != 0

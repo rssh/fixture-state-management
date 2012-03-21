@@ -8,13 +8,13 @@ import org.squeryl.PrimitiveTypeMode._;
 
 
 case class Member(val id: Long,
-                  val nick: String,
+                  val name: String,
                   val balance: BigDecimal
                  ) extends KeyedEntity[Long]
 {
 
   def this() = this(id=0L,
-                    nick="",
+                    name="",
                     balance = BigDecimal(0L)
                     );
   

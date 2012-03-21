@@ -8,7 +8,7 @@ import org.squeryl.PrimitiveTypeMode._;
 import java.sql._;
 
 
-class SimpleEngineContext extends EngineContext
+trait SimpleEngineContext extends EngineContext
 {
 
    def onInit: Unit =
@@ -22,6 +22,8 @@ class SimpleEngineContext extends EngineContext
    def onShutdown: Unit = {}
 
    def now = new Timestamp(System.currentTimeMillis);
+
+   def now_=(x: Timestamp):Unit = throw new UnsupportedOperationException();
 
    def sqlConnection = DriverManager.getConnection("jdbc:h2:test", "sa", "");
 

@@ -11,7 +11,7 @@ libraryDependencies +=  "org.specs2" %% "specs2" % "1.8.2" intransitive()
 
 // for examples:
 
-libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-RC2" % "test"
+libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5" % "test"
 
 libraryDependencies +=  "com.h2database" % "h2" % "1.2.127" % "test"
 

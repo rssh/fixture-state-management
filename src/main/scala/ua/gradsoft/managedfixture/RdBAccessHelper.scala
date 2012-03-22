@@ -136,6 +136,8 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
   override def markStateChanges(stateChange:FixtureStateChange[T], 
                                 stateAspectChanges:Set[T#StateAspectType]) =
   {
+    //TODO: think how to log.
+    //System.err.println("markStateChanges:"+stateChange+", "+stateAspectChanges);
     val prevState = current;
     stateChange match {
       case SameState => 

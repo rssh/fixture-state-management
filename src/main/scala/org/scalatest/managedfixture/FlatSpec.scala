@@ -202,7 +202,17 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
 
 
   // here we recreate internal suite and will be pass to one all 'real' functionality.
-  private[scalatest] lazy val internalSpec = new InternalFlatSpec(this);
+  private[scalatest] lazy val internalSpec: InternalFlatSpec[T] = 
+                                            if (this.isInstanceOf[Grouped]) {
+                                               if (GroupSpecConstructorKluge.currentOwner!=None) {
+                                                 GroupSpecConstructorKluge.currentOwner.value.get.asInstanceOf[FlatSpecGroup[T]].internalSpec;
+                                               } else {
+                                                  // it was called outside group, create internal constructor
+                                                  new InternalFlatSpec(this);
+                                               }
+                                             } else {
+                                               new InternalFlatSpec(this); 
+                                             }
 
   implicit protected def info: Informer = internalSpec._info;
 
@@ -380,10 +390,15 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
 
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
+    if (isGrouped) {
+       this.asInstanceOf[Grouped].checkGroupExists( classOf[FlatSpecGroup[_]] );
+    }
     internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
   }
 
   protected val behave = new BehaveWord
+  
+  private def isGrouped: Boolean = this.isInstanceOf[Grouped];
 }
 
 private[scalatest] object FlatSpecConstructorKluge

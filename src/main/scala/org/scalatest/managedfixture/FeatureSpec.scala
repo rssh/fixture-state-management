@@ -108,7 +108,9 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
    **/
   def fixtureStateTypes: T
 
-  protected override lazy val internalSpec = new InternalFeatureSpec[T](this);
+  
+  protected override lazy val internalSpec: InternalFeatureSpec[T] = new InternalFeatureSpec[T](this);
+                                              
 
   override def withFixture(test: OneArgTest): Unit =
           throw new IllegalStateException("You can't call withFixture diretly in managedfixture");

@@ -10,8 +10,8 @@ import ua.gradsoft.managedfixture._
 /**
  * internal trait where all expression are reevaluated
  **/
-private[scalatest] class InternalFunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes](owner: FunSpec[T]) 
-                                extends InternalSuite[T,FunSpec[T]](owner)
+private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[T]) 
+                                extends InternalSuite[T,managedfixture.FunSpec[T]](owner)
                                     with fixture.FunSpec
 {
 
@@ -84,13 +84,12 @@ private[scalatest] class InternalFunSpec[T <: ua.gradsoft.managedfixture.Fixture
  */
 trait FunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.Suite
                                           with ExternalSuite[T]
+                                          with Grouped
 { 
 
-  protected override val internalSpec = new InternalFunSpec[T](this);
-
-  override def withFixture(test: OneArgTest): Unit =
-          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
-
+  protected override val internalSpec: InternalFunSpec[T] = createInternalSpec((x:FunSpecGroup[T])=>x.internalSpec, new InternalFunSpec(this));
+  
+ 
   protected final class ItWord {
 
     def apply(specText: String, testTags: Tag*)(testFun: FixtureParam => Any) {
@@ -117,8 +116,8 @@ trait FunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture
   }
 
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker)
+      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit = {
+      runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker, internalSpec, classOf[FunSpecGroup[T]] )
   }
 
   protected val behave = new BehaveWord

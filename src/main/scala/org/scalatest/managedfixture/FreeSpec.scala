@@ -100,8 +100,9 @@ private[scalatest] class InternalFreeSpec[T <: ua.gradsoft.managedfixture.Fixtur
  *}}}
  *@see [[ua.gradsoft.managedfixture]], [[org.scalatest.fixture]]
  */
-trait FreeSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.Suite 
+trait FreeSpec[T <: FixtureStateTypes] extends fixture.Suite 
                                         with ExternalSuite[T]
+                                        with Grouped
 { 
 
 
@@ -115,11 +116,12 @@ trait FreeSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixtur
    **/
   def fixtureStateTypes: T
 
-  override final def withFixture(test: OneArgTest): Unit =
-          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
 
-  protected lazy val internalSpec = new InternalFreeSpec[T](this);
-
+  protected lazy val internalSpec: InternalFreeSpec[T] = createInternalSpec(
+                                                           (x:FreeSpecGroup[T]) => x.internalSpec,
+                                                           new InternalFreeSpec[T](this)
+                                                         );
+  
   protected final class ResultOfTaggedAsInvocationOnString(specText: String, tags: List[Tag]) {
     def in(testFun: FixtureParam => Any) {
       internalSpec.taggedInvocationOnString_in(specText, tags, testFun);
@@ -186,8 +188,9 @@ trait FreeSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixtur
   protected implicit def convertToFreeSpecStringWrapper(s: String) = new FreeSpecStringWrapper(s)
 
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker)
+      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit = {
+       runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker,
+           internalSpec, classOf[managedfixture.FreeSpecGroup[T]])
   }
 
   protected val behave = new BehaveWord

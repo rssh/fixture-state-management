@@ -16,6 +16,8 @@ class Base1SFeatureSpecTest extends managedfixture.FeatureSpec[Base1FixtureState
 
   import Base1FixtureStateInfo.States._;
 
+  execution autonomic
+  
   feature("f1 [FeatureSpec]" ) {
 
     start state(TWO) change(nothing)
@@ -44,6 +46,7 @@ class Base1SFeatureSpecTest extends managedfixture.FeatureSpec[Base1FixtureState
     }
 
  }
+ 
 
 }
 

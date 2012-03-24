@@ -16,6 +16,8 @@ class Base1SFreeSpecTest extends managedfixture.FreeSpec[Base1FixtureStateInfo.t
 
  import Base1FixtureStateInfo.States._;
 
+ execution autonomic
+ 
  "f1 [FreeSpec]" - {
 
     start state(TWO) change(nothing)

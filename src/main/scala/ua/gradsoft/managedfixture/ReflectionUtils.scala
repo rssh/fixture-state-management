@@ -28,9 +28,18 @@ object ReflectionUtils {
       val zip = new ZipInputStream(jar.openStream());
       var zipEntry = zip.getNextEntry;
       while(zipEntry!=null && more) {
-        val className = zipEntry.getName.replaceAll("[$].*", "").replaceAll("[.]class","").replace('/', '.');
-        val c = Class.forName(className);
-        more = fun(c)
+        val className = zipEntry.getName.replaceAll("[$].*", "").replace('/', '.');
+        if (className.endsWith(".class")) {
+          
+            val c = try {
+                       Some(Class.forName(className))
+                    } catch {
+                       case ex: ClassNotFoundException => None                      
+                    }
+            if (c.isDefined) {        
+              more = fun(c.get)
+            }
+        }
         zipEntry = zip.getNextEntry;
       }
     } else {
@@ -40,8 +49,14 @@ object ReflectionUtils {
           var fname = f.getName;
           if (fname.endsWith(".class")) {
             val className = pkgName+"."+ fname.substring(0, fname.length-6);
-            val c = Class.forName(className);
-            more = fun(c);
+            val c = try {
+                      Some(Class.forName(className))
+                    }catch{
+                      case ex: ClassNotFoundException => None
+                    }
+            if (c.isDefined) {        
+              more = fun(c.get);
+            }
           } else if (f.isDirectory() && recursive) {
             more = forClassesInDir(pkgName+"."+f.getName(),dir+"/"+f.getName,fun,recursive)
           }

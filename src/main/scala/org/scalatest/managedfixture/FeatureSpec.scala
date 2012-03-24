@@ -95,6 +95,7 @@ private[scalatest] class InternalFeatureSpec[T <: FixtureStateTypes](owner: Feat
  */
 trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
                                           with ExternalSuite[T]
+                                          with Grouped
 {
 
 
@@ -109,12 +110,11 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
   def fixtureStateTypes: T
 
   
-  protected override lazy val internalSpec: InternalFeatureSpec[T] = new InternalFeatureSpec[T](this);
+  protected override lazy val internalSpec: InternalFeatureSpec[T] = createInternalSpec(
+                                                                        (x:FeatureSpecGroup[T]) => x.internalSpec,
+                                                                        new InternalFeatureSpec(this)
+                                                                      )
                                               
-
-  override def withFixture(test: OneArgTest): Unit =
-          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
-
 
   override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
   {
@@ -136,7 +136,8 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
 
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-     internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker)
+     runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker,internalSpec,
+                 classOf[FeatureSpec[T]])
   }
 
   protected def scenariosFor(unit: Unit) {}

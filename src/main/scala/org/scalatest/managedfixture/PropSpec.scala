@@ -5,6 +5,41 @@ import org.scalatest._
 import org.scalatest.fixture.NoArgTestWrapper
 
 
+private[scalatest] class InternalPropSpec[T <: FixtureStateTypes](owner: managedfixture.PropSpec[T]) 
+                                extends InternalSuite[T,managedfixture.PropSpec[T]](owner)
+                                    with fixture.PropSpec
+{
+
+  def this() =
+     this(InternalSuiteConstructorKluge.currentOwner.value.get.asInstanceOf[managedfixture.PropSpec[T]])
+  
+  def putTestWhenNested(specTest: String, tags: List[Tag], testFun: FixtureParam=>Any):Unit =
+  {
+    property(specTest, tags:_*)(testFun);   
+  }
+  
+  def _property(testName: String, testTags: Tag*)(testFun: FixtureParam => Any): Unit = {
+    if (!isNested) {
+      setFixtureStateForTest(testName,testTags.toList,testFun)
+    } else {
+      property(testName,testTags:_*)(testFun);
+    }
+  }
+  
+  
+  def _ignore(testName: String, testTags: Tag*)(testFun: FixtureParam => Any): Unit = {
+    ignore(testName, testTags:_*)(testFun)
+  }
+  
+  def _info = info
+   
+  private[scalatest] override def fullTestName(text:String) = text;
+  
+  
+}
+
+
+
 /**
  * A sister trait to <code>org.scalatest.PropSpec</code> that can pass a managed fixture object into its tests.
  *
@@ -31,32 +66,31 @@ import org.scalatest.fixture.NoArgTestWrapper
  *
  */
 trait PropSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.PropSpec
-                                         with AbstractManagedFixtureStateSuite[T]
+                                         with ExternalSuite[T]
+                                         with Grouped
 { 
 
-  override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
-  {
-   fixtureUsage(value);
-  }
-
+  
+  lazy val internalSpec: InternalPropSpec[T] = createInternalSpec( (x:PropSpecGroup[T])=> x.internalSpec,
+                                                                   new InternalPropSpec[T](this)         
+                                                                 ) 
+    
   protected override def property(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
-    if (!isNested) {   
-      neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
-      val nestedTestSuite = createNestedInstanceForTest(testName);
-      // not needed - will be called during construction.
-      //nestedTestSuite.property(testName, testTags: _* )(testFun);
-      suitesToRun(testName) = nestedTestSuite;
-    } else {
-      if (testName==_parentTestName.get) {
-        super.property(testName, testTags:_*)(testFun);
-      }
-    }
+    internalSpec._property(testName, testTags: _*)(testFun)
   }
 
   protected override def ignore(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
-    if (!isNested) {
-      super.ignore(testName, testTags: _*)(testFun);
-    }
+    internalSpec._ignore(testName, testTags: _*)(testFun);
   }
+  
+  implicit protected override def info: Informer = internalSpec._info
 
+  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
+      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) = {
+      runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker, 
+          internalSpec, classOf[PropSpecGroup[T]])
+  }
+  
+  
+  
 }

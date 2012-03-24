@@ -16,6 +16,8 @@ class Base1SFunSpecTest extends managedfixture.FunSpec[Base1FixtureStateInfo.typ
 
   import Base1FixtureStateInfo.States._;
 
+  execution autonomic
+  
   describe("system 1 [FunSpec]" ) {
 
     start state(TWO) change(nothing)
@@ -39,6 +41,7 @@ class Base1SFunSpecTest extends managedfixture.FunSpec[Base1FixtureStateInfo.typ
     }
   
  }
+ 
 
 }
 

@@ -1,15 +1,13 @@
 package org.scalatest.managedfixture
 
-
-import scala.util.DynamicVariable
-import org.scalatest._
 import ua.gradsoft.managedfixture._
+import org.scalatest._
 
 
-abstract class FlatSpecGroup[T <: FixtureStateTypes] extends managedfixture.FlatSpec[T] 
-                                                     with SpecGroup
+abstract class PropSpecGroup[T <: FixtureStateTypes] extends managedfixture.PropSpec[T] 
+                                                        with SpecGroup
 {
-  
+
   execution autonomic
 
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
@@ -17,7 +15,7 @@ abstract class FlatSpecGroup[T <: FixtureStateTypes] extends managedfixture.Flat
     collectGrouped(classOf[FlatSpec[T]]);
     internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
   }
+    
+  
   
 }
-
-

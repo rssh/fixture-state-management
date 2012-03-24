@@ -32,6 +32,11 @@ private[scalatest] trait ExternalSuite[T <: ua.gradsoft.managedfixture.FixtureSt
   }
 
   implicit protected def info: Informer = internalSpec._info
+  
+  override def withFixture(test: OneArgTest): Unit =
+          throw new IllegalStateException("You can't call withFixture diretly in managedfixture");
+  
+  
 
 }
 

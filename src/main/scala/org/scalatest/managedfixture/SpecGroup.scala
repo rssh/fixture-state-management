@@ -17,7 +17,8 @@ trait SpecGroup
     ReflectionUtils.findClasses(this.getClass().getPackage().getName,
                        {
                          (x:Class[_]) => 
-                           if (x.isInstanceOf[Grouped] && x.isInstanceOf[T]) {
+                           if ( cl.isAssignableFrom(x) && classOf[Grouped].isAssignableFrom(x)
+                                && ! classOf[SpecGroup].isAssignableFrom(x) ) {
                               if (checkClass(x)) {
                                 GroupSpecConstructorKluge.currentOwner.withValue(Some(this)) {
                                  val obj = x.newInstance().asInstanceOf[Grouped];

@@ -17,21 +17,23 @@ class Base1S4Test extends managedfixture.FunSuite[Base1FixtureStateInfo.type]
 
   import Base1FixtureStateInfo.States._;
 
-  fixtureUsage(start state(TWO) change(nothing))
+  execution autonomic
+  
+  start state(TWO) change(nothing)
   test("withDSL [4]: start state(TWO) change nothing") { x =>
     assert(x==2);
     assert(Base1S4TestMarkObject.x == "afterONE");
     Base1S4TestMarkObject.x = "afterTWO";
   }
 
-  fixtureUsage(start state(ONE) finish state(TWO))
+  start state(ONE) finish state(TWO)
   test("withDSL [4]: start state(ONE) finish state(TWO)") { x =>
     assert(x==1);
     Base1S4TestMarkObject.x = "afterONE";
     fixtureAccess.set(TWO);    
   }
 
-  fixtureUsage(start state(TWO) finish state(undefined))
+  start state(TWO) finish state(undefined)
   test("withDSL [4]: start state(TWO) finish state(undefined)") { x =>
     assert(x==2);
     // must be called after test with same state which change nothing.

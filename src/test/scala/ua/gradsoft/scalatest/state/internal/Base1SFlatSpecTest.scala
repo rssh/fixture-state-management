@@ -15,6 +15,8 @@ class Base1SFlatSpecTest extends managedfixture.FlatSpec[Base1FixtureStateInfo.t
   val fixtureStateTypes = Base1FixtureStateInfo;
   val fixtureAccess = Base1FixtureAccess;
 
+  execution autonomic
+  
   import Base1FixtureStateInfo.States._;
 
     behavior of "system 1" 

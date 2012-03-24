@@ -16,6 +16,8 @@ class Base1SPropSpecTest extends managedfixture.PropSpec[Base1FixtureStateInfo.t
 
  import Base1FixtureStateInfo.States._;
 
+ execution autonomic
+ 
  start state(TWO) change(nothing)
  property("should work in state 2 [PropSpec]") { x =>
       assert(x==2);

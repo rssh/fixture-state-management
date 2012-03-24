@@ -3,6 +3,40 @@ package org.scalatest.managedfixture
 import org.scalatest._
 import ua.gradsoft.managedfixture._
 
+
+private[scalatest] class InternalFunSuite[T <: FixtureStateTypes](owner: managedfixture.FunSuite[T]) 
+                                extends InternalSuite[T,managedfixture.FunSuite[T]](owner)
+                                    with fixture.FunSuite
+{
+
+  def this() =
+     this(InternalSuiteConstructorKluge.currentOwner.value.get.asInstanceOf[FunSuite[T]])
+  
+  def putTestWhenNested(specTest: String, tags: List[Tag], testFun: FixtureParam=>Any):Unit =
+  {
+    test(specTest, tags: _* )(testFun);   
+  }
+  
+  def _test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any): Unit = {
+    if (!isNested) {
+      setFixtureStateForTest(testName,testTags.toList,testFun)
+    } else {
+      test(testName,testTags:_*)(testFun);
+    }
+  }
+  
+  
+  def _ignore(testName: String, testTags: Tag*)(testFun: FixtureParam => Any): Unit = {
+    ignore(testName, testTags:_*)(testFun)
+  }
+  
+  def _info = info
+   
+  private[scalatest] override def fullTestName(text:String) = text;
+  
+  
+}
+
 /**
  * Sister trait for <code> org.scalates.fixture.FunSuite </code> 
  * 
@@ -38,34 +72,32 @@ import ua.gradsoft.managedfixture._
  * }}}
  *
  **/
-trait FunSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends org.scalatest.fixture.FunSuite
-                                           with AbstractManagedFixtureStateSuite[T]
+trait FunSuite[T <: FixtureStateTypes] extends fixture.FunSuite
+                                           with ExternalSuite[T]
+                                           with Grouped
 {
-  thisSuite =>
+   
 
-  protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
-    if (!isNested) {
-                                      // think: may be better complain ?
-      neededFixtureStates(testName) = fixtureStateForNextTest.getOrElse(defaultFixtureState);
-      val nestedTestSuite = createNestedInstanceForTest(testName);
-      // not needed - will be called during construction.
-      //nestedTestSuite.test(testName, testTags: _* )(testFun);
-      suitesToRun(testName) = nestedTestSuite;
-    } else {
-      if (testName == _parentTestName.get) {
-        super.test(testName, testTags: _* )(testFun);
-      }
-    }
+  lazy val internalSpec: InternalFunSuite[T] = createInternalSpec(((x:FunSuiteGroup[T]) => x.internalSpec),
+                                                                   new InternalFunSuite[T](this));
+    
+  protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any): Unit = {
+    internalSpec._test(testName, testTags:_*)(testFun)
+  }
+    
+  protected override def ignore(testName: String, testTags: Tag*)(testFun: FixtureParam => Any):Unit = {
+    internalSpec._ignore(testName, testTags:_*)(testFun);
   }
 
-  protected override def ignore(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
-    if (!isNested) {
-      // all ignred comt to top-level.
-      super.ignore(testName, testTags:_*)(testFun);
-    } 
-  }
+  implicit protected override def info: Informer = internalSpec._info
+
+  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
+                   configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit =
+        runGrouped(testName,reporter,stopper,filter,configMap, distributor, tracker,
+                   internalSpec, classOf[FunSpecGroup[T]])
   
-
+  
+  
 }
 
 // vim: set ts=4 sw=4 et:

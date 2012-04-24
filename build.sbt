@@ -3,11 +3,13 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
+crossScalaVersions := Seq("2.9.1","2.9.2")
+
 version:="0.5.0-SNAPSHOT"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.7.1" intransitive()
 
-libraryDependencies +=  "org.specs2" %% "specs2" % "1.8.2" intransitive()
+libraryDependencies +=  "org.specs2" %% "specs2" % "1.9" intransitive()
 
 // for examples:
 

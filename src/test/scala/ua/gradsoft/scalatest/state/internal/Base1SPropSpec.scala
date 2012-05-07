@@ -13,7 +13,6 @@ class Base1SPropSpecTest extends managedfixture.PropSpec[Base1FixtureStateInfo.t
 
  val fixtureStateTypes = Base1FixtureStateInfo;
  val fixtureAccess = Base1FixtureAccess;
-
  import Base1FixtureStateInfo.States._;
 
  execution autonomic

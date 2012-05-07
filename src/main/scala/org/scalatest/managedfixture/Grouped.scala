@@ -63,9 +63,11 @@ trait Grouped
   /**
    * check - are we have instance of clazz somewhere in our package structure
    * upper to current class.
+   *@param clazz - class to search
+   *@param classLoader - class loader to search
    * [todo - check same fixture state types (?)]
    */
-  def findSpecGroupWith(clazz:Class[_]):Option[Class[_]] =
+  def findSpecGroupWith(clazz:Class[_], classLoader: ClassLoader):Option[Class[_]] =
   {
     val pkg = clazz.getPackage();
     val components = pkg.getName().split('.');
@@ -74,7 +76,8 @@ trait Grouped
       var isFound = false;
       var foundClass: Option[Class[_]] = None;
       while( i > 0 && !isFound ) {
-         isFound = ! ( ReflectionUtils.findClasses(components.take(i).mkString("."),
+         isFound = ! ( ReflectionUtils.findClasses( classLoader,
+                                                    components.take(i).mkString("."),
                                                  { (x: Class[_]) =>
                                                     if (clazz.isAssignableFrom(x)) {
                                                        foundClass = Some(x);
@@ -96,7 +99,7 @@ trait Grouped
                              distributor: Option[Distributor], tracker: Tracker, 
                              internalSpec: fixture.Suite, fixtureGroupClass: Class[T]): Unit = {
      if (isGrouped) {
-        if (findSpecGroupWith(fixtureGroupClass)!=None) {
+        if (findSpecGroupWith(fixtureGroupClass, this.getClass.getClassLoader)!=None) {
            /* do nothing:  we situate in scope of group which will run us */
         } else {
           throw new IllegalStateException(

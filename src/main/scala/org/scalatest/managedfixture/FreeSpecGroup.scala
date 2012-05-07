@@ -12,7 +12,7 @@ abstract class FreeSpecGroup[T <: FixtureStateTypes] extends managedfixture.Free
   
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    collectGrouped(classOf[managedfixture.FreeSpec[T]]);
+    collectGrouped(this,classOf[managedfixture.FreeSpec[T]]);
     internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
   }
   

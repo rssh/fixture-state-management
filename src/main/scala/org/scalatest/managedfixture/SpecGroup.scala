@@ -6,15 +6,18 @@ import scala.util.DynamicVariable
 trait SpecGroup 
 {
 
+
   def checkClass[T](cl:Class[T]): Boolean 
      = true;
   
   def checkObject(x:AnyRef): Boolean
     = true;
-  
-  private[scalatest] def collectGrouped[T](cl:Class[T]):Boolean =
+
+  private[scalatest] def collectGrouped[T](self: AnyRef, cl:Class[T]):Boolean =
   {
-    ReflectionUtils.findClasses(this.getClass().getPackage().getName,
+       ReflectionUtils.findClasses(
+                          self.getClass().getClassLoader(),
+                          self.getClass().getPackage().getName,
                        {
                          (x:Class[_]) => 
                            if ( cl.isAssignableFrom(x) && classOf[Grouped].isAssignableFrom(x)

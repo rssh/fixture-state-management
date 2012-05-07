@@ -11,7 +11,7 @@ abstract class FeatureSpecGroup[T <: FixtureStateTypes] extends managedfixture.F
   
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    collectGrouped(classOf[FeatureSpec[T]]);
+    collectGrouped(this,classOf[FeatureSpec[T]]);
     internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
   }
   

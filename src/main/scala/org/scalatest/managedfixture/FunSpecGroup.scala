@@ -11,7 +11,7 @@ abstract class FunSpecGroup[T <: FixtureStateTypes] extends managedfixture.FunSp
   
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    collectGrouped(classOf[managedfixture.FunSpec[T]]);
+    collectGrouped(this,classOf[managedfixture.FunSpec[T]]) 
     internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
   }
     

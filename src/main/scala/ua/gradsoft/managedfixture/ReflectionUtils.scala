@@ -8,19 +8,32 @@ import java.util.zip._
  */
 object ReflectionUtils {
   
-  
-  def findClasses(packageName:String, testFun: Class[_]=>Boolean, recursive:Boolean):Boolean =
+  /**
+   * find all classes witch satisficy some condition. 
+   * @param classLoader - classLoader to searchh
+   * @param packageName - name to search
+   * @param testFun - name to test. testFun must return true to continute search or false to
+   *                  stop.
+   * @param recursive - search recursive in subdirs
+   * @return last value of more flag.
+   */
+  def findClasses(classLoader: ClassLoader, packageName:String, testFun: Class[_]=>Boolean, recursive:Boolean): Boolean =
   {
-    val e = classLoader.getResources(packageName);
+    val e = classLoader.getResources(packageName.replace(".","/"));
     var more = true;
+    var nIterations = 0;
     while(e.hasMoreElements && more) {
       val url = e.nextElement();
       more = forClassesInDir(packageName,url.getFile, testFun, recursive);
+      nIterations += 1;
     }
     more
   }
   
-  private[this] def forClassesInDir(pkgName:String, dir:String, fun: Class[_]=>Boolean, recursive: Boolean):Boolean =
+  private[this] def forClassesInDir(pkgName:String, 
+                                    dir:String, 
+                                    fun: Class[_]=>Boolean, 
+                                    recursive: Boolean):Boolean =
   {
     var more = true;
     if (dir.startsWith("file:") && dir.contains("!") ) {
@@ -69,6 +82,7 @@ object ReflectionUtils {
     more;
   }
   
+/*
   private[this] def classLoader: ClassLoader =
   {
    Option(Thread.currentThread().getContextClassLoader()) match {
@@ -76,6 +90,7 @@ object ReflectionUtils {
       case None => this.getClass.getClassLoader();
    }
   }
+*/
 
   
 

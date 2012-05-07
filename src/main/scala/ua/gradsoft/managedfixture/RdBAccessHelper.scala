@@ -14,10 +14,10 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
   this: FixtureAccess[T] => 
 
   /**
-   * name of table, where test states information is live.
-   * by default: test_states.
+   * name of table, where test states information is contained.
+   * by default: TEST_STATES.
    */
-  def testStatesTableName = "test_states";
+  def testStatesTableName = "TEST_STATES";
   
   def acquireJdbcConnection: Connection;
 
@@ -42,7 +42,7 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
           rtype  varchar(6) not null,
           value  varchar(128) not null,
           primary key(rtype,value)
-        );
+        )
      """.format(testStatesTableName);
   }
 
@@ -61,7 +61,9 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
 
   private def createTestStatesTableIfNeeded(cn:Connection) :Unit =
   {
-   val rs = cn.getMetaData.getTables(null,null,testStatesTableName,Array[String]("TABLE"));
+   val rs = cn.getMetaData.getTables(null,null,
+                                     testStatesTableName.toUpperCase, 
+                                     Array[String]("TABLE"));
    if (!rs.next) {
      val st = cn.createStatement();
      st.executeUpdate(testStatesCreateTableDdl);

@@ -67,9 +67,16 @@ private[scalatest] abstract class InternalSuite[T <: ua.gradsoft.managedfixture.
     val nestedTestSuite = createNestedInstanceForTest(testName);
     nestedTestSuite.putTestWhenNested(specText, tags, testFun) ;
     suitesToRun(testName) = nestedTestSuite;
+    if (fixtureStateForNextTest.isEmpty) {
+       throw new IllegalStateException("state for spec "+specText+" is not set");
+    }
   }
 
-  private[scalatest] def fullTestName(text:String) = currentBranchName.getOrElse("")+" "+text;
+  private[scalatest] def fullTestName(text:String) = (currentBranchName match {
+                                                        case Some(branchText) => branchText+" "+text
+                                                        case None => text
+                                                     }).trim
+
 
   override def createNestedInstanceForTest(testName:String) = {
     InternalSuiteConstructorKluge.currentOwner.withValue(Some(owner)){

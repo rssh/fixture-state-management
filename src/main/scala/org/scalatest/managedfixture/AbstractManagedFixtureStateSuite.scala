@@ -57,15 +57,21 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
 
   def withFixture(test: OneArgTest) =
   {
-    val x = neededFixtureStates.get(test.name).getOrElse(defaultFixtureState);
-    fixtureStateManager.doWith(x, test);
+    val x = neededFixtureStates.get(test.name).getOrElse(
+             throw new IllegalStateException("Can't find fixture state for test:"+test.name+",  available keys="+neededFixtureStates.keys)
+            )
+    fixtureStateManager.doWith(x, test)
   }
 
   def fixtureUsage(dsl:DSLExpression):Unit = 
-    { fixtureStateForNextTest = Some(dsl.value); }
+    { 
+      fixtureStateForNextTest = Some(dsl.value); 
+    }
 
   def fixtureUsage(usage: TestFixtureStateUsageDescription[T]):Unit = 
-    { fixtureStateForNextTest = Some(usage); }
+    { 
+      fixtureStateForNextTest = Some(usage); 
+    }
 
 
   protected def isNested : Boolean = (_parent != None);

@@ -32,6 +32,7 @@ private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[
     if (!isNested) {
        setFixtureStateForTest(specText, testTags.toList, testFun);
     } else {
+       System.err.println("it_apply: isNested");
        it(specText, testTags:_*)(testFun);
     }
   }

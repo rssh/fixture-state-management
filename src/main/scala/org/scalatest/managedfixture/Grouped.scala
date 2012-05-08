@@ -69,15 +69,14 @@ trait Grouped
    */
   def findSpecGroupWith(clazz:Class[_], classLoader: ClassLoader):Option[Class[_]] =
   {
-    val pkg = clazz.getPackage();
+    val pkg = this.getClass.getPackage;
     val components = pkg.getName().split('.');
-    if (components.length > 1) {
+    val retval: Option[Class[_]] = if (components.length > 1) {
       var i=components.length;
       var isFound = false;
       var foundClass: Option[Class[_]] = None;
       while( i > 0 && !isFound ) {
-         isFound = ! ( ReflectionUtils.findClasses( classLoader,
-                                                    components.take(i).mkString("."),
+         isFound = ! ( ReflectionUtils.findClasses(components.take(i).mkString("."),
                                                  { (x: Class[_]) =>
                                                     if (clazz.isAssignableFrom(x)) {
                                                        foundClass = Some(x);
@@ -92,6 +91,7 @@ trait Grouped
     }else{
       None
     }
+    retval;
   }
   
   def runGrouped[T](testName: Option[String], reporter: Reporter, stopper: Stopper, 

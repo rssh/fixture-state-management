@@ -17,7 +17,7 @@ object ReflectionUtils {
    * @param recursive - search recursive in subdirs
    * @return last value of more flag.
    */
-  def findClasses(classLoader: ClassLoader, packageName:String, testFun: Class[_]=>Boolean, recursive:Boolean): Boolean =
+  def findClasses(packageName:String, testFun: Class[_]=>Boolean, recursive:Boolean): Boolean =
   {
     val e = classLoader.getResources(packageName.replace(".","/"));
     var more = true;
@@ -82,7 +82,6 @@ object ReflectionUtils {
     more;
   }
   
-/*
   private[this] def classLoader: ClassLoader =
   {
    Option(Thread.currentThread().getContextClassLoader()) match {
@@ -90,7 +89,6 @@ object ReflectionUtils {
       case None => this.getClass.getClassLoader();
    }
   }
-*/
 
   
 

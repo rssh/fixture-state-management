@@ -16,7 +16,6 @@ trait SpecGroup
   private[scalatest] def collectGrouped[T](self: AnyRef, cl:Class[T]):Boolean =
   {
        ReflectionUtils.findClasses(
-                          self.getClass().getClassLoader(),
                           self.getClass().getPackage().getName,
                        {
                          (x:Class[_]) => 

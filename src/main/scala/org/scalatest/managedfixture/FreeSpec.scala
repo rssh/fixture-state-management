@@ -119,7 +119,8 @@ trait FreeSpec[T <: FixtureStateTypes] extends fixture.Suite
 
   protected lazy val internalSpec: InternalFreeSpec[T] = createInternalSpec(
                                                            (x:FreeSpecGroup[T]) => x.internalSpec,
-                                                           new InternalFreeSpec[T](this)
+                                                           new InternalFreeSpec[T](this),
+                                                           classOf[FreeSpecGroup[T]]
                                                          );
   
   protected final class ResultOfTaggedAsInvocationOnString(specText: String, tags: List[Tag]) {

@@ -204,7 +204,9 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
 
   // here we recreate internal suite and will be pass to one all 'real' functionality.
   private[scalatest] lazy val internalSpec: InternalFlatSpec[T] = 
-                        createInternalSpec( (x:FlatSpecGroup[T])=>x.internalSpec, new InternalFlatSpec(this)  );
+                        createInternalSpec( (x:FlatSpecGroup[T])=>x.internalSpec, 
+                                            new InternalFlatSpec(this),
+                                            classOf[FlatSpecGroup[T]] );
   
   implicit protected def info: Informer = internalSpec._info;
 

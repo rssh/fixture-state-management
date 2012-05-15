@@ -72,7 +72,8 @@ trait PropSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixtur
 
   
   lazy val internalSpec: InternalPropSpec[T] = createInternalSpec( (x:PropSpecGroup[T])=> x.internalSpec,
-                                                                   new InternalPropSpec[T](this)         
+                                                                   new InternalPropSpec[T](this),
+                                                                   classOf[PropSpecGroup[T]]         
                                                                  ) 
     
   protected override def property(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {

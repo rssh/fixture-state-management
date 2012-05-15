@@ -29,34 +29,50 @@ trait Grouped
   protected def execution = new ExecutionVerb
   
   
-  //protected var specGroup: SpecGroup;  
+  //protected var optGroup: Option[SpecGroup] = None;  
+  protected var optGroupClass: Option[Class[_]] = None;  
   
   /**
    * if is set to true, than executed
    */
   protected var _grouped: Boolean = true;
-  protected var _groupedInitialized = false;
   
   protected final def isGrouped = _grouped;
   
   /**
    * called by owner after instantiation
    */
-  def mark(owner:SpecGroup):Unit = {}
+  def mark(owner:SpecGroup):Unit = {
+    //optGroup = Some(owner);
+  }
  
   
   // here we recreate internal suite and will be pass to one all 'real' functionality.
-  protected def createInternalSpec[A,B](whenGrouped: A=>B, whenNotGrouped: => B):B = 
-                                            if (isGrouped) {
-                                               if (GroupSpecConstructorKluge.currentOwner.value!=None) {
-                                                 whenGrouped(GroupSpecConstructorKluge.currentOwner.value.get.asInstanceOf[A]);
-                                               } else {
-                                                  // it was called outside group, create internal constructor
-                                                  whenNotGrouped;
-                                               }
-                                             } else {
-                                               whenNotGrouped; 
-                                             }
+  protected def createInternalSpec[A,B](whenGrouped: A=>B, whenNotGrouped: => B,
+                                        clazz: Class[_] ):B = 
+         {
+           if (isGrouped) {
+              if (GroupSpecConstructorKluge.currentOwner.value!=None) {
+                whenGrouped(GroupSpecConstructorKluge.currentOwner.value.get.asInstanceOf[A]);
+              } else {
+                // it was called outside group, so search for owner.
+                optGroupClass match {
+                  case None =>
+                    findSpecGroupWith(clazz) match {
+                       case Some(x) => /* create unused internal Spec */
+                                      optGroupClass = Some(clazz)
+                                      whenNotGrouped; 
+                       case None =>
+                                      throw new IllegalStateException("SpecGroup of class "+clazz.getName.toString+" is not found");
+                    }
+                  case Some(x) => 
+                                      whenNotGrouped; 
+                }
+              }
+           } else {
+              whenNotGrouped; 
+           }
+        }
 
   
   
@@ -67,7 +83,7 @@ trait Grouped
    *@param classLoader - class loader to search
    * [todo - check same fixture state types (?)]
    */
-  def findSpecGroupWith(clazz:Class[_], classLoader: ClassLoader):Option[Class[_]] =
+  def findSpecGroupWith(clazz:Class[_]):Option[Class[_]] =
   {
     val pkg = this.getClass.getPackage;
     val components = pkg.getName().split('.');
@@ -99,7 +115,10 @@ trait Grouped
                              distributor: Option[Distributor], tracker: Tracker, 
                              internalSpec: fixture.Suite, fixtureGroupClass: Class[T]): Unit = {
      if (isGrouped) {
-        if (findSpecGroupWith(fixtureGroupClass, this.getClass.getClassLoader)!=None) {
+        if (optGroupClass == None) {
+          optGroupClass = findSpecGroupWith(fixtureGroupClass);
+        }
+        if (optGroupClass!=None) {
            /* do nothing:  we situate in scope of group which will run us */
         } else {
           throw new IllegalStateException(

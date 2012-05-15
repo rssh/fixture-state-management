@@ -79,7 +79,8 @@ trait FunSuite[T <: FixtureStateTypes] extends fixture.FunSuite
    
 
   lazy val internalSpec: InternalFunSuite[T] = createInternalSpec(((x:FunSuiteGroup[T]) => x.internalSpec),
-                                                                   new InternalFunSuite[T](this));
+                                                                   new InternalFunSuite[T](this),
+                                                                   classOf[FunSuiteGroup[T]]);
     
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any): Unit = {
     internalSpec._test(testName, testTags:_*)(testFun)
@@ -94,7 +95,7 @@ trait FunSuite[T <: FixtureStateTypes] extends fixture.FunSuite
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
                    configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit =
         runGrouped(testName,reporter,stopper,filter,configMap, distributor, tracker,
-                   internalSpec, classOf[FunSpecGroup[T]])
+                   internalSpec, classOf[FunSuiteGroup[T]])
   
   
   

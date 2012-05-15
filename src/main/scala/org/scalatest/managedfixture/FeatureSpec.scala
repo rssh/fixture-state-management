@@ -111,8 +111,9 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
 
   
   protected override lazy val internalSpec: InternalFeatureSpec[T] = createInternalSpec(
-                                                                        (x:FeatureSpecGroup[T]) => x.internalSpec,
-                                                                        new InternalFeatureSpec(this)
+                                              (x:FeatureSpecGroup[T]) => x.internalSpec,
+                                              new InternalFeatureSpec(this),
+                                              classOf[FeatureSpecGroup[T]]
                                                                       )
                                               
 
@@ -131,13 +132,17 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
   }
 
   protected def feature(description: String)(fun: => Unit) {
-    internalSpec._feature(description)(fun);
+    if (isGrouped) {
+      internalSpec._feature(description)(fun);
+    } else {
+      internalSpec._feature(description)(fun);
+    }
   }
 
   override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
       configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
      runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker,internalSpec,
-                 classOf[FeatureSpec[T]])
+                 classOf[FeatureSpecGroup[T]])
   }
 
   protected def scenariosFor(unit: Unit) {}

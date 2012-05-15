@@ -87,7 +87,7 @@ trait FunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture
                                           with Grouped
 { 
 
-  protected override val internalSpec: InternalFunSpec[T] = createInternalSpec((x:FunSpecGroup[T])=>x.internalSpec, new InternalFunSpec(this));
+  protected override lazy val internalSpec: InternalFunSpec[T] = createInternalSpec((x:FunSpecGroup[T])=>x.internalSpec, new InternalFunSpec(this), classOf[FunSpecGroup[T]]);
   
  
   protected final class ItWord {

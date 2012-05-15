@@ -11,6 +11,7 @@ import scala.util._;
 class Base1SFunSpecTest extends managedfixture.FunSpec[Base1FixtureStateInfo.type]
 {
 
+
   val fixtureStateTypes = Base1FixtureStateInfo;
   val fixtureAccess = Base1FixtureAccess;
 

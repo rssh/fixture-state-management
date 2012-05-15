@@ -63,7 +63,7 @@ object MPFixtureAccess extends FixtureAccess[MPFixtureStateTypes.type]
                                       testApi.payIn(bob.id,BigDecimal(100L));
                                       testApi.payIn(alex.id,BigDecimal(100L));
                                    },
-                         S2_MONEY.id ->  { () =>
+                         S2_USERS_WITH_MONEY.id ->  { () =>
                                       val alice = testApi.findUser("alice").get;
                                       // alice open auction on 100
                                       testApi.now = CalendarUtil.timestamp(2012,02,01,00,00);

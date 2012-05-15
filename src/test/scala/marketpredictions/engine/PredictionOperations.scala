@@ -21,12 +21,12 @@ trait PredictionOperations
                   nAlternatives: Int,
                   dateToCheck: Timestamp,
                   minSum: BigDecimal=BigDecimal(0L)):Long =
-  {
+  inTransaction {
      if (dateToCheck.before(now)) {
        throw new IllegalArgumentException("dateToCheck before now");
      }
-     if (nAlternatives <= 0) {
-       throw new IllegalArgumentException("nAlternatives <= 0");
+     if (nAlternatives <= 1) {
+       throw new IllegalArgumentException("nAlternatives <= 1");
      }
      val newEvent = predictedEvents insert PredictedEvent(
                                               id = -1L, // will  be generated

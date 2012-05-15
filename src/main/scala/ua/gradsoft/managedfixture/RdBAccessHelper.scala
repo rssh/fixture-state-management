@@ -101,17 +101,24 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
      createTestStatesTableIfNeeded(cn);
      var st = cn.createStatement();
      var rs = st.executeQuery("select * from %s".format(testStatesTableName));
-     while(rs.next) {
+     var quit=false;
+     while(rs.next && !quit) {
       val sv = rs.getString("value");
       if (rs.getString("rtype")=="STATE") {
          val si = fixtureStateTypes.startStates.values.find( _.toString == sv )
          if (si==None) {
-           throw new IllegalStateException("Invalid state "+rs.getString("value")+" for test database");
+           lastError = Some("Invalid state "+rs.getString("value")+" for test database");
+           val stu = cn.createStatement();
+           stu.executeUpdate("delete from %s".format(testStatesTableName)); 
+           quit=true;
          } 
          if (s==None) {
              s = si
          } else {
-           throw new IllegalStateException("Two states in the set database");
+           lastError = Some("Two states in set database");
+           val stu = cn.createStatement();
+           stu.executeUpdate("delete from %s".format(testStatesTableName)); 
+           quit=true;
          }
       } else if (rs.getString("rtype")=="ASPECT") {
          a = a ++ fixtureStateTypes.stateAspects.values.find(_.toString == sv);
@@ -198,6 +205,7 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
 
 
   var cashedCurrent:Option[(StartStateType,Set[T#StateAspectType])] = None;
+  var lastError: Option[String] = None;
 
 }
 

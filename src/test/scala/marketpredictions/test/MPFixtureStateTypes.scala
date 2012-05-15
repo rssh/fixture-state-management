@@ -11,7 +11,7 @@ object MPFixtureStateTypes extends FixtureStateTypes
   {
     val EMPTY = Value;
     val S1_USERS_WITHOUT_MONEY = Value; // added 3 users without maney
-    val S2_MONEY = Value;  // added payments
+    val S2_USERS_WITH_MONEY = Value;  // added payments
     val S3_MORE_PREDICTIONS = Value; //  S2 with predictions
   }
 

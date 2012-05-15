@@ -67,7 +67,7 @@ object MPFixtureAccess extends FixtureAccess[MPFixtureStateTypes.type]
                                       val alice = testApi.findUser("alice").get;
                                       // alice open auction on 100
                                       testApi.now = CalendarUtil.timestamp(2012,02,01,00,00);
-                                      testApi.createPrediction( alice.id , 
+                                      testApi.createEvent( alice.id , 
                                         "A and B are sitting on the tube. Who will left fisrt. [0-A,1-B]",
                                         2,
                                         CalendarUtil.timestamp(2012,03,01,00,00),

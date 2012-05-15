@@ -8,26 +8,26 @@ import org.squeryl.PrimitiveTypeMode._;
 object MPSchema extends Schema
 {
 
- val predictions = table[Prediction];
+ val predictedEvents = table[PredictedEvent];
 
  val members = table[Member];
 
- val authority = oneToManyRelation(members,predictions).via( (m,p) => m.id===p.authorId);
+ val authority = oneToManyRelation(members,predictedEvents).via( (m,p) => m.id===p.authorId);
 
- val bids = manyToManyRelation(members,predictions).via[Bid] ( 
-                (m, p, mp) => (m.id === mp.memberId, p.id === mp.predictionId)
+ val bids = manyToManyRelation(members,predictedEvents).via[Bid] ( 
+                (m, p, mp) => (m.id === mp.memberId, p.id === mp.eventId)
             );
 
 
 
   def postInit: Unit = 
   {
-    Prediction.schemaInit;
+    PredictedEvent.schemaInit;
   }
 
   def preClear: Unit = 
   {
-    Prediction.schemaClear;
+    PredictedEvent.schemaClear;
   }
 
 

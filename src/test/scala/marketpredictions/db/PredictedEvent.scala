@@ -8,7 +8,7 @@ import org.squeryl.PrimitiveTypeMode._;
 
 import MPSchema._;
 
-case class Prediction(val id: Long,
+case class PredictedEvent(val id: Long,
                       val description: String,
                       val nAlternatives: Int,
                       val passTime: Timestamp,
@@ -38,14 +38,14 @@ case class Prediction(val id: Long,
  
   lazy val author: ManyToOne[Member] = authority.right(this);
   
-  lazy val bids = from(MPSchema.bids)(b => where(b.predictionId===id)
+  lazy val bids = from(MPSchema.bids)(b => where(b.eventId===id)
                                                                select(b));
 
 }
                                  
 
 
-object Prediction
+object PredictedEvent
 {
 
 

@@ -16,11 +16,11 @@ trait PredictionOperations
 
   this: Api with EngineContext =>
 
-  def createPrediction(userId: Long,
-                       description: String,
-                       nAlternatives: Int,
-                       dateToCheck: Timestamp,
-                       minSum: BigDecimal=BigDecimal(0L)):Long =
+  def createEvent(userId: Long,
+                  description: String,
+                  nAlternatives: Int,
+                  dateToCheck: Timestamp,
+                  minSum: BigDecimal=BigDecimal(0L)):Long =
   {
      if (dateToCheck.before(now)) {
        throw new IllegalArgumentException("dateToCheck before now");
@@ -28,7 +28,7 @@ trait PredictionOperations
      if (nAlternatives <= 0) {
        throw new IllegalArgumentException("nAlternatives <= 0");
      }
-     val newPrediction = predictions insert Prediction(
+     val newEvent = predictedEvents insert PredictedEvent(
                                               id = -1L, // will  be generated
                                               description = description,
                                               nAlternatives = nAlternatives,
@@ -42,17 +42,17 @@ trait PredictionOperations
                                               result=None,
                                               authorId=userId
                                             );
-     newPrediction.id;
+     newEvent.id;
   }
                         
 
   def bid(userId: Long,
-          predictionId: Long,
+          eventId: Long,
           alternative: Int,
           sum: BigDecimal) : Bid =
   {
    val u = members.lookup(userId).get
-   val p = predictions.lookup(predictionId).get
+   val p = predictedEvents.lookup(eventId).get
    if (sum <= 0) {
        throw new IllegalArgumentException("sum too small");
    }
@@ -70,21 +70,21 @@ trait PredictionOperations
    }
    // are we already have bid for this person ?
    members update u.copy(balance = u.balance - sum);
-   predictions update p.copy(actualSum = p.actualSum+sum);
-   bids.lookup(CompositeKey2(userId,predictionId)) match {
+   predictedEvents update p.copy(actualSum = p.actualSum+sum);
+   bids.lookup(CompositeKey2(userId,eventId)) match {
      case Some(bid) =>
        val newBid = bid.copy(sum=bid.sum+sum,when=now)
        bids update newBid
        newBid
      case None =>
-       bids insert new Bid(userId,predictionId,alternative,sum,now);
+       bids insert new Bid(userId,eventId,alternative,sum,now);
    } 
   }
           
-  def markPredictionResult(predictionId: Long,
+  def markPredictionResult(eventId: Long,
                            alternative: Int): Unit =
   inTransaction {
-   val p = predictions.lookup(predictionId).get
+   val p = predictedEvents.lookup(eventId).get
    if (p.closed) {
      throw new IllegalArgumentException("p is already closed");
    }
@@ -119,10 +119,10 @@ trait PredictionOperations
                    failed=false;
      }
    }
-   predictions update p.copy(closed=true, failed=Some(failed), result=Some(alternative))
+   predictedEvents update p.copy(closed=true, failed=Some(failed), result=Some(alternative))
   }
                            
-  private def returnBids(p:Prediction): Unit = 
+  private def returnBids(p:PredictedEvent): Unit = 
   inTransaction {
     // return all money to bid authors.
     for(bid <- p.bids) {

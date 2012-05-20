@@ -17,7 +17,7 @@ trait PaymentOperations
  def payIn(userId: Long, sum: BigDecimal): Unit =
   inTransaction {
     update(members)(u=>where(u.id===userId)
-                       set(u.balance := u.balance+sum));
+                       set(u.balance := u.balance.~ + sum));
   }
 
  def payOut(userId: Long, sum: BigDecimal): Unit =
@@ -27,7 +27,7 @@ trait PaymentOperations
                           throw new IllegalArgumentException("Insifficient balance");
                        }
                        update(members)(u=>where(u.id===userId)
-                                      set(u.balance := u.balance - sum))
+                                      set(u.balance := u.balance.~ - sum))
        case None =>
                 throw new IllegalArgumentException("Invalid userId");
     }

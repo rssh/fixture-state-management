@@ -9,6 +9,7 @@ object MPSchema extends Schema
 {
 
  val predictedEvents = table[PredictedEvent];
+ on(predictedEvents)(e => declare(e.idname is(unique,indexed)));
 
  val members = table[Member];
 

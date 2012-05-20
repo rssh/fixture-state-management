@@ -67,11 +67,18 @@ object MPFixtureAccess extends FixtureAccess[MPFixtureStateTypes.type]
                                       val alice = testApi.findUser("alice").get;
                                       // alice open auction on 100
                                       testApi.now = CalendarUtil.timestamp(2012,02,01,00,00);
-                                      testApi.createEvent( alice.id , 
+                                      testApi.createEvent( alice.id , "ab",
                                         "A and B are sitting on the tube. Who will left fisrt. [0-A,1-B]",
                                         2,
                                         CalendarUtil.timestamp(2012,03,01,00,00),
-                                        200);
+                                        20);
+                                      // bob on 50
+                                      val bob = testApi.findUser("bob").get;
+                                      testApi.createEvent( bob.id , "p2012",
+                                        "who will win 2012 parlament elections  [0-opposition,1-power]",
+                                        2,
+                                        CalendarUtil.timestamp(2012,11,01,00,00),
+                                        0);
                                       }
                       );
     if (stateFrom.id < stateTo.id) {

@@ -17,6 +17,7 @@ trait PredictionOperations
   this: Api with EngineContext =>
 
   def createEvent(userId: Long,
+                  idname: String,
                   description: String,
                   nAlternatives: Int,
                   dateToCheck: Timestamp,
@@ -30,6 +31,7 @@ trait PredictionOperations
      }
      val newEvent = predictedEvents insert PredictedEvent(
                                               id = -1L, // will  be generated
+                                              idname = idname,
                                               description = description,
                                               nAlternatives = nAlternatives,
                                               passTime=dateToCheck,
@@ -45,12 +47,20 @@ trait PredictionOperations
      newEvent.id;
   }
                         
+  def findEvent(id:Long):Option[PredictedEvent] =
+   inTransaction{ predictedEvents.lookup(id) }
+
+  def findEvent(idname:String):Option[PredictedEvent] =
+   inTransaction{ 
+     from(predictedEvents)(e=>
+         where(e.idname === idname) select(e)).headOption
+   }
 
   def bid(userId: Long,
           eventId: Long,
           alternative: Int,
           sum: BigDecimal) : Bid =
-  {
+  inTransaction {
    val u = members.lookup(userId).get
    val p = predictedEvents.lookup(eventId).get
    if (sum <= 0) {
@@ -68,9 +78,9 @@ trait PredictionOperations
    if (p.stopBidding.before(now)) {
        throw new IllegalArgumentException("bidding is stopped");
    }
-   // are we already have bid for this person ?
-   members update u.copy(balance = u.balance - sum);
+   members update u.copy(balance = (u.balance - sum));
    predictedEvents update p.copy(actualSum = p.actualSum+sum);
+   // are we already have bid for this person ?
    bids.lookup(CompositeKey2(userId,eventId)) match {
      case Some(bid) =>
        val newBid = bid.copy(sum=bid.sum+sum,when=now)
@@ -81,6 +91,7 @@ trait PredictionOperations
    } 
   }
           
+
   def markPredictionResult(eventId: Long,
                            alternative: Int): Unit =
   inTransaction {
@@ -112,7 +123,7 @@ trait PredictionOperations
                        // add to member 
                        for( m <- members.lookup(bid.memberId) ) {
                           val gain = (bid.sum * up / down).setScale(2,BigDecimal.RoundingMode.HALF_EVEN);
-                          members update m.copy(balance = m.balance+gain)
+                          members update m.copy(balance = m.balance + gain)
                        }
                      }
                    }
@@ -127,7 +138,7 @@ trait PredictionOperations
     // return all money to bid authors.
     for(bid <- p.bids) {
        update(members)(m => where(m.id === bid.memberId)
-                           set( m.balance := m.balance + bid.sum )
+                           set( m.balance := m.balance.~ + bid.sum )
                      );
     }
   }

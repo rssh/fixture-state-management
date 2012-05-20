@@ -9,6 +9,7 @@ import org.squeryl.PrimitiveTypeMode._;
 import MPSchema._;
 
 case class PredictedEvent(val id: Long,
+                      val idname: String,
                       val description: String,
                       val nAlternatives: Int,
                       val passTime: Timestamp,
@@ -24,6 +25,7 @@ case class PredictedEvent(val id: Long,
 {
 
   def this() = this(id=0L,
+                    idname="",
                     description="",
                     nAlternatives=0,
                     passTime = new Timestamp(0L),

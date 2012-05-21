@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>ua.gradsoft.managedfixture.FixtureStateDSL</title>
+          <title>ua.gradsoft.managedfixture.FixtureAccess.specHelper</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
@@ -12,54 +12,37 @@
       <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
     
         </head>
-        <body class="type">
+        <body class="value">
       <div id="definition">
-        <img src="../../../lib/trait_big.png" />
-        <p id="owner"><a name="ua" class="extype" href="../../package.html">ua</a>.<a name="ua.gradsoft" class="extype" href="../package.html">gradsoft</a>.<a name="ua.gradsoft.managedfixture" class="extype" href="package.html">managedfixture</a></p>
-        <h1>FixtureStateDSL</h1>
+        <img src="../../../lib/object_big.png" />
+        <p id="owner"><a name="ua" class="extype" href="../../package.html">ua</a>.<a name="ua.gradsoft" class="extype" href="../package.html">gradsoft</a>.<a name="ua.gradsoft.managedfixture" class="extype" href="package.html">managedfixture</a>.<a name="ua.gradsoft.managedfixture.FixtureAccess" class="extype" href="FixtureAccess.html">FixtureAccess</a></p>
+        <h1>specHelper</h1>
       </div>
 
       <h4 class="signature" id="signature">
-      <span class="kind">trait</span>
+      <span class="kind">object</span>
       <span class="symbol"> 
-        <span class="name">FixtureStateDSL</span>
-        <span class="tparams">[<span name="T">T &lt;: <a name="ua.gradsoft.managedfixture.FixtureStateTypes" class="extype" href="FixtureStateTypes.html">FixtureStateTypes</a></span>]</span>
-        <span class="result"> extends AnyRef</span>
+        <span class="name">specHelper</span>
+        
+        <span class="result"> extends <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a>[T]</span>
       </span>
       </h4>
       
-          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>DLS for fixture state: sentence in this DSL describe: how some test is related to fixture,
-i.e. it expect that fixture must be in some concerete state at the end leave state unchanged
-after test execution, or may be execution invalidate current fixture state and so on.</p><p>Grammar:</p><pre>
-TestUsageDescription:  Mark ([StartDescription] |
-                             [FinishDescription] |
-                             [ChangeDescription] |
-                             [ExecutionDescription] )*
-
-StartDescription: start(StartStateDescription) [aspects (all | '(' {ID}* ')' | none) ]
-FinishDescription: finish(FinishStateDescription)
-CnangesDescription: change [nothing| any]
-
-StartStateDescription: state (any | undefined | {ID} )
-                      |
-                       states({ID}[,{ID}]*)
-
-FinishStateDescription: state (undefined | {ID} )
-
-ExecutionDescription: execution (sequential | parallel)
-</pre><p>Examples of such expession</p><pre>
-  start state(any)
-  start state(any) change(noting)
-  start state(any) finish state(undefined)
-  start state(S3) finish state(S4)
-  start states(S1,S2,S3) aspects (1,2,3) change(nothing)
-  start state(S3) change(nothing) execution(parallel)
+          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>specHelper -- special object to use within ordinary specs2 specifications
+ to force execution of block of code inside some specifics environment.
+i.e.</p><pre>
+   &quot;something&quot; should
+     &quot;work with X&quot; in {
+        .....
+         withState(start state(any) change nothing) {
+            .....
+         }
+         ....
+     }
+ }
 </pre></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
-        </div><div class="toggleContainer block">
-          <span class="toggle">Known Subclasses</span>
-          <div class="subClasses hiddenContent"><a name="org.scalatest.managedfixture.FeatureSpec" class="extype" href="../../../org/scalatest/managedfixture/FeatureSpec.html">FeatureSpec</a>, <a name="org.scalatest.managedfixture.FeatureSpecGroup" class="extype" href="../../../org/scalatest/managedfixture/FeatureSpecGroup.html">FeatureSpecGroup</a>, <a name="org.scalatest.managedfixture.FlatSpec" class="extype" href="../../../org/scalatest/managedfixture/FlatSpec.html">FlatSpec</a>, <a name="org.scalatest.managedfixture.FlatSpecGroup" class="extype" href="../../../org/scalatest/managedfixture/FlatSpecGroup.html">FlatSpecGroup</a>, <a name="org.scalatest.managedfixture.FreeSpec" class="extype" href="../../../org/scalatest/managedfixture/FreeSpec.html">FreeSpec</a>, <a name="org.scalatest.managedfixture.FreeSpecGroup" class="extype" href="../../../org/scalatest/managedfixture/FreeSpecGroup.html">FreeSpecGroup</a>, <a name="org.scalatest.managedfixture.FunSpec" class="extype" href="../../../org/scalatest/managedfixture/FunSpec.html">FunSpec</a>, <a name="org.scalatest.managedfixture.FunSpecGroup" class="extype" href="../../../org/scalatest/managedfixture/FunSpecGroup.html">FunSpecGroup</a>, <a name="org.scalatest.managedfixture.FunSuite" class="extype" href="../../../org/scalatest/managedfixture/FunSuite.html">FunSuite</a>, <a name="org.scalatest.managedfixture.FunSuiteGroup" class="extype" href="../../../org/scalatest/managedfixture/FunSuiteGroup.html">FunSuiteGroup</a>, <a name="org.scalatest.managedfixture.PropSpec" class="extype" href="../../../org/scalatest/managedfixture/PropSpec.html">PropSpec</a>, <a name="org.scalatest.managedfixture.PropSpecGroup" class="extype" href="../../../org/scalatest/managedfixture/PropSpecGroup.html">PropSpecGroup</a>, <a name="ua.gradsoft.managedfixture.FixtureAccess.specHelper" class="extype" href="FixtureAccess$specHelper$.html">specHelper</a></div>
+          <div class="superTypes hiddenContent"><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a>[T], AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div></div>
         
 
@@ -75,7 +58,7 @@ ExecutionDescription: execution (sequential | parallel)
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall out"><span>Hide All</span></li>
                 <li class="showall in"><span>Show all</span></li></ol>
-                <ol id="linearization"><li name="ua.gradsoft.managedfixture.FixtureStateDSL" class="in"><span>FixtureStateDSL</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+                <ol id="linearization"><li name="ua.gradsoft.managedfixture.FixtureAccess.specHelper" class="in"><span>specHelper</span></li><li name="ua.gradsoft.managedfixture.FixtureStateDSL" class="in"><span>FixtureStateDSL</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -321,24 +304,10 @@ ExecutionDescription: execution (sequential | parallel)
     </li></ol>
             </div>
         
-        <div class="values members" id="values">
-              <h3>Abstract Value Members</h3>
-              <ol><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#fixtureStateTypes" data-isabs="true">
-      <a id="fixtureStateTypes:T"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">fixtureStateTypes</span>
         
-        <span class="result">: T</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
-    </li></ol>
-            </div>
 
         <div class="values members" id="values">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
       <a id="!=(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -483,16 +452,16 @@ ExecutionDescription: execution (sequential | parallel)
       </h4>
       
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#any" data-isabs="false">
-      <a id="any:FixtureStateDSL.this.FixtureStateVerb_ANY.type"></a>
+      <a id="any:ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_ANY.type"></a>
       <h4 class="signature">
       <span class="kind">val</span>
       <span class="symbol"> 
         <span class="name">any</span>
         
-        <span class="result">: FixtureStateDSL.this.FixtureStateVerb_ANY.type</span>
+        <span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_ANY.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
       <a id="asInstanceOf[T0]:T0"></a>
       <h4 class="signature">
@@ -554,6 +523,17 @@ ExecutionDescription: execution (sequential | parallel)
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess.specHelper#fixtureStateTypes" data-isabs="false">
+      <a id="fixtureStateTypes:T"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">fixtureStateTypes</span>
+        
+        <span class="result">: T</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureAccess.specHelper" class="extype" href="">specHelper</a> → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="prt" name="ua.gradsoft.managedfixture.FixtureStateDSL#fixtureUsageDSLAction" data-isabs="false">
       <a id="fixtureUsageDSLAction[A&lt;:DSLExpression](A):A"></a>
       <h4 class="signature">
@@ -568,7 +548,7 @@ ExecutionDescription: execution (sequential | parallel)
 perform some custom steps after receiving new value in this DSL.</p><div class="fullcomment"><div class="comment cmt"><p>optional action which can be used by client, overriding this method to
 perform some custom steps after receiving new value in this DSL.
 By default- do nothing and return given value.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="prt" name="ua.gradsoft.managedfixture.FixtureStateDSL#fixtureUsageDSLValueAction" data-isabs="false">
       <a id="fixtureUsageDSLValueAction(⇒ TestFixtureStateUsageDescription[T]):Unit"></a>
       <h4 class="signature">
@@ -580,7 +560,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <p class="shortcomment cmt">called when we receive new value.</p><div class="fullcomment"><div class="comment cmt"><p>called when we receive new value. (by default - nothing).
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
       <a id="getClass():java.lang.Class[_]"></a>
       <h4 class="signature">
@@ -626,16 +606,16 @@ By default- do nothing and return given value.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#nothing" data-isabs="false">
-      <a id="nothing:FixtureStateDSL.this.FixtureStateVerb_NOTHING.type"></a>
+      <a id="nothing:ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_NOTHING.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">nothing</span>
         
-        <span class="result">: FixtureStateDSL.this.FixtureStateVerb_NOTHING.type</span>
+        <span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_NOTHING.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
       <a id="notify():Unit"></a>
       <h4 class="signature">
@@ -659,27 +639,27 @@ By default- do nothing and return given value.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#parallel" data-isabs="false">
-      <a id="parallel:FixtureStateDSL.this.FixtureStateVerb_PARALLEL.type"></a>
+      <a id="parallel:ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_PARALLEL.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">parallel</span>
         
-        <span class="result">: FixtureStateDSL.this.FixtureStateVerb_PARALLEL.type</span>
+        <span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_PARALLEL.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#sequential" data-isabs="false">
-      <a id="sequential:FixtureStateDSL.this.FixtureStateVerb_SEQUENTIAL.type"></a>
+      <a id="sequential:ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_SEQUENTIAL.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">sequential</span>
         
-        <span class="result">: FixtureStateDSL.this.FixtureStateVerb_SEQUENTIAL.type</span>
+        <span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_SEQUENTIAL.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#start" data-isabs="false">
       <a id="start:FixtureStateVerbStart"></a>
       <h4 class="signature">
@@ -690,29 +670,29 @@ By default- do nothing and return given value.
         <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbStart" class="extype" href="FixtureStateDSL$FixtureStateVerbStart.html">FixtureStateVerbStart</a></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
-      <a id="state(FixtureStateDSL.this.FixtureStateVerb_UNDEFINED.type):FixtureStateDSL.this.FixtureStateVerb_STATE_UNDEFINED.type"></a>
+      <a id="state(ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_UNDEFINED.type):ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_STATE_UNDEFINED.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">state</span>
         
-        <span class="params">(<span name="x">x: FixtureStateDSL.this.FixtureStateVerb_UNDEFINED.type</span>)</span><span class="result">: FixtureStateDSL.this.FixtureStateVerb_STATE_UNDEFINED.type</span>
+        <span class="params">(<span name="x">x: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_UNDEFINED.type</span>)</span><span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_STATE_UNDEFINED.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
-      <a id="state(FixtureStateDSL.this.FixtureStateVerb_ANY.type):FixtureStateDSL.this.FixtureStateVerb_STATE_ANY.type"></a>
+      <a id="state(ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_ANY.type):ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_STATE_ANY.type"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">state</span>
         
-        <span class="params">(<span name="x">x: FixtureStateDSL.this.FixtureStateVerb_ANY.type</span>)</span><span class="result">: FixtureStateDSL.this.FixtureStateVerb_STATE_ANY.type</span>
+        <span class="params">(<span name="x">x: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_ANY.type</span>)</span><span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_STATE_ANY.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
       <a id="state(_176.startStates.Value forSome { val _176: T }):FixtureStateVerb_STATE"></a>
       <h4 class="signature">
@@ -723,18 +703,18 @@ By default- do nothing and return given value.
         <span class="params">(<span name="x">x: _176.startStates.Value forSome { val _176: T }</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE" class="extype" href="FixtureStateDSL$FixtureStateVerb_STATE.html">FixtureStateVerb_STATE</a></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
-      <a id="state:FixtureStateDSL.this.FixtureStateVerb_STATE0.type"></a>
+      <a id="state:ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_STATE0.type"></a>
       <h4 class="signature">
       <span class="kind">val</span>
       <span class="symbol"> 
         <span class="name">state</span>
         
-        <span class="result">: FixtureStateDSL.this.FixtureStateVerb_STATE0.type</span>
+        <span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_STATE0.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#states" data-isabs="false">
       <a id="states(_179.startStates.Value forSome { val _179: T }*):FixtureStateVerb_STATES"></a>
       <h4 class="signature">
@@ -745,7 +725,7 @@ By default- do nothing and return given value.
         <span class="params">(<span name="x">x: _179.startStates.Value forSome { val _179: T }*</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATES" class="extype" href="FixtureStateDSL$FixtureStateVerb_STATES.html">FixtureStateVerb_STATES</a></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
       <a id="synchronized[T0](⇒ T0):T0"></a>
       <h4 class="signature">
@@ -769,16 +749,16 @@ By default- do nothing and return given value.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#undefined" data-isabs="false">
-      <a id="undefined:FixtureStateDSL.this.FixtureStateVerb_UNDEFINED.type"></a>
+      <a id="undefined:ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_UNDEFINED.type"></a>
       <h4 class="signature">
       <span class="kind">val</span>
       <span class="symbol"> 
         <span class="name">undefined</span>
         
-        <span class="result">: FixtureStateDSL.this.FixtureStateVerb_UNDEFINED.type</span>
+        <span class="result">: ua.gradsoft.managedfixture.FixtureAccess.specHelper.FixtureStateVerb_UNDEFINED.type</span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
       <a id="wait():Unit"></a>
       <h4 class="signature">
@@ -821,12 +801,39 @@ By default- do nothing and return given value.
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess.specHelper#withState" data-isabs="false">
+      <a id="withState[A](DSLExpression)(⇒ A):A"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">withState</span>
+        <span class="tparams">[<span name="A">A</span>]</span>
+        <span class="params">(<span name="usage">usage: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.DSLExpression" class="extype" href="FixtureStateDSL$DSLExpression.html">DSLExpression</a></span>)</span><span class="params">(<span name="f">f: ⇒ A</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess.specHelper#withState" data-isabs="false">
+      <a id="withState[A](TestFixtureStateUsageDescription[T])(⇒ A):A"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">withState</span>
+        <span class="tparams">[<span name="A">A</span>]</span>
+        <span class="params">(<span name="usage">usage: <a name="ua.gradsoft.managedfixture.TestFixtureStateUsageDescription" class="extype" href="TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]</span>)</span><span class="params">(<span name="f">f: ⇒ A</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      
     </li></ol>
             </div>
 
         
 
-        <div name="scala.AnyRef" class="parent">
+        <div name="ua.gradsoft.managedfixture.FixtureStateDSL" class="parent">
+              <h3>Inherited from <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="FixtureStateDSL.html">FixtureStateDSL</a>[T]</h3>
+            </div><div name="scala.AnyRef" class="parent">
               <h3>Inherited from AnyRef</h3>
             </div><div name="scala.Any" class="parent">
               <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>

@@ -82,10 +82,21 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FeatureSpec.html"><span class="name">FeatureSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends Suite with ExternalSuite[T]</span>
+        <span class="result"> extends Suite with ExternalSuite[T] with Grouped</span>
       </span>
       </h4>
       <p class="comment cmt">sister trait for org.scalatest.fixture.FeatureSpec</p>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.FeatureSpecGroup" data-isabs="true">
+      <a id="FeatureSpecGroup:FeatureSpecGroup[T]"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="FeatureSpecGroup.html"><span class="name">FeatureSpecGroup</span></a>
+        <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
+        <span class="result"> extends FeatureSpec[T] with SpecGroup</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.managedfixture.FlatSpec" data-isabs="true">
       <a id="FlatSpec:FlatSpec[T]"></a>
       <h4 class="signature">
@@ -93,10 +104,21 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FlatSpec.html"><span class="name">FlatSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends Suite with ShouldVerb with MustVerb with CanVerb with FixtureStateDSL[T]</span>
+        <span class="result"> extends Suite with ShouldVerb with MustVerb with CanVerb with FixtureStateDSL[T] with Grouped</span>
       </span>
       </h4>
       <p class="comment cmt">export org.scalatest.fixture.FlatSpec API to world of managed fixtures.</p>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.FlatSpecGroup" data-isabs="true">
+      <a id="FlatSpecGroup:FlatSpecGroup[T]"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="FlatSpecGroup.html"><span class="name">FlatSpecGroup</span></a>
+        <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
+        <span class="result"> extends FlatSpec[T] with SpecGroup</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.managedfixture.FreeSpec" data-isabs="true">
       <a id="FreeSpec:FreeSpec[T]"></a>
       <h4 class="signature">
@@ -104,10 +126,21 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FreeSpec.html"><span class="name">FreeSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends Suite with ExternalSuite[T]</span>
+        <span class="result"> extends Suite with ExternalSuite[T] with Grouped</span>
       </span>
       </h4>
       <p class="comment cmt">A sister trait to <code>org.scalatest.FreeSpec</code> that can pass a managed fixture object into its tests.</p>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.FreeSpecGroup" data-isabs="true">
+      <a id="FreeSpecGroup:FreeSpecGroup[T]"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="FreeSpecGroup.html"><span class="name">FreeSpecGroup</span></a>
+        <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
+        <span class="result"> extends FreeSpec[T] with SpecGroup</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.managedfixture.FunSpec" data-isabs="true">
       <a id="FunSpec:FunSpec[T]"></a>
       <h4 class="signature">
@@ -115,10 +148,21 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FunSpec.html"><span class="name">FunSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends Suite with ExternalSuite[T]</span>
+        <span class="result"> extends Suite with ExternalSuite[T] with Grouped</span>
       </span>
       </h4>
       <p class="comment cmt">A sister trait to <code>org.scalatest.FunSpec</code> that can pass a managed fixture object into its tests.</p>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.FunSpecGroup" data-isabs="true">
+      <a id="FunSpecGroup:FunSpecGroup[T]"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="FunSpecGroup.html"><span class="name">FunSpecGroup</span></a>
+        <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
+        <span class="result"> extends FunSpec[T] with SpecGroup</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.managedfixture.FunSuite" data-isabs="true">
       <a id="FunSuite:FunSuite[T]"></a>
       <h4 class="signature">
@@ -126,10 +170,32 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="FunSuite.html"><span class="name">FunSuite</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends FunSuite with AbstractManagedFixtureStateSuite[T]</span>
+        <span class="result"> extends FunSuite with ExternalSuite[T] with Grouped</span>
       </span>
       </h4>
       <p class="comment cmt">Sister trait for <code> org.scalates.fixture.FunSuite </code></p>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.FunSuiteGroup" data-isabs="true">
+      <a id="FunSuiteGroup:FunSuiteGroup[T]"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="FunSuiteGroup.html"><span class="name">FunSuiteGroup</span></a>
+        <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
+        <span class="result"> extends FunSuite[T] with SpecGroup</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.Grouped" data-isabs="true">
+      <a id="Grouped:Grouped"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="Grouped.html"><span class="name">Grouped</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">define DSL for execution of tests.</p>
     </li><li visbl="pub" name="org.scalatest.managedfixture.PropSpec" data-isabs="true">
       <a id="PropSpec:PropSpec[T]"></a>
       <h4 class="signature">
@@ -137,10 +203,32 @@ class MySuite extents managedfixture.Something[MyFixtureStateTypes.type]
       <span class="symbol"> 
         <a href="PropSpec.html"><span class="name">PropSpec</span></a>
         <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
-        <span class="result"> extends PropSpec with AbstractManagedFixtureStateSuite[T]</span>
+        <span class="result"> extends PropSpec with ExternalSuite[T] with Grouped</span>
       </span>
       </h4>
       <p class="comment cmt">A sister trait to <code>org.scalatest.PropSpec</code> that can pass a managed fixture object into its tests.</p>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.PropSpecGroup" data-isabs="true">
+      <a id="PropSpecGroup:PropSpecGroup[T]"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="PropSpecGroup.html"><span class="name">PropSpecGroup</span></a>
+        <span class="tparams">[<span name="T">T &lt;: FixtureStateTypes</span>]</span>
+        <span class="result"> extends PropSpec[T] with SpecGroup</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.SpecGroup" data-isabs="true">
+      <a id="SpecGroup:SpecGroup"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="SpecGroup.html"><span class="name">SpecGroup</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
     </li></ol>
             </div>
         

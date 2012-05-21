@@ -121,6 +121,18 @@
       <p class="shortcomment cmt">get current value of fixtire.</p><div class="fullcomment"><div class="comment cmt"><p>get current value of fixtire.  This value can be used by fixtuee</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>fixture wich represent current state or Nothing, if current state is
        not defined.
 </p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess#fixtureStateTypes" data-isabs="true">
+      <a id="fixtureStateTypes:T"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">fixtureStateTypes</span>
+        
+        <span class="result">: T</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">instance of state types.</p><div class="fullcomment"><div class="comment cmt"><p>instance of state types.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess#load" data-isabs="true">
       <a id="load(StartStateType):Unit"></a>
       <h4 class="signature">
@@ -266,6 +278,28 @@ after call of load, current must return fixture with access to given state
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess#fixtureAccess" data-isabs="false">
+      <a id="fixtureAccess:FixtureAccess[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">fixtureAccess</span>
+        
+        <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureAccess" class="extype" href="">FixtureAccess</a>[T]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess#fixtureStateManager" data-isabs="false">
+      <a id="fixtureStateManager:FixtureStateManager[T]"></a>
+      <h4 class="signature">
+      <span class="kind">lazy val</span>
+      <span class="symbol"> 
+        <span class="name">fixtureStateManager</span>
+        
+        <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateManager" class="extype" href="FixtureStateManager.html">FixtureStateManager</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Instance of fixtureStateManager, created on demand.</p>
     </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
       <a id="getClass():java.lang.Class[_]"></a>
       <h4 class="signature">
@@ -358,6 +392,18 @@ By default -- do nothing.
       </span>
       </h4>
       <p class="shortcomment cmt">if fixture is resource, than close one.</p>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess.specHelper" data-isabs="false">
+      <a id="specHelper:specHelper"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="FixtureAccess$specHelper$.html"><span class="name">specHelper</span></a>
+        
+        <span class="result"> extends FixtureStateDSL[T]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">specHelper -- special object to use within ordinary specs2 specifications
+ to force execution of block of code inside some specifics environment.</p>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureAccess#suiteLevelLock" data-isabs="false">
       <a id="suiteLevelLock:Option[Lock]"></a>
       <h4 class="signature">

@@ -24,7 +24,7 @@
       <span class="symbol"> 
         <span class="name">PropSpec</span>
         <span class="tparams">[<span name="T">T &lt;: <a name="ua.gradsoft.managedfixture.FixtureStateTypes" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateTypes.html">FixtureStateTypes</a></span>]</span>
-        <span class="result"> extends <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span> with <span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T]</span>
+        <span class="result"> extends <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span> with <span name="org.scalatest.managedfixture.ExternalSuite" class="extype">ExternalSuite</span>[T] with <a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></span>
       </span>
       </h4>
       
@@ -49,7 +49,10 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
 }
 </pre></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T], <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a>[T], <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span>, <span name="org.scalatest.fixture.Suite" class="extype">Suite</span>, <span name="org.scalatest.Suite" class="extype">Suite</span>, <span name="java.io.Serializable" class="extype">Serializable</span>, <span name="org.scalatest.AbstractSuite" class="extype">AbstractSuite</span>, <span name="org.scalatest.Assertions" class="extype">Assertions</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a>, <span name="org.scalatest.managedfixture.ExternalSuite" class="extype">ExternalSuite</span>[T], <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a>[T], <span name="org.scalatest.fixture.PropSpec" class="extype">PropSpec</span>, <span name="org.scalatest.fixture.Suite" class="extype">Suite</span>, <span name="org.scalatest.Suite" class="extype">Suite</span>, <span name="java.io.Serializable" class="extype">Serializable</span>, <span name="org.scalatest.AbstractSuite" class="extype">AbstractSuite</span>, <span name="org.scalatest.Assertions" class="extype">Assertions</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a name="org.scalatest.managedfixture.PropSpecGroup" class="extype" href="PropSpecGroup.html">PropSpecGroup</a></div>
         </div></div>
         
 
@@ -65,7 +68,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall out"><span>Hide All</span></li>
                 <li class="showall in"><span>Show all</span></li></ol>
-                <ol id="linearization"><li name="org.scalatest.managedfixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="in"><span>AbstractManagedFixtureStateSuite</span></li><li name="ua.gradsoft.managedfixture.FixtureStateDSL" class="in"><span>FixtureStateDSL</span></li><li name="org.scalatest.fixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.fixture.Suite" class="in"><span>Suite</span></li><li name="org.scalatest.Suite" class="in"><span>Suite</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="org.scalatest.AbstractSuite" class="in"><span>AbstractSuite</span></li><li name="org.scalatest.Assertions" class="in"><span>Assertions</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+                <ol id="linearization"><li name="org.scalatest.managedfixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.managedfixture.Grouped" class="in"><span>Grouped</span></li><li name="org.scalatest.managedfixture.ExternalSuite" class="in"><span>ExternalSuite</span></li><li name="ua.gradsoft.managedfixture.FixtureStateDSL" class="in"><span>FixtureStateDSL</span></li><li name="org.scalatest.fixture.PropSpec" class="in"><span>PropSpec</span></li><li name="org.scalatest.fixture.Suite" class="in"><span>Suite</span></li><li name="org.scalatest.Suite" class="in"><span>Suite</span></li><li name="java.io.Serializable" class="in"><span>Serializable</span></li><li name="org.scalatest.AbstractSuite" class="in"><span>AbstractSuite</span></li><li name="org.scalatest.Assertions" class="in"><span>Assertions</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -99,7 +102,18 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#FixtureParam" data-isabs="false">
+    </li><li visbl="pub" name="org.scalatest.managedfixture.Grouped.ExecutionVerb" data-isabs="false">
+      <a id="ExecutionVerb:ExecutionVerb"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="Grouped$ExecutionVerb.html"><span class="name">ExecutionVerb</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="org.scalatest.managedfixture.ExternalSuite#FixtureParam" data-isabs="false">
       <a id="FixtureParam:FixtureParam"></a>
       <h4 class="signature">
       <span class="kind">type</span>
@@ -109,8 +123,8 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
         <span class="result"> = FixtureType</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → Suite</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#FixtureStateTypes" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ExternalSuite → Suite</dd></dl></div>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.ExternalSuite#FixtureStateTypes" data-isabs="false">
       <a id="FixtureStateTypes:FixtureStateTypes"></a>
       <h4 class="signature">
       <span class="kind">type</span>
@@ -120,7 +134,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
         <span class="result"> = T</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ExternalSuite</dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb" data-isabs="false">
       <a id="FixtureStateVerb:FixtureStateVerb"></a>
       <h4 class="signature">
@@ -149,6 +163,28 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="kind">class</span>
       <span class="symbol"> 
         <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbChangeNothing.html"><span class="name">FixtureStateVerbChangeNothing</span></a>
+        
+        <span class="result"> extends DSLExpression</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbChangeNothingParallel" data-isabs="false">
+      <a id="FixtureStateVerbChangeNothingParallel:FixtureStateVerbChangeNothingParallel"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbChangeNothingParallel.html"><span class="name">FixtureStateVerbChangeNothingParallel</span></a>
+        
+        <span class="result"> extends DSLExpression</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerbExecution" data-isabs="false">
+      <a id="FixtureStateVerbExecution:FixtureStateVerbExecution"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerbExecution.html"><span class="name">FixtureStateVerbExecution</span></a>
         
         <span class="result"> extends DSLExpression</span>
       </span>
@@ -264,6 +300,17 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_ExecutionSpec" data-isabs="true">
+      <a id="FixtureStateVerb_ExecutionSpec:FixtureStateVerb_ExecutionSpec"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_ExecutionSpec.html"><span class="name">FixtureStateVerb_ExecutionSpec</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>sealed </dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_Finish" data-isabs="true">
       <a id="FixtureStateVerb_Finish:FixtureStateVerb_Finish"></a>
       <h4 class="signature">
@@ -282,7 +329,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="symbol"> 
         <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE.html"><span class="name">FixtureStateVerb_STATE</span></a>
         
-        <span class="params">(<span name="s">s: _163.startStates.Value forSome { val _163: T }</span>)</span><span class="result"> extends Product with Serializable</span>
+        <span class="params">(<span name="s">s: _165.startStates.Value forSome { val _165: T }</span>)</span><span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
@@ -293,7 +340,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       <span class="symbol"> 
         <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATES.html"><span class="name">FixtureStateVerb_STATES</span></a>
         
-        <span class="params">(<span name="args">args: Seq[_168.startStates.Value forSome { val _168: T }]</span>)</span><span class="result"> extends Product with Serializable</span>
+        <span class="params">(<span name="args">args: Seq[_170.startStates.Value forSome { val _170: T }]</span>)</span><span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
@@ -313,7 +360,7 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
         
         <div class="values members" id="values">
               <h3>Abstract Value Members</h3>
-              <ol><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#fixtureAccess" data-isabs="true">
+              <ol><li visbl="pub" name="org.scalatest.managedfixture.ExternalSuite#fixtureAccess" data-isabs="true">
       <a id="fixtureAccess:FixtureAccess[T]"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -323,9 +370,9 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
         <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureAccess" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureAccess.html">FixtureAccess</a>[T]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Must be defined in subclass.</p><div class="fullcomment"><div class="comment cmt"><p>Must be defined in subclass.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#fixtureStateTypes" data-isabs="true">
+      <p class="shortcomment cmt">must be defined in subclass.</p><div class="fullcomment"><div class="comment cmt"><p>must be defined in subclass.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>ExternalSuite</dd></dl></div>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.ExternalSuite#fixtureStateTypes" data-isabs="true">
       <a id="fixtureStateTypes:T"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -335,8 +382,9 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
         <span class="result">: T</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">must be defined in subclass.</p><div class="fullcomment"><div class="comment cmt"><p>must be defined in subclass.
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+      <p class="shortcomment cmt">must be defined in subclass
+</p><div class="fullcomment"><div class="comment cmt"><p>must be defined in subclass
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd><dt>Definition Classes</dt><dd>ExternalSuite → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li></ol>
             </div>
 
@@ -419,6 +467,28 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_PARALLEL" data-isabs="false">
+      <a id="FixtureStateVerb_PARALLEL:FixtureStateVerb_PARALLEL"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_PARALLEL$.html"><span class="name">FixtureStateVerb_PARALLEL</span></a>
+        
+        <span class="result"> extends FixtureStateVerb_ExecutionSpec with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_SEQUENTIAL" data-isabs="false">
+      <a id="FixtureStateVerb_SEQUENTIAL:FixtureStateVerb_SEQUENTIAL"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_SEQUENTIAL$.html"><span class="name">FixtureStateVerb_SEQUENTIAL</span></a>
+        
+        <span class="result"> extends FixtureStateVerb_ExecutionSpec with Product with Serializable</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE0" data-isabs="false">
       <a id="FixtureStateVerb_STATE0:FixtureStateVerb_STATE0"></a>
       <h4 class="signature">
@@ -463,28 +533,19 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#_parent" data-isabs="false">
-      <a id="_parent:Option[AbstractManagedFixtureStateSuite[T]]"></a>
+    </li><li visbl="prt" name="org.scalatest.managedfixture.Grouped#_grouped" data-isabs="false">
+      <a id="_grouped:Boolean"></a>
       <h4 class="signature">
       <span class="kind">var</span>
       <span class="symbol"> 
-        <span class="name">_parent</span>
+        <span class="name">_grouped</span>
         
-        <span class="result">: <span name="scala.Option" class="extype">Option</span>[<span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T]]</span>
+        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#_parentTestName" data-isabs="false">
-      <a id="_parentTestName:Option[String]"></a>
-      <h4 class="signature">
-      <span class="kind">var</span>
-      <span class="symbol"> 
-        <span class="name">_parentTestName</span>
-        
-        <span class="result">: <span name="scala.Option" class="extype">Option</span>[String]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
+      <p class="shortcomment cmt">if is set to true, than executed
+</p><div class="fullcomment"><div class="comment cmt"><p>if is set to true, than executed
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#any" data-isabs="false">
       <a id="any:PropSpec.this.FixtureStateVerb_ANY.type"></a>
       <h4 class="signature">
@@ -598,17 +659,17 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>implicit </dd><dt>Definition Classes</dt><dd>Assertions</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#createNestedInstanceForTest" data-isabs="false">
-      <a id="createNestedInstanceForTest(String):AbstractManagedFixtureStateSuite[T]"></a>
+    </li><li visbl="prt" name="org.scalatest.managedfixture.Grouped#createInternalSpec" data-isabs="false">
+      <a id="createInternalSpec[A, B]((A) ⇒ B,⇒ B,Class[_]):B"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
-        <span class="name">createNestedInstanceForTest</span>
-        
-        <span class="params">(<span name="testName">testName: String</span>)</span><span class="result">: <span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T]</span>
+        <span class="name">createInternalSpec</span>
+        <span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span>
+        <span class="params">(<span name="whenGrouped">whenGrouped: (A) ⇒ B</span>, <span name="whenNotGrouped">whenNotGrouped: ⇒ B</span>, <span name="clazz">clazz: Class[_]</span>)</span><span class="result">: B</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
       <a id="eq(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -642,6 +703,17 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Suite</dd></dl></div>
+    </li><li visbl="prt" name="org.scalatest.managedfixture.Grouped#execution" data-isabs="false">
+      <a id="execution:ExecutionVerb"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">execution</span>
+        
+        <span class="result">: <a name="org.scalatest.managedfixture.Grouped.ExecutionVerb" class="extype" href="Grouped$ExecutionVerb.html">ExecutionVerb</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.Assertions#expect" data-isabs="false">
       <a id="expect(Any)(Any):Unit"></a>
       <h4 class="signature">
@@ -733,39 +805,19 @@ class MySpects extends managedfixture.PropSpec[MyFixtureStateTypes]
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#fixtureStateManager" data-isabs="false">
-      <a id="fixtureStateManager:FixtureStateManager[T]"></a>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.Grouped#findSpecGroupWith" data-isabs="false">
+      <a id="findSpecGroupWith(Class[_]):Option[Class[_]]"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
-        <span class="name">fixtureStateManager</span>
+        <span class="name">findSpecGroupWith</span>
         
-        <span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateManager" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateManager.html">FixtureStateManager</a>[T]</span>
+        <span class="params">(<span name="clazz">clazz: Class[_]</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[Class[_]]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#fixtureUsage" data-isabs="false">
-      <a id="fixtureUsage(TestFixtureStateUsageDescription[T]):Unit"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">fixtureUsage</span>
-        
-        <span class="params">(<span name="usage">usage: <a name="ua.gradsoft.managedfixture.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/managedfixture/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#fixtureUsage" data-isabs="false">
-      <a id="fixtureUsage(DSLExpression):Unit"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">fixtureUsage</span>
-        
-        <span class="params">(<span name="dsl">dsl: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.DSLExpression" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$DSLExpression.html">DSLExpression</a></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
+      <p class="shortcomment cmt">check - are we have instance of clazz somewhere in our package structure
+upper to current class.</p><div class="fullcomment"><div class="comment cmt"><p>check - are we have instance of clazz somewhere in our package structure
+upper to current class.</p></div><dl class="paramcmts block"><dt class="param">clazz</dt><dd class="cmt"><p>- class to search</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
     </li><li visbl="prt" name="ua.gradsoft.managedfixture.FixtureStateDSL#fixtureUsageDSLAction" data-isabs="false">
       <a id="fixtureUsageDSLAction[A&lt;:DSLExpression](A):A"></a>
       <h4 class="signature">
@@ -781,7 +833,7 @@ perform some custom steps after receiving new value in this DSL.</p><div class="
 perform some custom steps after receiving new value in this DSL.
 By default- do nothing and return given value.
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.PropSpec#fixtureUsageDSLValueAction" data-isabs="false">
+    </li><li visbl="prt" name="org.scalatest.managedfixture.ExternalSuite#fixtureUsageDSLValueAction" data-isabs="false">
       <a id="fixtureUsageDSLValueAction(⇒ TestFixtureStateUsageDescription[T]):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -792,7 +844,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <p class="shortcomment cmt">called when we receive new value.</p><div class="fullcomment"><div class="comment cmt"><p>called when we receive new value. (by default - nothing).
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ExternalSuite → <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
       <a id="getClass():java.lang.Class[_]"></a>
       <h4 class="signature">
@@ -826,7 +878,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → PropSpec</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.fixture.PropSpec#info" data-isabs="false">
+    </li><li visbl="prt" name="org.scalatest.managedfixture.PropSpec#info" data-isabs="false">
       <a id="info:Informer"></a>
       <h4 class="signature">
       <span class="kind">implicit def</span>
@@ -836,7 +888,7 @@ By default- do nothing and return given value.
         <span class="result">: <span name="org.scalatest.Informer" class="extype">Informer</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected implicit </dd><dt>Definition Classes</dt><dd>PropSpec</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected implicit </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → ExternalSuite → PropSpec</dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.Assertions#intercept" data-isabs="false">
       <a id="intercept[T&lt;:AnyRef](⇒ Any)(Manifest[T]):T"></a>
       <h4 class="signature">
@@ -848,6 +900,28 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Assertions</dd></dl></div>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.PropSpec#internalSpec" data-isabs="false">
+      <a id="internalSpec:InternalPropSpec[T]"></a>
+      <h4 class="signature">
+      <span class="kind">lazy val</span>
+      <span class="symbol"> 
+        <span class="name">internalSpec</span>
+        
+        <span class="result">: <span name="org.scalatest.managedfixture.InternalPropSpec" class="extype">InternalPropSpec</span>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → ExternalSuite</dd></dl></div>
+    </li><li visbl="prt" name="org.scalatest.managedfixture.Grouped#isGrouped" data-isabs="false">
+      <a id="isGrouped:Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">isGrouped</span>
+        
+        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected final </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
     </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <h4 class="signature">
@@ -859,17 +933,19 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#isNested" data-isabs="false">
-      <a id="isNested:Boolean"></a>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.Grouped#mark" data-isabs="false">
+      <a id="mark(SpecGroup):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
-        <span class="name">isNested</span>
+        <span class="name">mark</span>
         
-        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+        <span class="params">(<span name="owner">owner: <a name="org.scalatest.managedfixture.SpecGroup" class="extype" href="SpecGroup.html">SpecGroup</a></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
+      <p class="shortcomment cmt">called by owner after instantiation
+</p><div class="fullcomment"><div class="comment cmt"><p>called by owner after instantiation
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
       <a id="ne(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -881,18 +957,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#neededFixtureStates" data-isabs="false">
-      <a id="neededFixtureStates:Map[String, TestFixtureStateUsageDescription[T]]"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol"> 
-        <span class="name">neededFixtureStates</span>
-        
-        <span class="result">: <span name="scala.collection.mutable.Map" class="extype">Map</span>[String, <a name="ua.gradsoft.managedfixture.TestFixtureStateUsageDescription" class="extype" href="../../../ua/gradsoft/managedfixture/TestFixtureStateUsageDescription.html">TestFixtureStateUsageDescription</a>[T]]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#nestedSuites" data-isabs="false">
+    </li><li visbl="pub" name="org.scalatest.Suite#nestedSuites" data-isabs="false">
       <a id="nestedSuites:List[Suite]"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -902,7 +967,7 @@ By default- do nothing and return given value.
         <span class="result">: List[<span name="org.scalatest.Suite" class="extype">Suite</span>]</span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → Suite → AbstractSuite</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Suite → AbstractSuite</dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#nothing" data-isabs="false">
       <a id="nothing:PropSpec.this.FixtureStateVerb_NOTHING.type"></a>
       <h4 class="signature">
@@ -936,6 +1001,28 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="prt" name="org.scalatest.managedfixture.Grouped#optGroupClass" data-isabs="false">
+      <a id="optGroupClass:Option[Class[_]]"></a>
+      <h4 class="signature">
+      <span class="kind">var</span>
+      <span class="symbol"> 
+        <span class="name">optGroupClass</span>
+        
+        <span class="result">: <span name="scala.Option" class="extype">Option</span>[Class[_]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#parallel" data-isabs="false">
+      <a id="parallel:PropSpec.this.FixtureStateVerb_PARALLEL.type"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">parallel</span>
+        
+        <span class="result">: PropSpec.this.FixtureStateVerb_PARALLEL.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="org.scalatest.Suite#pending" data-isabs="false">
       <a id="pending:PendingNothing"></a>
       <h4 class="signature">
@@ -980,7 +1067,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → PropSpec</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#run" data-isabs="false">
+    </li><li visbl="pub" name="org.scalatest.managedfixture.PropSpec#run" data-isabs="false">
       <a id="run(Option[String],Reporter,Stopper,Filter,Map[String, Any],Option[Distributor],Tracker):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -990,8 +1077,19 @@ By default- do nothing and return given value.
         <span class="params">(<span name="testName">testName: <span name="scala.Option" class="extype">Option</span>[String]</span>, <span name="reporter">reporter: <span name="org.scalatest.Reporter" class="extype">Reporter</span></span>, <span name="stopper">stopper: <span name="org.scalatest.Stopper" class="extype">Stopper</span></span>, <span name="filter">filter: <span name="org.scalatest.Filter" class="extype">Filter</span></span>, <span name="configMap">configMap: Map[String, <span name="scala.Any" class="extype">Any</span>]</span>, <span name="distributor">distributor: <span name="scala.Option" class="extype">Option</span>[<span name="org.scalatest.Distributor" class="extype">Distributor</span>]</span>, <span name="tracker">tracker: <span name="org.scalatest.Tracker" class="extype">Tracker</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → Suite → AbstractSuite</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#runNestedSuites" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.PropSpec" class="extype" href="">PropSpec</a> → PropSpec → Suite → AbstractSuite</dd></dl></div>
+    </li><li visbl="pub" name="org.scalatest.managedfixture.Grouped#runGrouped" data-isabs="false">
+      <a id="runGrouped[T](Option[String],Reporter,Stopper,Filter,Map[String, Any],Option[Distributor],Tracker,Suite,Class[T]):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">runGrouped</span>
+        <span class="tparams">[<span name="T">T</span>]</span>
+        <span class="params">(<span name="testName">testName: <span name="scala.Option" class="extype">Option</span>[String]</span>, <span name="reporter">reporter: <span name="org.scalatest.Reporter" class="extype">Reporter</span></span>, <span name="stopper">stopper: <span name="org.scalatest.Stopper" class="extype">Stopper</span></span>, <span name="filter">filter: <span name="org.scalatest.Filter" class="extype">Filter</span></span>, <span name="configMap">configMap: Map[String, <span name="scala.Any" class="extype">Any</span>]</span>, <span name="distributor">distributor: <span name="scala.Option" class="extype">Option</span>[<span name="org.scalatest.Distributor" class="extype">Distributor</span>]</span>, <span name="tracker">tracker: <span name="org.scalatest.Tracker" class="extype">Tracker</span></span>, <span name="internalSpec">internalSpec: <span name="org.scalatest.fixture.Suite" class="extype">Suite</span></span>, <span name="fixtureGroupClass">fixtureGroupClass: Class[T]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></dd></dl></div>
+    </li><li visbl="prt" name="org.scalatest.Suite#runNestedSuites" data-isabs="false">
       <a id="runNestedSuites(Reporter,Stopper,Filter,Map[String, Any],Option[Distributor],Tracker):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -1001,7 +1099,7 @@ By default- do nothing and return given value.
         <span class="params">(<span name="reporter">reporter: <span name="org.scalatest.Reporter" class="extype">Reporter</span></span>, <span name="stopper">stopper: <span name="org.scalatest.Stopper" class="extype">Stopper</span></span>, <span name="filter">filter: <span name="org.scalatest.Filter" class="extype">Filter</span></span>, <span name="configMap">configMap: Map[String, <span name="scala.Any" class="extype">Any</span>]</span>, <span name="distributor">distributor: <span name="scala.Option" class="extype">Option</span>[<span name="org.scalatest.Distributor" class="extype">Distributor</span>]</span>, <span name="tracker">tracker: <span name="org.scalatest.Tracker" class="extype">Tracker</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → Suite → AbstractSuite</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Suite → AbstractSuite</dd></dl></div>
     </li><li visbl="prt" name="org.scalatest.fixture.PropSpec#runTest" data-isabs="false">
       <a id="runTest(String,Reporter,Stopper,Map[String, Any],Tracker):Unit"></a>
       <h4 class="signature">
@@ -1024,6 +1122,17 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>PropSpec → Suite → AbstractSuite</dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#sequential" data-isabs="false">
+      <a id="sequential:PropSpec.this.FixtureStateVerb_SEQUENTIAL.type"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">sequential</span>
+        
+        <span class="result">: PropSpec.this.FixtureStateVerb_SEQUENTIAL.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#start" data-isabs="false">
       <a id="start:FixtureStateVerbStart"></a>
       <h4 class="signature">
@@ -1058,13 +1167,13 @@ By default- do nothing and return given value.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#state" data-isabs="false">
-      <a id="state(_174.startStates.Value forSome { val _174: T }):FixtureStateVerb_STATE"></a>
+      <a id="state(_176.startStates.Value forSome { val _176: T }):FixtureStateVerb_STATE"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">state</span>
         
-        <span class="params">(<span name="x">x: _174.startStates.Value forSome { val _174: T }</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE.html">FixtureStateVerb_STATE</a></span>
+        <span class="params">(<span name="x">x: _176.startStates.Value forSome { val _176: T }</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATE" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATE.html">FixtureStateVerb_STATE</a></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
@@ -1080,13 +1189,13 @@ By default- do nothing and return given value.
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.FixtureStateDSL#states" data-isabs="false">
-      <a id="states(_177.startStates.Value forSome { val _177: T }*):FixtureStateVerb_STATES"></a>
+      <a id="states(_179.startStates.Value forSome { val _179: T }*):FixtureStateVerb_STATES"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">states</span>
         
-        <span class="params">(<span name="x">x: _177.startStates.Value forSome { val _177: T }*</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATES" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATES.html">FixtureStateVerb_STATES</a></span>
+        <span class="params">(<span name="x">x: _179.startStates.Value forSome { val _179: T }*</span>)</span><span class="result">: <a name="ua.gradsoft.managedfixture.FixtureStateDSL.FixtureStateVerb_STATES" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL$FixtureStateVerb_STATES.html">FixtureStateVerb_STATES</a></span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a></dd></dl></div>
@@ -1101,17 +1210,6 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Suite</dd></dl></div>
-    </li><li visbl="prt" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#suitesToRun" data-isabs="false">
-      <a id="suitesToRun:Map[String, Suite]"></a>
-      <h4 class="signature">
-      <span class="kind">lazy val</span>
-      <span class="symbol"> 
-        <span class="name">suitesToRun</span>
-        
-        <span class="result">: <span name="scala.collection.mutable.Map" class="extype">Map</span>[String, <span name="org.scalatest.Suite" class="extype">Suite</span>]</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite</dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
       <a id="synchronized[T0](⇒ T0):T0"></a>
       <h4 class="signature">
@@ -1220,7 +1318,7 @@ By default- do nothing and return given value.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Assertions</dd></dl></div>
-    </li><li visbl="pub" name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite#withFixture" data-isabs="false">
+    </li><li visbl="pub" name="org.scalatest.managedfixture.ExternalSuite#withFixture" data-isabs="false">
       <a id="withFixture(OneArgTest):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
@@ -1230,7 +1328,7 @@ By default- do nothing and return given value.
         <span class="params">(<span name="test">test: <span name="org.scalatest.fixture.Suite.OneArgTest" class="extype">OneArgTest</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractManagedFixtureStateSuite → Suite</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ExternalSuite → Suite</dd></dl></div>
     </li><li visbl="prt" name="org.scalatest.Suite#withFixture" data-isabs="false">
       <a id="withFixture(NoArgTest):Unit"></a>
       <h4 class="signature">
@@ -1264,8 +1362,10 @@ By default- do nothing and return given value.
     </li></ol>
             </div>
 
-        <div name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="parent">
-              <h3>Inherited from <span name="org.scalatest.managedfixture.AbstractManagedFixtureStateSuite" class="extype">AbstractManagedFixtureStateSuite</span>[T]</h3>
+        <div name="org.scalatest.managedfixture.Grouped" class="parent">
+              <h3>Inherited from <a name="org.scalatest.managedfixture.Grouped" class="extype" href="Grouped.html">Grouped</a></h3>
+            </div><div name="org.scalatest.managedfixture.ExternalSuite" class="parent">
+              <h3>Inherited from <span name="org.scalatest.managedfixture.ExternalSuite" class="extype">ExternalSuite</span>[T]</h3>
             </div><div name="ua.gradsoft.managedfixture.FixtureStateDSL" class="parent">
               <h3>Inherited from <a name="ua.gradsoft.managedfixture.FixtureStateDSL" class="extype" href="../../../ua/gradsoft/managedfixture/FixtureStateDSL.html">FixtureStateDSL</a>[T]</h3>
             </div><div name="org.scalatest.fixture.PropSpec" class="parent">

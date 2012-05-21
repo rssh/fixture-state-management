@@ -73,17 +73,6 @@ functionality of restoring and saving information about states.</p></div><dl cla
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#fixtureStateTypes" data-isabs="true">
-      <a id="fixtureStateTypes:T"></a>
-      <h4 class="signature">
-      <span class="kind">val</span>
-      <span class="symbol"> 
-        <span class="name">fixtureStateTypes</span>
-        
-        <span class="result">: T</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>abstract </dd></dl></div>
     </li></ol>
             </div>
 
@@ -156,13 +145,13 @@ functionality of restoring and saving information about states.</p></div><dl cla
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#cashedCurrent" data-isabs="false">
-      <a id="cashedCurrent:Option[(StartStateType, Set[_219.stateAspects.Value forSome { val _219: T }])]"></a>
+      <a id="cashedCurrent:Option[(StartStateType, Set[_221.stateAspects.Value forSome { val _221: T }])]"></a>
       <h4 class="signature">
       <span class="kind">var</span>
       <span class="symbol"> 
         <span class="name">cashedCurrent</span>
         
-        <span class="result">: <span name="scala.Option" class="extype">Option</span>[(StartStateType, Set[_219.stateAspects.Value forSome { val _219: T }])]</span>
+        <span class="result">: <span name="scala.Option" class="extype">Option</span>[(StartStateType, Set[_221.stateAspects.Value forSome { val _221: T }])]</span>
       </span>
       </h4>
       
@@ -180,14 +169,36 @@ functionality of restoring and saving information about states.</p></div><dl cla
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#createTestStatesTableIfNeeded" data-isabs="false">
+      <a id="createTestStatesTableIfNeeded:Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">createTestStatesTableIfNeeded</span>
+        
+        <span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">create test states table if it not exists yet.</p>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#current" data-isabs="false">
-      <a id="current:Option[(_223.startStates.Value forSome { val _223: T }, Set[_224.stateAspects.Value forSome { val _224: T }])]"></a>
+      <a id="current:Option[(_225.startStates.Value forSome { val _225: T }, Set[_226.stateAspects.Value forSome { val _226: T }])]"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">current</span>
         
-        <span class="result">: <span name="scala.Option" class="extype">Option</span>[(_223.startStates.Value forSome { val _223: T }, Set[_224.stateAspects.Value forSome { val _224: T }])]</span>
+        <span class="result">: <span name="scala.Option" class="extype">Option</span>[(_225.startStates.Value forSome { val _225: T }, Set[_226.stateAspects.Value forSome { val _226: T }])]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#dropTestStatesTable" data-isabs="false">
+      <a id="dropTestStatesTable:Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">dropTestStatesTable</span>
+        
+        <span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       
@@ -260,14 +271,25 @@ functionality of restoring and saving information about states.</p></div><dl cla
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#lastError" data-isabs="false">
+      <a id="lastError:Option[String]"></a>
+      <h4 class="signature">
+      <span class="kind">var</span>
+      <span class="symbol"> 
+        <span class="name">lastError</span>
+        
+        <span class="result">: <span name="scala.Option" class="extype">Option</span>[String]</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#markStateChanges" data-isabs="false">
-      <a id="markStateChanges(FixtureStateChange[T],Set[_234.stateAspects.Value forSome { val _234: T }]):Unit"></a>
+      <a id="markStateChanges(FixtureStateChange[T],Set[_236.stateAspects.Value forSome { val _236: T }]):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
         <span class="name">markStateChanges</span>
         
-        <span class="params">(<span name="stateChange">stateChange: <a name="ua.gradsoft.managedfixture.FixtureStateChange" class="extype" href="FixtureStateChange.html">FixtureStateChange</a>[T]</span>, <span name="stateAspectChanges">stateAspectChanges: Set[_234.stateAspects.Value forSome { val _234: T }]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="params">(<span name="stateChange">stateChange: <a name="ua.gradsoft.managedfixture.FixtureStateChange" class="extype" href="FixtureStateChange.html">FixtureStateChange</a>[T]</span>, <span name="stateAspectChanges">stateAspectChanges: Set[_236.stateAspects.Value forSome { val _236: T }]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       
@@ -326,18 +348,18 @@ functionality of restoring and saving information about states.</p></div><dl cla
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#testStatesTableDdl" data-isabs="false">
-      <a id="testStatesTableDdl:String"></a>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#testStatesCreateTableDdl" data-isabs="false">
+      <a id="testStatesCreateTableDdl:String"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol"> 
-        <span class="name">testStatesTableDdl</span>
+        <span class="name">testStatesCreateTableDdl</span>
         
         <span class="result">: String</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">output DDL for creating of test table,
-which have next strcture:</p><div class="fullcomment"><div class="comment cmt"><p>output DDL for creating of test table,
+      <p class="shortcomment cmt">output DDL for creating of table for test states,
+which have next strcture:</p><div class="fullcomment"><div class="comment cmt"><p>output DDL for creating of table for test states,
 which have next strcture:</p><pre>
  create table {testStatesTableName} (
    rtype   VARCHAR(6) not null,
@@ -345,6 +367,18 @@ which have next strcture:</p><pre>
     primary key(rtype, value)
  );
 </pre></div></div>
+    </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#testStatesDropTableDdl" data-isabs="false">
+      <a id="testStatesDropTableDdl:String"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">testStatesDropTableDdl</span>
+        
+        <span class="result">: String</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">output DDL for dropping of test states table
+</p>
     </li><li visbl="pub" name="ua.gradsoft.managedfixture.RdbAccessHelper#testStatesTableName" data-isabs="false">
       <a id="testStatesTableName:String"></a>
       <h4 class="signature">
@@ -355,8 +389,8 @@ which have next strcture:</p><pre>
         <span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">name of table, where test states information is live.</p><div class="fullcomment"><div class="comment cmt"><p>name of table, where test states information is live.
-by default: test_states.
+      <p class="shortcomment cmt">name of table, where test states information is contained.</p><div class="fullcomment"><div class="comment cmt"><p>name of table, where test states information is contained.
+by default: TEST_STATES.
 </p></div></div>
     </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
       <a id="toString():String"></a>

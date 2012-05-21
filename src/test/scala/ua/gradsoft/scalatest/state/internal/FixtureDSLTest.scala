@@ -62,6 +62,20 @@ class FixtureDSLTest extends FunSuite
     assert(x.value.startStateChange == SameState);
   }
 
+  test("start state(s) change(nothing) execution(parallel)") {
+    val x = start state(Base1FixtureStateInfo.States.TWO
+                                    ) change ( nothing ) execution(parallel)
+    assert(x.value.startStateChange == SameState);
+    assert(x.value.canRunParallel == true);
+  }
+
+  test("start state(s) change(nothing) execution(sequential)") {
+    val x = start state(Base1FixtureStateInfo.States.TWO
+                                    ) change ( nothing ) execution(sequential)
+    assert(x.value.startStateChange == SameState);
+    assert(x.value.canRunParallel == false);
+  }
+
 }
 
 // vim: set ts=4 sw=4 et:

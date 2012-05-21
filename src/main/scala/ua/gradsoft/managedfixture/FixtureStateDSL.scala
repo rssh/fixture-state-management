@@ -22,7 +22,7 @@ package ua.gradsoft.managedfixture
  *
  * FinishStateDescription: state (undefined | {ID} )
  *
- * ExecutionDescription: sequential | parallel
+ * ExecutionDescription: execution (sequential | parallel)
  * }}}
  * 
  * Examples of such expession
@@ -32,7 +32,7 @@ package ua.gradsoft.managedfixture
  *   start state(any) finish state(undefined)
  *   start state(S3) finish state(S4)
  *   start states(S1,S2,S3) aspects (1,2,3) change(nothing)
- *   start state(S3) change(nothing) parallel
+ *   start state(S3) change(nothing) execution(parallel)
  * }}}
  *
  **/
@@ -225,17 +225,59 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   {
     def change(x: FixtureStateVerb_NOTHING.type)
          = fixtureUsageDSLAction( new FixtureStateVerbChangeNothing(this) );
+    //def change(x: FixtureStateVerb_ANY.type)
   }
 
   class FixtureStateVerbChangeNothing(up:DSLExpression) extends DSLExpression
   {
-   def value = up.value.withChangeNothing;
+    def value = up.value.withChangeNothing;
     def string = up.string+"  change(nothing)";
+    def parallel = new FixtureStateVerbChangeNothingParallel(this);
+    def execution(v: FixtureStateVerb_ExecutionSpec) = 
+            new FixtureStateVerbExecution(this,v);
   }
+
+  class FixtureStateVerbChangeNothingParallel(up:DSLExpression) extends DSLExpression
+  {
+    def value = up.value.withParallel(true);
+    def string = up.string+"  parallel";
+  }
+
 
   case object FixtureStateVerb_NOTHING
 
   def nothing = FixtureStateVerb_NOTHING
+
+  class FixtureStateVerbExecution(up:DSLExpression, 
+                                  spec: FixtureStateVerb_ExecutionSpec) 
+                                                         extends DSLExpression
+  {
+    def value = up.value.withParallel(spec.canRunParallel)
+    def string = up.string+" execution("+spec.string+")"
+  }
+
+  sealed trait FixtureStateVerb_ExecutionSpec
+  {  
+     def canRunParallel: Boolean
+     def string:String 
+  }
+
+  case object FixtureStateVerb_PARALLEL extends FixtureStateVerb_ExecutionSpec
+  {  
+     def canRunParallel = true;
+     def string="parallel"; 
+  }
+
+  case object FixtureStateVerb_SEQUENTIAL extends FixtureStateVerb_ExecutionSpec
+  {  
+     def canRunParallel = false;
+     def string="sequential"; 
+  }
+ 
+
+  def parallel = FixtureStateVerb_PARALLEL;
+  def sequential = FixtureStateVerb_SEQUENTIAL;
+
 
 }
 

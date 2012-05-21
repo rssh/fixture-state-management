@@ -44,6 +44,10 @@ case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
                      stateAspectsChanged = Set()
                     );
 
+  def withParallel(flag:Boolean): TestFixtureStateUsageDescription[T] =
+             copy[T](canRunParallel = flag);
+
+
 }
 
 

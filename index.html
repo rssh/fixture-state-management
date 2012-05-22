@@ -53,16 +53,14 @@
 
     
       <p>It's about tests which operate on fixtures containing external state.
-     Idea that before each test we describe state of fixture, needed for this test in micro-dsl and provide 
-     operations for load needed fixture state from some external source.
+     The idea is that before running each test we describe the state of the fixture needed for this test in a micro-dsl and provide operations to load the required fixture state from some external source.
      </p>
      <p>
-      Than test running engine will prepare fixture with needed state before calling each test, according to 
-      given description and will execute states in order which minimize number of state loads.
+      Than the test running engine will set up the fixture with the required state before calling each test, according to given description, and will execute the states in the order that minimizes the number of state loads. 
      </p>
      <p>
-      Typical usecase for such scenario -- where fixture is a connection to relational database and tests
-      'knows' that database situated in some concrete state.
+      A typical usecase for such scenario is where the fixture is a connection to relational database and the test
+      'knows' that database is in a specific state.
       </p>
       <p> Here is 
        <ul>
@@ -83,9 +81,8 @@
     
       <h2>Authors</h2>
       <p>Ruslan Shevchenko (ruslan@shevchenko.kiev.ua)<br/>      </p>
-    
-
-
+   
+        
     <h2>Download</h2>
     <p>
       You can download this project in either

@@ -5,7 +5,7 @@ organization:="ua.gradsoft"
 
 crossScalaVersions := Seq("2.9.1","2.9.2")
 
-version:="0.5.1"
+version:="0.5.2"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.8" intransitive()
 

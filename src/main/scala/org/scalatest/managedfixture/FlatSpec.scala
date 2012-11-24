@@ -155,8 +155,8 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
   *
   * class MyFlatSpec extends managedfixture.[DBFixtureStateTypes.type]
   * {
-  *  val fuxtureStateTypes = DBFixtureStateTypes
-  *  val fuxtureAccess = DBFixtureAccess
+  *  val fixtureStateTypes = DBFixtureStateTypes
+  *  val fixtureAccess = DBFixtureAccess
   *  import DBFixtureStateTypes.States._
   *
   *  behavior of "My datababase"

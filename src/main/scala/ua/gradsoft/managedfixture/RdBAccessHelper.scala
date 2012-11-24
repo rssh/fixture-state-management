@@ -59,15 +59,23 @@ trait RdbAccessHelper[T <: FixtureStateTypes]
    }
   }
 
-  private def createTestStatesTableIfNeeded(cn:Connection) :Unit =
-  {
-   val rs = cn.getMetaData.getTables(null,null,
-                                     testStatesTableName.toUpperCase, 
-                                     Array[String]("TABLE"));
-   if (!rs.next) {
+  private def createTestStatesTableIfNeeded(cn:Connection): Unit =
+   if (!checkTestStatesTableExists(cn)) {
      val st = cn.createStatement();
      st.executeUpdate(testStatesCreateTableDdl);
    }
+
+  private def checkTestStatesTableExists(cn:Connection): Boolean =
+  {
+   checkTableExists(cn,testStatesTableName) ||
+     checkTableExists(cn,testStatesTableName.toUpperCase) ||
+       checkTableExists(cn,testStatesTableName.toLowerCase) 
+  }
+
+  private def checkTableExists(cn:Connection, tableName:String): Boolean =
+  {
+   val rs = cn.getMetaData.getTables(null,null,tableName,Array("TABLE"))
+   rs.next
   }
 
   /**

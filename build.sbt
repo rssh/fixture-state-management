@@ -3,17 +3,19 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
-crossScalaVersions := Seq("2.9.1","2.9.2")
+scalaVersion := "2.10.0"
 
-version:="0.6.0-SNAPSHOT"
+crossScalaVersions := Seq("2.10.0")
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "1.8" intransitive()
+version:="0.7.0"
 
-libraryDependencies +=  "org.specs2" %% "specs2" % "1.9" intransitive()
+libraryDependencies += "org.scalatest" %% "scalatest" % "1.9.1" intransitive()
+
+libraryDependencies +=  "org.specs2" %% "specs2" % "1.14" intransitive()
 
 // for examples:
 
-libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5" % "test"
+libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-6" % "test"
 
 libraryDependencies +=  "com.h2database" % "h2" % "1.2.127" % "test"
 

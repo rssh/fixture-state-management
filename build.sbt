@@ -52,7 +52,7 @@ pomExtra := (
     <developer>
       <id>rssh</id>
       <name>Ruslan Shevchenko</name>
-      <url>http://www.gradsoft.ua</url>
+      <url>rssh.github.com</url>
     </developer>
   </developers>
 )

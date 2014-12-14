@@ -6,7 +6,7 @@ import ua.gradsoft.managedfixture._
 
 private[scalatest] class InternalFunSuite[T <: FixtureStateTypes](owner: managedfixture.FunSuite[T]) 
                                 extends InternalSuite[T,managedfixture.FunSuite[T]](owner)
-                                    with fixture.FunSuite
+                                    with fixture.FunSuiteLike
 {
 
   def this() =
@@ -92,11 +92,8 @@ trait FunSuite[T <: FixtureStateTypes] extends fixture.FunSuite
 
   implicit protected override def info: Informer = internalSpec._info
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-                   configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit =
-        runGrouped(testName,reporter,stopper,filter,configMap, distributor, tracker,
-                   internalSpec, classOf[FunSuiteGroup[T]])
-  
+  override def run(testName: Option[String], args: Args): Status = 
+        runGrouped(testName, args,  internalSpec, classOf[FunSuiteGroup[T]])
   
   
 }

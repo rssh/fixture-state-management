@@ -3,21 +3,23 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.11.4"
 
-crossScalaVersions := Seq("2.10.0")
+crossScalaVersions := Seq("2.10.0, 2.11.0")
 
 version:="0.7.x-SNAPSHOT"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "1.9.1" intransitive()
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" 
 
-libraryDependencies +=  "org.specs2" %% "specs2" % "1.14" intransitive()
+// TODO: upgrade to latest spec2
+libraryDependencies +=  "org.specs2" %% "specs2" % "2.3.13" 
 
 // for examples:
 
-libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-6" % "test"
+//libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-6" % "test
+libraryDependencies +=  "com.typesafe.slick" %% "slick" % "2.1.0" % "test"
 
-libraryDependencies +=  "com.h2database" % "h2" % "1.2.127" % "test"
+libraryDependencies +=  "com.h2database" % "h2" % "1.4.180" % "test"
 
 
 

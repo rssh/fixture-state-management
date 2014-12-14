@@ -13,7 +13,7 @@ import scala.util.DynamicVariable;
 
 private[scalatest] class InternalFreeSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes](owner: FreeSpec[T]) 
                                             extends InternalSuite[T, FreeSpec[T]](owner)
-                                             with fixture.FreeSpec
+                                             with fixture.FreeSpecLike
 {
 
   def this() =
@@ -188,10 +188,8 @@ trait FreeSpec[T <: FixtureStateTypes] extends fixture.Suite
 
   protected implicit def convertToFreeSpecStringWrapper(s: String) = new FreeSpecStringWrapper(s)
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit = {
-       runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker,
-           internalSpec, classOf[managedfixture.FreeSpecGroup[T]])
+  override def run(testName: Option[String], args: Args): Status = {
+       runGrouped(testName, args,  internalSpec, classOf[managedfixture.FreeSpecGroup[T]])
   }
 
   protected val behave = new BehaveWord

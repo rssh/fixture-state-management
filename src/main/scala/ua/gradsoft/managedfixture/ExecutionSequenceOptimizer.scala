@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Ruslan Shevchenko
+ * Copyright 2012, 2014 Ruslan Shevchenko
  * Copyright 2012 GradSoft Ltd
  *
  * Default licensing: Apache
@@ -17,6 +17,9 @@ object ExecutionSequenceOptimizer
   /**
    * sort states in order, which allow sequental/parallel computations with minimal number of reloads
    * between.
+   *
+   * returned variable is a sequence of parts, which must be executed sequentially.  Inside one parts test can be 
+   * executed in parallel.
    **/
   def optimizeOrder[T <: FixtureStateTypes](
          usageDescriptions: scala.collection.Map[String,TestFixtureStateUsageDescription[T]]):List[List[String]] =

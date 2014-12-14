@@ -110,16 +110,15 @@ trait Grouped
     retval;
   }
   
-  def runGrouped[T](testName: Option[String], reporter: Reporter, stopper: Stopper, 
-                             filter: Filter, configMap: Map[String, Any], 
-                             distributor: Option[Distributor], tracker: Tracker, 
-                             internalSpec: fixture.Suite, fixtureGroupClass: Class[T]): Unit = {
+  def runGrouped[T](testName: Option[String], args: Args,
+                    internalSpec: fixture.Suite, fixtureGroupClass: Class[T]): Status = {
      if (isGrouped) {
         if (optGroupClass == None) {
           optGroupClass = findSpecGroupWith(fixtureGroupClass);
         }
         if (optGroupClass!=None) {
            /* do nothing:  we situate in scope of group which will run us */
+           SucceededStatus
         } else {
           throw new IllegalStateException(
                """
@@ -129,7 +128,7 @@ trait Grouped
               );
         }
      } else {
-        internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker) 
+        internalSpec.run(testName, args) 
      }
   }
     

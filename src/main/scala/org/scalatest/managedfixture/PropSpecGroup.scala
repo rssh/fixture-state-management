@@ -10,10 +10,10 @@ abstract class PropSpecGroup[T <: FixtureStateTypes] extends managedfixture.Prop
 
   execution autonomic
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-    collectGrouped(this,classOf[FlatSpec[T]]);
-    internalSpec.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
+  override def run(testName: Option[String], args: Args): Status = 
+  {
+    collectGrouped(this,classOf[FlatSpec[T]])
+    internalSpec.run(testName, args)
   }
     
   

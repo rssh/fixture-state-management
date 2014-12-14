@@ -8,7 +8,7 @@ import scala.util.DynamicVariable;
 
 private[scalatest] class InternalFeatureSpec[T <: FixtureStateTypes](owner: FeatureSpec[T])
                                      extends InternalSuite[T,FeatureSpec[T]](owner)
-                                         with fixture.FeatureSpec
+                                         with fixture.FeatureSpecLike
 {
 
   def this() = 
@@ -139,10 +139,8 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
     }
   }
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) {
-     runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker,internalSpec,
-                 classOf[FeatureSpecGroup[T]])
+  override def run(testName: Option[String], args: Args): Status = {
+     runGrouped(testName, args,internalSpec, classOf[FeatureSpecGroup[T]])
   }
 
   protected def scenariosFor(unit: Unit) {}

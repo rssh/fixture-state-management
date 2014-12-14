@@ -382,11 +382,9 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
     }
   }
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit = 
+  override def run(testName: Option[String], args: Args): Status =
   {      
-    runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker, 
-               internalSpec,classOf[FlatSpecGroup[T]]); 
+    runGrouped(testName, args,   internalSpec,classOf[FlatSpecGroup[T]])
   }
   
 

@@ -12,7 +12,7 @@ import ua.gradsoft.managedfixture._
  **/
 private[scalatest] class InternalFunSpec[T <: FixtureStateTypes](owner: FunSpec[T]) 
                                 extends InternalSuite[T,managedfixture.FunSpec[T]](owner)
-                                    with fixture.FunSpec
+                                    with fixture.FunSpecLike
 {
 
   def this() =
@@ -111,14 +111,12 @@ trait FunSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture
     internalSpec._ignore(specText, Array[Tag]():_*)(testFun)
   }
 
-  protected def describe(description: String)(fun: => Unit) {
+  protected def describe(description: String)(fun: => Unit) = {
     internalSpec._describe(description)(fun)
   }
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker): Unit = {
-      runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker, internalSpec, classOf[FunSpecGroup[T]] )
-  }
+  override def run(testName: Option[String], args: Args): Status = 
+      runGrouped(testName, args, internalSpec, classOf[FunSpecGroup[T]] )
 
   protected val behave = new BehaveWord
 

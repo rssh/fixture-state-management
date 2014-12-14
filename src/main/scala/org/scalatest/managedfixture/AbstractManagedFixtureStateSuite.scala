@@ -48,7 +48,7 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
   private lazy val _neededFixtureStates: MutableMap[String,TestFixtureStateUsageDescription[T]] =
                                                                                          LinkedHashMap();
 
-  override def nestedSuites = suitesToRun.values.toList;
+  override def nestedSuites = suitesToRun.values.toIndexedSeq;
   protected lazy val suitesToRun: MutableMap[String,Suite] = MutableMap[String,Suite]();
 
   private[scalatest] lazy val defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
@@ -96,31 +96,33 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
     }
   }
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-                   configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) = {
+  override def run(testName: Option[String], args: Args): Status =
+  {
     if (testNames.isEmpty) {
       if (!nestedSuites.isEmpty) {
-       if (testName==None) {
-          this.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
-       } else {
-          for(suite <- nestedSuites) {
-            if (suite.testNames.contains(testName.get)) {
-               suite.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
-            }
-          }
+        //TODO: wrap args with new reporter.
+       testName match {
+          case None => this.runNestedSuites(args)
+          case Some(name) =>
+              new CompositeStatus(
+                nestedSuites.withFilter(
+                    _.testNames.contains(name)
+                ).map(
+                    _.run(testName, args)
+                ).toSet
+              )
        }
       } else {
-       // nothing to test. do nothing here.
+        // nothing to test.
+        SucceededStatus
       }
     } else {
-       super.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
+       super.run(testName, args);
     }
   }
 
 
-  protected override def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
-                                configMap: Map[String, Any],
-                                distributor: Option[Distributor], tracker: Tracker)=
+  protected override def runNestedSuites(args:Args): Status =
   {
    if (!isNested) {
     // run subsuites in terms of order
@@ -128,30 +130,46 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
     val optLock = fixtureAccess.suiteLevelLock;
     optLock.foreach( _.acquire() )
     try {
-     for(l <- sequenceParts) {
-      if (l.size == 1 || distributor == None) {
-       // must be run without distributor
-       for(nested <- l) {
-          // TODO: think about stopRequested
-          suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
-       }
-      } else {
-       // start this tests in parallel
-       for(nested <- l.par) {
-         //TODO:  rethibk parallel works of reporters.
-         // suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
-         //  does not use distributor becouse we does not know how to lock arround one.
-         distributor.get.apply(suitesToRun(nested),tracker);
-       }
-      }
-     }
+      val status = new StatefulStatus()
+      runNestedSuitesParts(sequenceParts, args, status)
+      status.waitUntilCompleted()
+      status
     } finally {
       optLock.foreach( _.release() )
     }
    } else {
-     super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
+     super.runNestedSuites(args);
    }
   }
+
+  protected def runNestedSuitesParts(parts: List[List[String]], args: Args, status: StatefulStatus): Status =
+  {
+    parts match {
+      case head::tail =>  
+                          runNestedSuitesPart(head, args).whenCompleted{ succeeded =>
+                                                     if (!succeeded) {
+                                                        status.setFailed()
+                                                     }
+                                                     runNestedSuitesParts(tail,args,status) 
+                          }
+      case Nil => status.setCompleted()
+    }
+    status
+  }
+
+
+
+  protected def runNestedSuitesPart(part: List[String], args: Args): Status =
+  {
+    val statuses = part map {
+      nested => args.distributor match {
+                   case Some(d) => d.apply(suitesToRun(nested),args)
+                   case None => suitesToRun(nested).run(None,args)
+                }
+    }
+    new CompositeStatus(statuses.toSet)
+  }
+
 
 
 }

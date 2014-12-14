@@ -7,7 +7,7 @@ import org.scalatest.fixture.NoArgTestWrapper
 
 private[scalatest] class InternalPropSpec[T <: FixtureStateTypes](owner: managedfixture.PropSpec[T]) 
                                 extends InternalSuite[T,managedfixture.PropSpec[T]](owner)
-                                    with fixture.PropSpec
+                                    with fixture.PropSpecLike
 {
 
   def this() =
@@ -86,10 +86,8 @@ trait PropSpec[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixtur
   
   implicit protected override def info: Informer = internalSpec._info
 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker) = {
-      runGrouped(testName, reporter, stopper, filter, configMap, distributor, tracker, 
-          internalSpec, classOf[PropSpecGroup[T]])
+  override def run(testName: Option[String], args: Args): Status = {
+      runGrouped(testName,  args,  internalSpec, classOf[PropSpecGroup[T]])
   }
   
   

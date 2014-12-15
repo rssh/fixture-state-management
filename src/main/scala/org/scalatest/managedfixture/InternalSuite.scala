@@ -6,6 +6,7 @@ import org.scalatest.fixture.NoArgTestWrapper;
 
 import scala.util.DynamicVariable;
 
+// TODO: rename to Spec
 private[scalatest] trait ExternalSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes] extends fixture.Suite
                                                                   with FixtureStateDSL[T]
 {
@@ -40,6 +41,7 @@ private[scalatest] trait ExternalSuite[T <: ua.gradsoft.managedfixture.FixtureSt
 
 }
 
+// TODO: rename to Spec
 private[scalatest] abstract class InternalSuite[T <: ua.gradsoft.managedfixture.FixtureStateTypes,
                                              S <: ExternalSuite[T] ](val owner: S)
                                          extends Suite

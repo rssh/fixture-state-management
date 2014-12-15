@@ -131,11 +131,14 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
     optLock.foreach( _.acquire() )
     try {
       val status = new StatefulStatus()
+      System.err.println("in runNestedSuites, before runNestedSuitesParts, sequenceParts="+sequenceParts)
       runNestedSuitesParts(sequenceParts, args, status)
-      status.waitUntilCompleted()
+      status.whenCompleted( _ => optLock.foreach( _.release() ) )
       status
-    } finally {
-      optLock.foreach( _.release() )
+    } catch {
+       case ex: Throwable =>
+                  optLock.foreach( _.release() )
+                  throw ex
     }
    } else {
      super.runNestedSuites(args);
@@ -144,15 +147,19 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
 
   protected def runNestedSuitesParts(parts: List[List[String]], args: Args, status: StatefulStatus): Status =
   {
+    System.err.println("runNestedSuitesParts, parts="+parts)
     parts match {
       case head::tail =>  
                           runNestedSuitesPart(head, args).whenCompleted{ succeeded =>
+                                                     System.err.println("part completed, succeeded="+succeeded)
                                                      if (!succeeded) {
                                                         status.setFailed()
                                                      }
                                                      runNestedSuitesParts(tail,args,status) 
                           }
-      case Nil => status.setCompleted()
+      case Nil => 
+                          System.err.println("completed")
+                          status.setCompleted()
     }
     status
   }
@@ -161,12 +168,18 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
 
   protected def runNestedSuitesPart(part: List[String], args: Args): Status =
   {
+    System.err.println("runNestedSuitesPart, part="+part)
     val statuses = part map {
       nested => args.distributor match {
-                   case Some(d) => d.apply(suitesToRun(nested),args)
-                   case None => suitesToRun(nested).run(None,args)
+                   case Some(d) => 
+                                     System.err.println("apply distributor, d="+d)
+                                     d.apply(suitesToRun(nested),args)
+                   case None => 
+                                     System.err.println("call run")
+                                     suitesToRun(nested).run(None,args)
                 }
     }
+    System.err.println("runNestedSuitsPart return composite:"+statuses)
     new CompositeStatus(statuses.toSet)
   }
 

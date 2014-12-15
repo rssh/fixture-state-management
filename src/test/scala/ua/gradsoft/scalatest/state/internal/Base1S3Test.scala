@@ -1,6 +1,7 @@
 package ua.gradsoft.scalatest.state.internal
 
 import org.scalatest._
+import org.scalatest.OutcomeOf._
 import ua.gradsoft.managedfixture._
 
 import scala.collection.mutable.{Map => MutableMap};
@@ -67,15 +68,15 @@ class Base1S3Test extends fixture.FunSuite
   def fixtureUsage(x: DSLExpression) =
   {  currentFixtureData = x.value; }
 
-  def withFixture(test: OneArgTest)
+  def withFixture(test: OneArgTest): Outcome =
   {
     // 
     val x = testStateUsageDescriptions.get(test.name).getOrElse( dummyStateData );
-    stateManager.doWith(x,test);
+    outcomeOf{ stateManager.doWith(x,test) }
   }
 
 
-  override def nestedSuites = suitesToRun.values.toList;
+  override def nestedSuites = suitesToRun.values.toIndexedSeq;
   private[this] var suitesToRun: MutableMap[String,Suite] = MutableMap[String,Suite]();
 
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {
@@ -92,26 +93,23 @@ class Base1S3Test extends fixture.FunSuite
     }
   }
 
-  protected override def runNestedSuites(reporter: Reporter, stopper: Stopper, filter: Filter,
-                                configMap: Map[String, Any], 
-                                distributor: Option[Distributor], tracker: Tracker)=
+  protected override def runNestedSuites(args: Args): Status =
   {
    if (!isNested) {
     fixtureAccess.suiteLevelLock.map(_.acquire);
     try {
      val sequenceParts = ExecutionSequenceOptimizer.optimizeOrder(testStateUsageDescriptions);
-     for(l <- sequenceParts) {
        // must be run without distributor
-       for(nested <- l) {
-          // TODO: think about stopRequested
-          suitesToRun(nested).run(None,reporter,stopper,filter,configMap,distributor,tracker);
-       }
-     }
+     val statuses = for(l <- sequenceParts;
+                        nested <- l) yield {
+                             suitesToRun(nested).run(None,args);
+                    }
+     new CompositeStatus(statuses.toSet)
     } finally {
       fixtureAccess.suiteLevelLock.map(_.release);
     }
    } else {
-     super.runNestedSuites(reporter, stopper, filter, configMap, distributor, tracker);
+     super.runNestedSuites(args);
    }
   }
   

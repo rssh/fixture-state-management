@@ -12,16 +12,17 @@ class FunSpecGroup extends managedfixture.FunSpecGroup[Base1FixtureStateInfo.typ
 
   // this is needed only to test our runner. I.e. in non-internal tests overriding run
   //   is not needed. 
-  override def run(testName: Option[String], reporter: Reporter, stopper: Stopper, filter: Filter,
-      configMap: Map[String, Any], distributor: Option[Distributor], tracker: Tracker):Unit = {
+  override def run(testName: Option[String], args: Args): Status =
+  {
         //System.err.println("funspec begin");
-        super.run(testName, reporter, stopper, filter, configMap, distributor, tracker);
+        val retval = super.run(testName, args);
         import FunSpecGroup._
         assert(t1s1done,"t1s1 test was not passed");
         assert(t1s2done,"t1s2 test was not passed");
         assert(t2s1done,"t2s1 test was not passed");
         assert(t2s2done,"t2s2 test was not passed");
         //System.err.println("funspec end");
+        retval
   }
 
 

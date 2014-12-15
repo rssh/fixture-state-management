@@ -1,6 +1,7 @@
 package ua.gradsoft.scalatest.state.internal
 
 import org.scalatest._
+import org.scalatest.OutcomeOf._
 import ua.gradsoft.managedfixture._
 
 import scala.collection.mutable.{Map => MutableMap};
@@ -28,11 +29,11 @@ class Base1S2Test extends fixture.FunSuite
   {  currentFixtureData = x.value; }
 
 
-  def withFixture(test: OneArgTest)
+  def withFixture(test: OneArgTest): Outcome =
   {
     // 
     val x = testStateUsageDescriptions.get(test.name).getOrElse( dummyStateData );
-    stateManager.doWith(x, test);
+    outcomeOf{ stateManager.doWith(x, test) }
   }
 
   protected override def test(testName: String, testTags: Tag*)(testFun: FixtureParam => Any) {

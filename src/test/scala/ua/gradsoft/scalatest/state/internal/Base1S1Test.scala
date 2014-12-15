@@ -25,7 +25,7 @@ class Base1S1Test extends fixture.FunSuite
 
   type FixtureParam = FST#FixtureType;
 
-  def withFixture(test: OneArgTest)
+  def withFixture(test: OneArgTest) =
   {
     // 
     val x = testStateUsageDescriptions.get(test.name).getOrElse( dummyStateData );

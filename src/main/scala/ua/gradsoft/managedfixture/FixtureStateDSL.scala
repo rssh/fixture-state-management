@@ -55,21 +55,21 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   /**
    * called when we receive new value. (by default - nothing).
    **/ 
-  protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
+  protected def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[T]): Unit =
   {
   }
 
 
   trait DSLExpression
   {
-    def value: TestFixtureStateUsageDescription[T]
+    def value: FixtureStateUsageDescription[T]
     def string: String
   }
 
   class FixtureStateVerb extends DSLExpression
                         with FixtureStateVerb_Start
   { 
-    val value = TestFixtureStateUsageDescription[T](fixtureStateTypes);
+    val value = FixtureStateUsageDescription[T](fixtureStateTypes);
     val string = "FixtureStateVerb";
   }
                           
@@ -116,7 +116,7 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   // also let-s expand start into top-level
   class FixtureStateVerbStart extends DSLExpression
   {
-    val value = TestFixtureStateUsageDescription[T](fixtureStateTypes);
+    val value = FixtureStateUsageDescription[T](fixtureStateTypes);
 
     def state(x: FixtureStateVerb_ANY.type) =
             fixtureUsageDSLAction(new FixtureStateVerbStartStateAny(this));

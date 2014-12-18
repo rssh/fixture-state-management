@@ -17,11 +17,11 @@ class Base1S1Test extends fixture.FunSuite
 
   val stateManager = new FixtureStateManager[FST](fixtureAccess);
 
-  val fixtureStateData = TestFixtureStateUsageDescription[FST](stateInfo).withAnyState;
+  val fixtureStateData = FixtureStateUsageDescription[FST](stateInfo).withAnyState;
 
-  val dummyStateData = TestFixtureStateUsageDescription[FST](stateInfo).withAnyState;
+  val dummyStateData = FixtureStateUsageDescription[FST](stateInfo).withAnyState;
 
-  val testStateUsageDescriptions : MutableMap[String, TestFixtureStateUsageDescription[FST]] = LinkedHashMap();
+  val testStateUsageDescriptions : MutableMap[String, FixtureStateUsageDescription[FST]] = LinkedHashMap();
 
   type FixtureParam = FST#FixtureType;
 
@@ -46,7 +46,7 @@ class Base1S1Test extends fixture.FunSuite
   import Base1FixtureStateInfo.States._;
 
   val testName = "receive state"
-  testStateUsageDescriptions(testName)=TestFixtureStateUsageDescription.apply[FST](stateInfo).
+  testStateUsageDescriptions(testName)=FixtureStateUsageDescription.apply[FST](stateInfo).
                                                       withStartState(TWO);
   test(testName) { x =>
     assert(x==2);

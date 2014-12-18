@@ -114,7 +114,7 @@ private[scalatest] class InternalFlatSpec[T <: FixtureStateTypes](val owner:Flat
   def _info = info;
 
 
-  def _fixtureUsage(usage: TestFixtureStateUsageDescription[T])
+  def _fixtureUsage(usage: FixtureStateUsageDescription[T])
   {  fixtureUsage(usage); }
 
 
@@ -196,7 +196,7 @@ trait FlatSpec[T <: FixtureStateTypes] extends Suite with ShouldVerb with MustVe
    **/
   def fixtureStateTypes: T
 
-  override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
+  override protected def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[T]): Unit =
   {
    internalSpec._fixtureUsage(value);
   }

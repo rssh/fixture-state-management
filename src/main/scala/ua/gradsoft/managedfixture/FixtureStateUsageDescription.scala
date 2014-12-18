@@ -10,7 +10,7 @@ package ua.gradsoft.managedfixture
  *  By default - All. If stateAspectsChanged is empty set, than this test does not change
  *  aspects at all.
  **/
-case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
+case class FixtureStateUsageDescription[T <: FixtureStateTypes](
                          val stateInfo: T,
                          val precondition: FixtureStateCondition[T],
                          val startStateChange: FixtureStateChange[T],
@@ -18,33 +18,33 @@ case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
                          val canRunParallel: Boolean)
 {
 
-  def withAnyState: TestFixtureStateUsageDescription[T] =
+  def withAnyState: FixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withAnyState);
 
-  def withUndefinedState: TestFixtureStateUsageDescription[T] =
+  def withUndefinedState: FixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withUndefinedState);
 
-  def withStartState(s: T#StartStateType): TestFixtureStateUsageDescription[T] =
+  def withStartState(s: T#StartStateType): FixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withStartState(s));
 
-  def withStartStates(s: Seq[T#StartStateType]): TestFixtureStateUsageDescription[T] =
+  def withStartStates(s: Seq[T#StartStateType]): FixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withStartStates(s));
 
-  def withStateAspects(s: Seq[T#StateAspectType]): TestFixtureStateUsageDescription[T] =
+  def withStateAspects(s: Seq[T#StateAspectType]): FixtureStateUsageDescription[T] =
              copy[T](precondition=precondition.withStateAspects(s));
 
-  def withFinishState(s: T#StartStateType): TestFixtureStateUsageDescription[T] =
+  def withFinishState(s: T#StartStateType): FixtureStateUsageDescription[T] =
              copy[T](startStateChange = NewState[T](s) );
 
-  def withFinishStateUndefined: TestFixtureStateUsageDescription[T] =
+  def withFinishStateUndefined: FixtureStateUsageDescription[T] =
              copy[T](startStateChange = UndefinedState );
 
-  def withChangeNothing: TestFixtureStateUsageDescription[T] =
+  def withChangeNothing: FixtureStateUsageDescription[T] =
              copy[T](startStateChange = SameState,
                      stateAspectsChanged = Set()
                     );
 
-  def withParallel(flag:Boolean): TestFixtureStateUsageDescription[T] =
+  def withParallel(flag:Boolean): FixtureStateUsageDescription[T] =
              copy[T](canRunParallel = flag);
 
 
@@ -52,7 +52,7 @@ case class TestFixtureStateUsageDescription[T <: FixtureStateTypes](
 
 
                      
-object TestFixtureStateUsageDescription
+object FixtureStateUsageDescription
 {
 
   /**
@@ -64,7 +64,7 @@ object TestFixtureStateUsageDescription
            if (stateInfo==null) {
               throw new IllegalArgumentException("stateInfo must not be null");
            }
-           new TestFixtureStateUsageDescription[T](
+           new FixtureStateUsageDescription[T](
                          stateInfo = stateInfo,
                          precondition = NoState[T](stateInfo),
                          startStateChange = UndefinedState,

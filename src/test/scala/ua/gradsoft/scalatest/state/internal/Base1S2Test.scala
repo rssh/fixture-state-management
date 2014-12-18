@@ -18,12 +18,12 @@ class Base1S2Test extends fixture.FunSuite
   type FST = Base1FixtureStateInfo.type;
 
   val stateManager = new FixtureStateManager[FST](fixtureAccess);
-  val dummyStateData = TestFixtureStateUsageDescription[FST](fixtureStateTypes).withAnyState;
+  val dummyStateData = FixtureStateUsageDescription[FST](fixtureStateTypes).withAnyState;
 
   type FixtureParam = FST#FixtureType;
-  var currentFixtureData = TestFixtureStateUsageDescription[FST](fixtureStateTypes);
+  var currentFixtureData = FixtureStateUsageDescription[FST](fixtureStateTypes);
 
-  val testStateUsageDescriptions : MutableMap[String, TestFixtureStateUsageDescription[FST]] = LinkedHashMap();
+  val testStateUsageDescriptions : MutableMap[String, FixtureStateUsageDescription[FST]] = LinkedHashMap();
 
   def fixtureUsage(x: DSLExpression) =
   {  currentFixtureData = x.value; }

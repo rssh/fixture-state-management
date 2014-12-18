@@ -6,7 +6,7 @@ class FixtureStateManager[T <: FixtureStateTypes](val fixtureAccess: FixtureAcce
   var currentStartState: Option[T#StartStateType] = None;
   var usedStateAspects: Set[T#StateAspectType] = Set();
 
-  def doWith[A](usage: TestFixtureStateUsageDescription[T],
+  def doWith[A](usage: FixtureStateUsageDescription[T],
                 f: T#FixtureType => A): A =
   {
    this.synchronized {

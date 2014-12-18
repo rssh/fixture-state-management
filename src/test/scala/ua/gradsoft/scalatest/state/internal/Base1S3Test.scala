@@ -29,17 +29,17 @@ class Base1S3Test extends fixture.FunSuite
     }
 
   lazy val _stateManager = new FixtureStateManager[FST](fixtureAccess);
-  lazy val dummyStateData = TestFixtureStateUsageDescription[FST](fixtureStateTypes).withAnyState;
+  lazy val dummyStateData = FixtureStateUsageDescription[FST](fixtureStateTypes).withAnyState;
 
-  var currentFixtureData = TestFixtureStateUsageDescription[FST](fixtureStateTypes);
+  var currentFixtureData = FixtureStateUsageDescription[FST](fixtureStateTypes);
 
-  def testStateUsageDescriptions: MutableMap[String, TestFixtureStateUsageDescription[FST]] =
+  def testStateUsageDescriptions: MutableMap[String, FixtureStateUsageDescription[FST]] =
       if (isNested)
         _parent.get.testStateUsageDescriptions
       else
         _testStateUsageDescriptions;
 
-  lazy val _testStateUsageDescriptions : MutableMap[String, TestFixtureStateUsageDescription[FST]] = LinkedHashMap();
+  lazy val _testStateUsageDescriptions : MutableMap[String, FixtureStateUsageDescription[FST]] = LinkedHashMap();
 
   private[Base1S3Test] def isNested : Boolean = (_parent != None);
 

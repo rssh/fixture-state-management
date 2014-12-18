@@ -14,7 +14,7 @@ class ExecutionSequenceOptimizerTest extends FunSuite
   type FST = Base1FixtureStateInfo.type;
 
   test("optimize 3 simple cases")  {
-    var m = Map[String, TestFixtureStateUsageDescription[FST]](
+    var m = Map[String, FixtureStateUsageDescription[FST]](
                   "p2" ->  (start state(TWO) change(nothing)).value ,
                   "p1" ->  (start state(ONE) finish state(TWO)).value,
                   "p3" ->  (start state(TWO) finish state(THREE)).value

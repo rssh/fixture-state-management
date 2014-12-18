@@ -117,7 +117,7 @@ trait FeatureSpec[T <: FixtureStateTypes] extends fixture.Suite
                                                                       )
                                               
 
-  override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
+  override protected def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[T]): Unit =
   {
    internalSpec.fixtureUsage(value);
   }

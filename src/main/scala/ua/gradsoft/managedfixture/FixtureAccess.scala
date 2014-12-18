@@ -104,7 +104,7 @@ trait FixtureAccess[T <: FixtureStateTypes]
   
      def fixtureStateTypes: T = fixtureAccess.fixtureStateTypes;
 
-     def withState[A](usage: TestFixtureStateUsageDescription[T])(f: =>A):A =
+     def withState[A](usage: FixtureStateUsageDescription[T])(f: =>A):A =
          fixtureStateManager.doWith(usage, { (x:T#FixtureType) => f });
 
      @inline

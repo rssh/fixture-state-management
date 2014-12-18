@@ -27,7 +27,7 @@ private[scalatest] trait ExternalSuite[T <: ua.gradsoft.managedfixture.FixtureSt
 
   protected def internalSpec : InternalSuite[T,_];
 
-  override protected def fixtureUsageDSLValueAction(value: => TestFixtureStateUsageDescription[T]): Unit =
+  override protected def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[T]): Unit =
   {
    internalSpec.fixtureUsage(value);
   }

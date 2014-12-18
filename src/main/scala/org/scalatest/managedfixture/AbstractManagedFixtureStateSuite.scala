@@ -38,21 +38,21 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
 
   protected def fixtureStateManager: FixtureStateManager[T] = fixtureAccess.fixtureStateManager;
 
-  protected def neededFixtureStates: MutableMap[String, TestFixtureStateUsageDescription[T]] = 
+  protected def neededFixtureStates: MutableMap[String, FixtureStateUsageDescription[T]] = 
                                       if (isNested) {
                                         _parent.get.neededFixtureStates
                                       } else {
                                         _neededFixtureStates
                                       }
 
-  private lazy val _neededFixtureStates: MutableMap[String,TestFixtureStateUsageDescription[T]] =
+  private lazy val _neededFixtureStates: MutableMap[String,FixtureStateUsageDescription[T]] =
                                                                                          LinkedHashMap();
 
   override def nestedSuites = suitesToRun.values.toIndexedSeq;
   protected lazy val suitesToRun: MutableMap[String,Suite] = MutableMap[String,Suite]();
 
-  private[scalatest] lazy val defaultFixtureState = TestFixtureStateUsageDescription[T](fixtureStateTypes);
-  private[scalatest] var fixtureStateForNextTest:Option[TestFixtureStateUsageDescription[T]] = None;
+  private[scalatest] lazy val defaultFixtureState = FixtureStateUsageDescription[T](fixtureStateTypes);
+  private[scalatest] var fixtureStateForNextTest:Option[FixtureStateUsageDescription[T]] = None;
   
 
   def withFixture(test: OneArgTest) =
@@ -68,7 +68,7 @@ private[scalatest] trait AbstractManagedFixtureStateSuite[T <: ua.gradsoft.manag
       fixtureStateForNextTest = Some(dsl.value); 
     }
 
-  def fixtureUsage(usage: TestFixtureStateUsageDescription[T]):Unit = 
+  def fixtureUsage(usage: FixtureStateUsageDescription[T]):Unit = 
     { 
       fixtureStateForNextTest = Some(usage); 
     }

@@ -22,7 +22,7 @@ object ExecutionSequenceOptimizer
    * executed in parallel.
    **/
   def optimizeOrder[T <: FixtureStateTypes](
-         usageDescriptions: scala.collection.Map[String,TestFixtureStateUsageDescription[T]]):List[List[String]] =
+         usageDescriptions: scala.collection.Map[String,FixtureStateUsageDescription[T]]):List[List[String]] =
   {
     var stateTransfer : Map[T#StartStateType, Map[T#StartStateType,List[String]]] = Map();
     var stateSame: Map[T#StartStateType, List[String]] = Map();
@@ -75,7 +75,7 @@ object ExecutionSequenceOptimizer
 
                
   case class StepState[T <: FixtureStateTypes](
-        val  usageDescriptions: scala.collection.Map[String,TestFixtureStateUsageDescription[T]],
+        val  usageDescriptions: scala.collection.Map[String,FixtureStateUsageDescription[T]],
         val  stateSame:Map[T#StartStateType,List[String]],
         val  stateUndefined:Map[T#StartStateType,List[String]],
         val  stateTransfer : Map[T#StartStateType, Map[T#StartStateType,List[String]]],

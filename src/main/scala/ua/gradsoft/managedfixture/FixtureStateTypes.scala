@@ -7,21 +7,28 @@ package ua.gradsoft.managedfixture
 trait FixtureStateTypes
 {
 
+  import FixtureStateTypes._
+
   /**
    * type of fixture, for which we manage states.
    * (i.e. db link for databases, etc). 
    **/
-  type FixtureType ;
+  type Fixture ;
+
+  /**
+   * type of state. 
+   */
+  type State;
 
   /**
    * Set of possible start states, wich can be loaded.
    **/
-  val startStates: Enumeration;
+  val  allStates: Set[State]
 
   /**
-   * Enumeration type for startStates
+   * initial state of resource
    **/
-  type StartStateType = startStates.Value;
+  val  initialState: State
 
   /**
    * Set of possible state aspects. Aspect here is some part of state: test can use or change different
@@ -30,12 +37,13 @@ trait FixtureStateTypes
    *
    * By default all tests use one global aspect.
    **/
-  val stateAspects: Enumeration = FixtureStateTypes.OneAspectForAll;
+  type Aspect = FixtureStateTypes.OneAspectForAll.Value
 
   /**
-   * Enumearation type for stateAspects
+   * set of possible aspects
    **/
-  type StateAspectType = stateAspects.Value;
+  val allAspects: Set[Aspect] = Set(OneAspectForAll.ALL)
+
 
 }
 

@@ -1,19 +1,25 @@
 package ua.gradsoft.managedfixture
 
-import scala.concurrent.Lock;
+import scala.concurrent._
 
 /**
  * Test authors must implement this trait for wrapping access to managed fixture.
  */
-trait FixtureAccessBoxFactory[T <: FixtureStateTypes]
+trait FixtureAccessProvider[F,S]
 {
 
-  /**
-   * how to load given state: i.e. load database dump, initialize vars according, etc..
-   * after call of load, current must return fixture with access to given state
-   **/
-  def create(): FixtureAccessBox[T]
+  type Fixture = F
 
+  type State = S
+
+  /**
+   * create or get instance of FixtureAccessBox in initial state.
+   **/
+  def box(): Future[FixtureAccessBox[Fixture,State]]
+
+  def allStates:Set[State] 
+
+  def initialState: Option[State]
 
 }
 

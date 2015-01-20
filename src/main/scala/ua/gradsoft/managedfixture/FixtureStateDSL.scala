@@ -12,7 +12,7 @@ package ua.gradsoft.managedfixture
  *                              [ChangeDescription] |
  *                              [ExecutionDescription] )*
  *
- * StartDescription: start(StartStateDescription) [aspects (all | '(' {ID}* ')' | none) ]
+ * StartDescription: start(StartStateDescription) 
  * FinishDescription: finish(FinishStateDescription)
  * CnangesDescription: change [nothing| any] 
  *
@@ -31,15 +31,13 @@ package ua.gradsoft.managedfixture
  *   start state(any) change(noting)
  *   start state(any) finish state(undefined)
  *   start state(S3) finish state(S4)
- *   start states(S1,S2,S3) aspects (1,2,3) change(nothing)
+ *   start states(S1,S2,S3) change(nothing)
  *   start state(S3) change(nothing) execution(parallel)
  * }}}
  *
  **/
-trait FixtureStateDSL[T <: FixtureStateTypes]
+trait FixtureStateDSL[Fixture,State]
 {
-
-  def fixtureStateTypes: T
 
   /**
    * optional action which can be used by client, overriding this method to
@@ -55,21 +53,21 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   /**
    * called when we receive new value. (by default - nothing).
    **/ 
-  protected def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[T]): Unit =
+  protected def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[State]): Unit =
   {
   }
 
 
   trait DSLExpression
   {
-    def value: FixtureStateUsageDescription[T]
+    def value: FixtureStateUsageDescription[State]
     def string: String
   }
 
   class FixtureStateVerb extends DSLExpression
                         with FixtureStateVerb_Start
   { 
-    val value = FixtureStateUsageDescription[T](fixtureStateTypes);
+    val value = FixtureStateUsageDescription.apply[State]();
     val string = "FixtureStateVerb";
   }
                           
@@ -95,20 +93,20 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   }
 
     
-  case class FixtureStateVerb_STATE(val s:T#State);
+  case class FixtureStateVerb_STATE(val s:State);
   case object FixtureStateVerb_STATE0;
   case object FixtureStateVerb_ANY;
   case object FixtureStateVerb_UNDEFINED;
   case object FixtureStateVerb_STATE_ANY;
   case object FixtureStateVerb_STATE_UNDEFINED;
-  case class FixtureStateVerb_STATES(val args:Seq[T#State]);
+  case class FixtureStateVerb_STATES(val args:Seq[State]);
 
   val any = FixtureStateVerb_ANY;
   val undefined = FixtureStateVerb_UNDEFINED;
                 
-  def state(x:T#State) = FixtureStateVerb_STATE(x);
+  def state(x:State) = FixtureStateVerb_STATE(x);
   val state = FixtureStateVerb_STATE0;
-  def states(x:T#State*) = FixtureStateVerb_STATES(x);
+  def states(x:State*) = FixtureStateVerb_STATES(x);
 
   def state(x:FixtureStateVerb_ANY.type) = FixtureStateVerb_STATE_ANY;
   def state(x:FixtureStateVerb_UNDEFINED.type) = FixtureStateVerb_STATE_UNDEFINED;
@@ -116,7 +114,7 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
   // also let-s expand start into top-level
   class FixtureStateVerbStart extends DSLExpression
   {
-    val value = FixtureStateUsageDescription[T](fixtureStateTypes);
+    val value = FixtureStateUsageDescription.apply[State]();
 
     def state(x: FixtureStateVerb_ANY.type) =
             fixtureUsageDSLAction(new FixtureStateVerbStartStateAny(this));
@@ -124,10 +122,10 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
     def state(x: FixtureStateVerb_UNDEFINED.type) =
             fixtureUsageDSLAction(new FixtureStateVerbStartStateUndefined(this));
 
-    def state(x:T#State) = 
+    def state(x:State) = 
             fixtureUsageDSLAction(new FixtureStateVerbStartState(this,x));
 
-    def states(x:T#State*) = 
+    def states(x:State*) = 
             fixtureUsageDSLAction(new  FixtureStateVerbStartStates(this,x));
 
     val string = "start ";
@@ -144,9 +142,8 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
           = fixtureUsageDSLAction(new FixtureStateVerbStartStateUndefined(up));
   }
   
-  class FixtureStateVerbStartState(up:DSLExpression,x:T#State) 
+  class FixtureStateVerbStartState(up:DSLExpression,x:State) 
                                                         extends DSLExpression
-                                                        with FixtureStateVerb_Aspects
                                                         with FixtureStateVerb_Finish
                                                         with FixtureStateVerb_Change
   {
@@ -154,9 +151,8 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
     def string = "start state("+x.toString+")";
   }
 
-  class FixtureStateVerbStartStates(up:DSLExpression,x:Seq[T#State]) 
+  class FixtureStateVerbStartStates(up:DSLExpression,x:Seq[State]) 
                                                         extends DSLExpression
-                                                        with FixtureStateVerb_Aspects
                                                         with FixtureStateVerb_Finish
                                                         with FixtureStateVerb_Change
   {
@@ -166,7 +162,6 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
 
   class FixtureStateVerbStartStateAny(up:DSLExpression)
                                                         extends DSLExpression
-                                                        with FixtureStateVerb_Aspects
                                                         with FixtureStateVerb_Finish
                                                         with FixtureStateVerb_Change
   {
@@ -183,23 +178,6 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
     def string = "start state(undefined)";
   }
 
-  trait FixtureStateVerb_Aspects extends DSLExpression
-  {
-    def aspects(x: T#Aspect *): FixtureStateVerbAspects =
-    {
-     fixtureUsageDSLAction(new FixtureStateVerbAspects(this,x));
-    }
-  }
-
-  class FixtureStateVerbAspects(up:DSLExpression, x:Seq[T#Aspect]) 
-                                                         extends DSLExpression
-                                                         with FixtureStateVerb_Finish
-                                                         with FixtureStateVerb_Change
-  {
-    def value = up.value.withStateAspects(x);
-    def string = up.string+" aspects("+x.mkString(",")+")";
-  }
-
   trait FixtureStateVerb_Finish extends DSLExpression
   {
     def finish(x: FixtureStateVerb_STATE): FixtureStateVerbFinishState =
@@ -209,7 +187,7 @@ trait FixtureStateDSL[T <: FixtureStateTypes]
           fixtureUsageDSLAction(new FixtureStateVerbFinishStateUndefined(this))
   }
 
-  class FixtureStateVerbFinishState(up:DSLExpression, x:T#State) extends DSLExpression
+  class FixtureStateVerbFinishState(up:DSLExpression, x:State) extends DSLExpression
   {
     def value = up.value.withFinishState(x);
     def string = up.string+"  finish state("+x+")";

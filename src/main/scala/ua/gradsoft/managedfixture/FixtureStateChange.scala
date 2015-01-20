@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 Ruslan Shevchenko
+ * Copyright 2012-2015 Ruslan Shevchenko
  * Copyright 2012 GradSoft Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,13 +18,13 @@
 package ua.gradsoft.managedfixture
 
 
-sealed trait FixtureStateChange[+T <: FixtureStateTypes];
+sealed trait FixtureStateChange[+State]
 
-case object SameState extends FixtureStateChange[Nothing];
+case object SameState extends FixtureStateChange[Nothing]
 
-case class NewState[+T <: FixtureStateTypes](val state: T#State) extends FixtureStateChange[T];
+case class NewState[State](val state: State) extends FixtureStateChange[State]
 
-case object UndefinedState extends FixtureStateChange[Nothing];
+case object UndefinedState extends FixtureStateChange[Nothing]
 
 
 // vim: set ts=4 sw=4 et:

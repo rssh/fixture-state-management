@@ -4,27 +4,12 @@ import org.scalatest._
 import ua.gradsoft.managedfixture._
 
 
-/**
- * This is formal minimal example, where state
- * represented by int.
- **/
-class Example1FixtureStateTypes extends FixtureStateTypes
+
+object States extends Enumeration
 {
-
-  type Fixture = Int;
-
-  object States extends Enumeration
-  {
     val ONE, TWO, THREE = Value;
-  }
-
-  type State = States.Value
-
-  val allStates = States;
-
 }
 
-object Example1FixtureStateTypes extends Example1FixtureStateTypes;
 
 
 

@@ -5,7 +5,7 @@ import ua.gradsoft.managedfixture._;
 
 
 class ExecutionSequenceOptimizerTest extends FunSuite
-                                       with FixtureStateDSL[Int,Int]
+                                       with FixtureStateDSL[Int]
 {
 
 

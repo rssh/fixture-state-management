@@ -36,7 +36,7 @@ package ua.gradsoft.managedfixture
  * }}}
  *
  **/
-trait FixtureStateDSL[Fixture,State]
+trait FixtureStateDSL[State]
 {
 
   /**

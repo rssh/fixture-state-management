@@ -5,7 +5,7 @@ import ua.gradsoft.managedfixture._
 
 
 class FixtureDSLTest extends FunSuite
-                           with FixtureStateDSL[Int, Int]
+                           with FixtureStateDSL[Int]
 {
 
   def fixtureUsage  = new FixtureStateVerb;

@@ -1,14 +1,32 @@
 package ua.gradsoft.managedfixture
 
+import scala.collection.mutable.PriorityQueue
+
 class StateIndex(val v:Int) extends AnyVal
+
+object StateIndex
+{
+  implicit def toStateIndex(v:Int):StateIndex =
+    new StateIndex(v)
+}
 
 class OperationIndex(val v: Int) extends AnyVal
 
-case class PathInfo(ops:Seq[(OperationIndex,StateIndex)],weight:Int)
+object OperationIndex
+{
+  implicit def toOperationIndex(v:Int):OperationIndex =
+    new OperationIndex(v)
+}
 
 
 class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,Fixture,State]])
 {
+
+   case class PathInfo(ops:Seq[(OperationIndex,StateIndex)],weight:Int)
+   {
+     def + (x:(OperationIndex,StateIndex)): PathInfo =
+       PathInfo(ops :+ x, weight + 1)
+   }
 
    case class StateIndexes(byState:Map[State,StateIndex],byIndex:IndexedSeq[State])
    {
@@ -41,6 +59,8 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
 
    def stateIndex(s:State) = stateIndexes.byState(s)
 
+   lazy val incidenceMatrix = buildIncidenceMatrix() 
+
    class IncidenceMatrix
    {
 
@@ -54,7 +74,7 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
          r ++ (if (i==j) anyUnchanged else Set())
        }
 
-       def outputEdjes(i:StateIndex): Set[(OperationIndex,StateIndex)] =
+       def outEdjes(i:StateIndex): Set[(OperationIndex,StateIndex)] =
        {
          (for((si,ops) <- statePathes.getOrElse(i,Map()) ;
               op <- ops ) yield (op,si)).toSet ++
@@ -102,6 +122,71 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
 
        var statePathes: Map[StateIndex,Map[StateIndex,Set[OperationIndex]]] = Map()
        var anyUnchanged: Set[OperationIndex] = Set()
+   }
+
+   def buildIncidenceMatrix():IncidenceMatrix =
+   {
+    val im = new IncidenceMatrix()
+    for((idx,op) <- operations.zipWithIndex) im.addOperation(op,idx)
+    im
+   }
+
+   /**
+    * implementation of Deikstra algorithm, 
+    * here we hold pathes from initial to all node except termination
+    **/
+   class InitialPathes(m:IncidenceMatrix)
+   {
+     build()
+
+     def build()
+     {
+      var queue = new PriorityQueue[(StateIndex,PathInfo)]()(new Ordering[(StateIndex,PathInfo)]{
+                                                             override def compare(x:(StateIndex,PathInfo),y:(StateIndex,PathInfo)):Int =
+                                                                       x._2.weight - y._2.weight
+                                                            });
+      val emptyPath = PathInfo(Seq(),0)
+      put(initialStateIndex, emptyPath)
+      queue += ((initialStateIndex,emptyPath))
+      while(!queue.isEmpty) {
+         val (si,pi) = queue.dequeue
+         processNode(si,pi,queue)
+      }
+     } 
+
+     def processNode(si:StateIndex,pathInfo: PathInfo, queue: PriorityQueue[(StateIndex,PathInfo)]): Unit =
+     {
+       for((oi,nsi) <- m.outEdjes(si) if (nsi!=si && nsi!=terminationStateIndex) ) {
+          val newPathInfo = pathInfo + ((oi,nsi))
+          get(nsi) match {
+             case Some(xPathInfo) => if (newPathInfo.weight < xPathInfo.weight) {
+                                        put(nsi,newPathInfo)
+                                     } 
+             case None => put(nsi,newPathInfo)
+                          queue.enqueue((nsi,newPathInfo));
+          }
+       }
+     }
+
+     def get(si:StateIndex):Option[PathInfo] = pathes.get(si)
+
+     def nReachableStates = pathes.size
+
+     def nUnreachableStates = stateIndexes.nStates + 1 - nReachableStates ;
+
+     def unreachableStates(): Set[State] =
+       stateIndexes.byState.foldLeft(Set[State]()){ (s,e) =>
+          if (pathes.contains(e._2)) {
+              s
+          } else {
+              s + e._1
+          }
+       }
+
+     private def put(si: StateIndex, pi: PathInfo): Unit =
+         pathes = pathes.updated(si,pi)
+     
+     var pathes: Map[StateIndex,PathInfo] = Map()
    }
 
 

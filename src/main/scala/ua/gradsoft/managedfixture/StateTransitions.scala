@@ -131,13 +131,14 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
     im
    }
 
+   lazy val initialPathes = new InitialPathes(incidenceMatrix)
+
    /**
     * implementation of Deikstra algorithm, 
     * here we hold pathes from initial to all node except termination
     **/
    class InitialPathes(m:IncidenceMatrix)
    {
-     build()
 
      def build()
      {
@@ -187,6 +188,8 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
          pathes = pathes.updated(si,pi)
      
      var pathes: Map[StateIndex,PathInfo] = Map()
+
+     build()
    }
 
 

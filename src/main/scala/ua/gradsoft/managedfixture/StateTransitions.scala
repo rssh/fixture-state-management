@@ -1,5 +1,6 @@
 package ua.gradsoft.managedfixture
 
+import scala.language.implicitConversions
 import scala.collection.mutable.PriorityQueue
 
 class StateIndex(val v:Int) extends AnyVal

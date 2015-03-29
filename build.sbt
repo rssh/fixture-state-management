@@ -3,7 +3,9 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.6"
+
+scalacOptions ++= Seq("-deprecation","-feature")
 
 crossScalaVersions := Seq("2.10.0, 2.11.0")
 

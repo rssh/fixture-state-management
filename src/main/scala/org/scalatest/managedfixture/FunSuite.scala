@@ -33,11 +33,9 @@ class FunSuite[Fixture,State](group:GroupSuite,
   }
 
 
-  def fixtureUsageDSLAction(value: =>FixtureStateUsageDescription[State]):Unit =
+  protected override def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[State]): Unit =
   { 
-    if (usage.isDefined) {
-       throw new IllegalStateException("two state usage specifivation without test between");
-    }
+    System.err.println("action for "+value);
     usage = Some(value)
   }
 
@@ -59,7 +57,7 @@ class FunSuite[Fixture,State](group:GroupSuite,
   def testAnalyze(name:String, tags:Tag*)(f:Fixture=>Any):Unit =
    usage match {
      case None =>
-       throw new IllegalStateException("two state usage specifivation without test between");
+       throw new IllegalStateException("test without usage specification");
      case Some(u) =>
        val fa = FixtureAccessOperation[Unit,Fixture,State](
                     (fixture => {
@@ -69,7 +67,7 @@ class FunSuite[Fixture,State](group:GroupSuite,
        usage = None
    }
 
-   private def createCopy(g:GroupSuite, f:Option[Fixture], testToRun:Option[String]): FunSuite[Fixture,State] =
+   def createCopy(g:GroupSuite, f:Option[Fixture], testToRun:Option[String]): FunSuite[Fixture,State] =
    {
     import scala.reflect.runtime.{universe => ru}
     val mirror = ru.runtimeMirror(getClass.getClassLoader)

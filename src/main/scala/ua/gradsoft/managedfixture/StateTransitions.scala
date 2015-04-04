@@ -20,7 +20,7 @@ object OperationIndex
 }
 
 
-class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,Fixture,State]])
+class StateTransitions[A,State](operations:Seq[IndexedByFixtureUsage[A,State]])
 {
 
    case class PathInfo(ops:Seq[(OperationIndex,StateIndex)],weight:Int)
@@ -82,7 +82,7 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
                               (anyUnchanged map((_,i)) ) 
        }
          
-       def addOperation(operationIndex: OperationIndex, op:FixtureAccessOperation[A,Fixture,State]) =
+       def addOperation(operationIndex: OperationIndex, op:IndexedByFixtureUsage[A,State]) =
                 op.usage.precondition match {
                    case States(states) =>
                            for(state <- states) {
@@ -93,13 +93,13 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
                            addOperationForAnyState(operationIndex,op)
                 }
 
-       def addOperationForAnyState(operationIndex:OperationIndex, op:FixtureAccessOperation[A,Fixture,State]) =
+       def addOperationForAnyState(operationIndex:OperationIndex, op:IndexedByFixtureUsage[A,State]) =
              op.usage.startStateChange match {
                  case SameState => anyUnchanged += operationIndex
                  case _ => addOperationForState(initialStateIndex, operationIndex, op)
               }
 
-       def addOperationForState(si: StateIndex, oi:OperationIndex, op:FixtureAccessOperation[A,Fixture,State]) = 
+       def addOperationForState(si: StateIndex, oi:OperationIndex, op:IndexedByFixtureUsage[A,State]) = 
        {
              op.usage.startStateChange match {
                  case SameState =>
@@ -112,7 +112,7 @@ class StateTransitions[A,Fixture,State](operations:Seq[FixtureAccessOperation[A,
        }
 
           
-       def addOperationForStates(s1: StateIndex, s2:StateIndex, operationIndex:OperationIndex, op:FixtureAccessOperation[A,Fixture,State]) = 
+       def addOperationForStates(s1: StateIndex, s2:StateIndex, operationIndex:OperationIndex, op:IndexedByFixtureUsage[A,State]) = 
        {
          val inner1 = statePathes.getOrElse(s1,Map())
          val inner2 = inner1.getOrElse(s2,Set())

@@ -3,8 +3,13 @@ package ua.gradsoft.managedfixture
 import scala.concurrent._
 
 
-case class FixtureAccessOperation[A,Fixture,State](val f: Fixture => A, 
-                                                   val usage: FixtureStateUsageDescription[State])
+case class FixtureAccessOperation[A,Fixture,State](
+                        val f: Fixture => A, 
+                        val usage: FixtureStateUsageDescription[State]
+                        ) extends IndexedByFixtureUsage[Fixture=>A,State]
+{
+  override def value = f
+}
 
 /**
  * Let's imagine box, where one instance of fixture is

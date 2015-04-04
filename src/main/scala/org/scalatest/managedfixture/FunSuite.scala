@@ -19,17 +19,15 @@ class FunSuite[Fixture,State](group:GroupSuite,
 
   type FixtureParam = Fixture
 
-  private var currentFixture: Option[Fixture] = fixture ;
-
   override def withFixture(test: OneArgTest) =
   {
     if (testToRun.isEmpty) {
        throw new IllegalStateException("Attempt to call withFixture with empty testToRun");
     }
-    if (currentFixture.isEmpty) {
+    if (fixture.isEmpty) {
        throw new IllegalStateException("Attempt to call withFixture with empty fuxture");
     }
-    test(currentFixture.get)
+    test(fixture.get)
   }
 
 

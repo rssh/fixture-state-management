@@ -11,10 +11,11 @@ crossScalaVersions := Seq("2.10.0, 2.11.0")
 
 version:="0.8.x-SNAPSHOT"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" 
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" 
+
+libraryDependencies += "org.reflections" % "reflections" % "0.9.9" 
 
 // TODO: upgrade to latest spec2
-libraryDependencies +=  "org.specs2" %% "specs2" % "2.3.13" 
 
 // for examples:
 

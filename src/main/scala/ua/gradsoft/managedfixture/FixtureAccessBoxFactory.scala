@@ -5,7 +5,7 @@ import scala.concurrent._
 /**
  * Test authors must implement this trait for wrapping access to managed fixture.
  */
-trait FixtureAccessProvider[Fixture,State]
+trait FixtureAccessBoxFactory[Fixture,State]
 {
 
   /**
@@ -17,7 +17,7 @@ trait FixtureAccessProvider[Fixture,State]
    * number of boxes, which can be created in parallel.
    * None means, that boxes can be created on demand.
    */
-  def nBoxed: Option[Int]
+  def nBoxes: Option[Int]
 
   /**
    * release all resources (i.e. shuodown external tools, etc)

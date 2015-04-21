@@ -12,7 +12,7 @@ case class FixtureAccessOperation[A,Fixture,State](
 }
 
 /**
- * Let's imagine box, where one instance of fixture is
+ * Let's imagine box, where instance of fixture is
  * live and all operations are applied sequentially.
  **/
 trait FixtureAccessBox[Fixture,State]
@@ -22,6 +22,10 @@ trait FixtureAccessBox[Fixture,State]
 
   def apply[A](op: FixtureAccessOperation[A,Fixture,State]): Future[(A,this.type)]
 
+  /**
+   * close (if necessory) fixture access box, after all currently evaluated
+   * operations will be finished.
+   **/
   def close(): Future[Unit]
 
 }

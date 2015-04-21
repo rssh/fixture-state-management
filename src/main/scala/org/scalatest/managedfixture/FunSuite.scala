@@ -11,7 +11,7 @@ import ua.gradsoft.managedfixture._
  *   before building sequence of executions. In such case testToRun is empty.
  * - when GroupSuite actually runnign those tests.
  **/
-class FunSuite[Fixture,State](group:GroupSuite, 
+class FunSuite[Fixture,State](group:GroupSuite[Fixture,State], 
                               fixture: Option[Fixture],
                               testToRun:Option[String]) extends fixture.FunSuite
                                                           with FixtureStateDSL[State] 
@@ -57,15 +57,11 @@ class FunSuite[Fixture,State](group:GroupSuite,
      case None =>
        throw new IllegalStateException("test without usage specification");
      case Some(u) =>
-       val fa = FixtureAccessOperation[Unit,Fixture,State](
-                    (fixture => {
-                                  val runCopy = createCopy(group,Some(fixture),Some(name))
-                                  runCopy.run(Some(name),???)
-                                }),u )
+       group.register(name,u,this)
        usage = None
    }
 
-   def createCopy(g:GroupSuite, f:Option[Fixture], testToRun:Option[String]): FunSuite[Fixture,State] =
+   def createCopy(g:GroupSuite[Fixture,State], f:Option[Fixture], testToRun:Option[String]): FunSuite[Fixture,State] =
    {
     import scala.reflect.runtime.{universe => ru}
     val mirror = ru.runtimeMirror(getClass.getClassLoader)
@@ -85,5 +81,10 @@ class FunSuite[Fixture,State](group:GroupSuite,
     val instance = constructorMirror.apply(g,f,testToRun)
     instance.asInstanceOf[FunSuite[Fixture,State]]
    }
+
+   def runInCopy(g:GroupSuite[Fixture,State],f:Fixture,name:String, args:Args):Status =
+     createCopy(g,Some(f),Some(name)).runTests(Some(name),args)
+
+
 
 }

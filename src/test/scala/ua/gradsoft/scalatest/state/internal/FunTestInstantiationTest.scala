@@ -3,9 +3,9 @@ package ua.gradsoft.scalatest.state.internal
 import org.scalatest._
 import ua.gradsoft.managedfixture._
 
-class MyGroupSuite extends managedfixture.GroupSuite
+class MyGroupSuite extends managedfixture.GroupSuite[Int,Int]
 
-class MyFunTest(g: managedfixture.GroupSuite,f:Option[Int],testToRun:Option[String]) 
+class MyFunTest(g: managedfixture.GroupSuite[Int,Int],f:Option[Int],testToRun:Option[String]) 
                extends managedfixture.FunSuite[Int,Int](g,f,testToRun)
 {
 

@@ -5,10 +5,12 @@ import org.scalatest._
 import org.scalatest.events._
 import ua.gradsoft.managedfixture._
 import scala.collection.immutable.TreeSet
+import scala.collection.JavaConversions._
 import scala.concurrent._
 import scala.concurrent.duration._
 import java.util.concurrent.atomic.AtomicBoolean
 import scala.util._
+import org.reflections._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -17,12 +19,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
  *  and run ones in groups, where each group is bound to some
  *  specific instance of FixtureAccessBox.
  **/
-class GroupSuite[F,S] extends Suite
+abstract class GroupSuite[F,S] extends Suite
 {
 
     val testTimeout = 1 minute
     val defaultTestsInBox = 5
-    def fixtureAccessBoxFactory: FixtureAccessBoxFactory[F,S] = ???
+    def fixtureAccessBoxFactory: FixtureAccessBoxFactory[F,S] 
 
     class SequentialGroupPart(testIndexes: IndexedSeq[Int],
                               groupIndex:Int, 
@@ -112,8 +114,7 @@ class GroupSuite[F,S] extends Suite
 
     override def nestedSuites(): scala.collection.immutable.IndexedSeq[org.scalatest.Suite] =
     {
-      val pgk = thisPackage;
-      val tests = findInheritedFrom[managedfixture.FunSuite[F,S]](thisPackage)
+      val tests = findInheritedFromInThisPackage[managedfixture.FunSuite[F,S]](classOf[managedfixture.FunSuite[F,S]])
       tests.foreach( createTestInstance(_) ) // will call register
       if (tests.length==0) {
         scala.collection.immutable.IndexedSeq[Suite]() 
@@ -166,14 +167,14 @@ class GroupSuite[F,S] extends Suite
       else if (x >= 10) 1 
       else 0
 
-   def thisPackage: String = 
-      this.getClass.getName
 
-   def findInheritedFrom[T](packageName:String):Seq[Class[T]]
-    = ???
+   def findInheritedFromInThisPackage[T](tClass: Class[T]):Seq[Class[_ <: T]]
+    = reflections.getSubTypesOf(tClass).toSeq
 
-   def createTestInstance(f:Class[FunSuite[F,S]]):FunSuite[F,S] =
-    ???
+   def createTestInstance[X <: FunSuite[F,S]](f:Class[X]):X =
+    ReflectUtil.constructor3(f,this,None,None)
+
+   private lazy val reflections = new Reflections(this.getClass.getPackage)
 
 }
 

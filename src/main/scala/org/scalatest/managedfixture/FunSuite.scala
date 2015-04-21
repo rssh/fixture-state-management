@@ -62,25 +62,7 @@ class FunSuite[Fixture,State](group:GroupSuite[Fixture,State],
    }
 
    def createCopy(g:GroupSuite[Fixture,State], f:Option[Fixture], testToRun:Option[String]): FunSuite[Fixture,State] =
-   {
-    import scala.reflect.runtime.{universe => ru}
-    val mirror = ru.runtimeMirror(getClass.getClassLoader)
-    val classSymbol = mirror.classSymbol(getClass)
-    val classMirror = mirror.reflectClass(classSymbol)
-    val constructorMethod = classSymbol.typeSignature.member(ru.termNames.CONSTRUCTOR)  match {
-       case ru.NoSymbol =>
-             throw new IllegalStateException(s"class ${classSymbol} must have constructor");
-       case cn => 
-              if (cn.isMethod) {
-                 cn.asMethod
-              } else {
-                throw new IllegalStateException(s"class ${classSymbol} must have only one constructor");
-              }
-    }
-    val constructorMirror = classMirror.reflectConstructor(constructorMethod)
-    val instance = constructorMirror.apply(g,f,testToRun)
-    instance.asInstanceOf[FunSuite[Fixture,State]]
-   }
+    ReflectUtil.constructor3(getClass,g,f,testToRun)
 
    def runInCopy(g:GroupSuite[Fixture,State],f:Fixture,name:String, args:Args):Status =
      createCopy(g,Some(f),Some(name)).runTests(Some(name),args)

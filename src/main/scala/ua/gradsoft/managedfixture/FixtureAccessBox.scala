@@ -18,8 +18,9 @@ case class FixtureAccessOperation[A,Fixture,State](
 trait FixtureAccessBox[Fixture,State]
 {
 
-  def load(s: State): Future[this.type]
-
+  /**
+   * apply operation on fixture
+   **/
   def apply[A](op: FixtureAccessOperation[A,Fixture,State]): Future[(A,this.type)]
 
   /**

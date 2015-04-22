@@ -8,17 +8,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class MyGroupSuite extends managedfixture.GroupSuite[Int,Int]
 {
-   def fixtureAccessBoxFactory = new FixtureAccessBoxFactory[Int,Int] {
+   val fixtureAccessBoxFactory = new FixtureAccessBoxFactory[Int] {
           def box() = Future successful _box
           def close() = Future successful (())
           def nBoxes: Option[Int] = Some(1)
    }
 
-   val _box = new FixtureAccessBox[Int,Int] {
+   val _box = new FixtureAccessBox[Int] {
 
-       def apply[A](op: FixtureAccessOperation[A,Int,Int]): Future[(A, this.type)] = 
+       def apply[A](f: Int=>A ): Future[(A, this.type)] = 
        {
-          val lp: Future[(A,this.type)] = last map { _ => (op.f(v), this ) }
+          val lp: Future[(A,this.type)] = last map { _ => (f(v), this ) }
           last = lp map (_._2)
           lp
        }

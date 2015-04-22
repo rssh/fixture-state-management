@@ -4,6 +4,12 @@ import org.scalatest._
 import ua.gradsoft.managedfixture._
 import java.util.concurrent.atomic.AtomicInteger
 
+case class IntOperation(
+                        val value: AtomicInteger => Unit,
+                        val usage: FixtureStateUsageDescription[Int]
+                        ) extends IndexedByFixtureUsage[AtomicInteger=>Unit,Int]
+
+
 class StateTransitionsTest extends FunSuite
                              with FixtureStateDSL[Int]
 {
@@ -17,12 +23,10 @@ class StateTransitionsTest extends FunSuite
      val u3 =  | start state(3) finish state(1)
                
 
-     val f1 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                        _.compareAndSet(1,2), u1.value)
-     val f2 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                               _.incrementAndGet, u2.value)
-     val f3 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                               _.compareAndSet(3,1), u3.value)
+     val f1 = IntOperation(_.compareAndSet(1,2), u1.value)
+     val f2 = IntOperation( _.incrementAndGet, u2.value)
+     val f3 = IntOperation(  _.compareAndSet(3,1), u3.value)
+                                             
      val stateTransitions = new StateTransitions(Seq(f1,f2,f3))
      val im = stateTransitions.incidenceMatrix
      assert(im.get(0,0).isEmpty)
@@ -43,16 +47,12 @@ class StateTransitionsTest extends FunSuite
      val u3 =  | start state(3) finish state(1)
      val u4 =  | start state(any) change nothing
 
-     val f0 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                        _.set(1), u0.value)
-     val f1 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                        _.compareAndSet(1,2), u1.value)
-     val f2 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                        _.incrementAndGet, u2.value)
-     val f3 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                               _.compareAndSet(3,1), u3.value)
-     val f4 = FixtureAccessOperation[Unit,AtomicInteger,Int](
-                                               _.get, u4.value)
+     val f0 = IntOperation( _.set(1), u0.value )
+     val f1 = IntOperation( _.compareAndSet(1,2), u1.value)
+     val f2 = IntOperation( _.incrementAndGet, u2.value)
+     val f3 = IntOperation( _.compareAndSet(3,1), u3.value)
+     val f4 = IntOperation( _.get, u4.value)
+                                             
 
      val stateTransitions = new StateTransitions(Seq(f0,f1,f2,f3,f4))
      val im = stateTransitions.incidenceMatrix

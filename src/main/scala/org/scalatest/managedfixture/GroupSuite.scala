@@ -24,12 +24,12 @@ abstract class GroupSuite[F,S] extends Suite
 
     val testTimeout = 1 minute
     val defaultTestsInBox = 5
-    def fixtureAccessBoxFactory: FixtureAccessBoxFactory[F,S] 
+    def fixtureAccessBoxFactory: FixtureAccessBoxFactory[F] 
 
     class SequentialGroupPart(testIndexes: IndexedSeq[Int],
                               groupIndex:Int, 
                               groupIndexWidth: Int,
-                              fixtureAccessBox: Future[FixtureAccessBox[F,S]]
+                              fixtureAccessBox: Future[FixtureAccessBox[F]]
                              ) extends Suite with SequentialNestedSuiteExecution
                                              with StopOnFailure
     {
@@ -60,11 +60,7 @@ abstract class GroupSuite[F,S] extends Suite
       {
          val (i,name) = extractNameIndex(testName)
          val test = registeredTests(i)
-         val fa = FixtureAccessOperation[Status,F,S](
-                    f=>test.value.runInCopy(GroupSuite.this,f,name,args),
-                    test.usage
-                  )
-         val res = fixtureAccessBox flatMap(_(fa))
+         val res = fixtureAccessBox flatMap(_(f=>test.value.runInCopy(GroupSuite.this,f,name,args)))
 
         // TODO: make promise, which will cancel test on timeoit.
         new Status {

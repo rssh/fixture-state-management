@@ -5,13 +5,13 @@ import scala.concurrent._
 /**
  * Test authors must implement this trait for wrapping access to managed fixture.
  */
-trait FixtureAccessBoxFactory[Fixture,State]
+trait FixtureAccessBoxFactory[Fixture]
 {
 
   /**
    * create or get instance of FixtureAccessBox in initial state.
    **/
-  def box(): Future[FixtureAccessBox[Fixture,State]]
+  def box(): Future[FixtureAccessBox[Fixture]]
 
   /**
    * number of boxes, which can be created in parallel.

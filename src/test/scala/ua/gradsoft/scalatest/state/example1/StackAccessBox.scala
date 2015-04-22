@@ -15,33 +15,16 @@ object StackStates extends Enumeration
     val Empty, NonEmpty = Value;
 }
 
-class StackAccessBox extends FixtureAccessBox[Stack[Int],StackStates.Value]
+class StackAccessBox extends FixtureAccessBox[Stack[Int]]
 {
 
-  def load(s:StackStates.Value): Future[this.type] =
-  {
-    import StackStates._
-    val p = Promise[this.type]
-    executor.submit(new Runnable(){
-        def run():Unit =
-        {
-          s match {
-             case Empty => stack.clear()
-             case NonEmpty => stack.push(1) 
-          }
-          p success StackAccessBox.this
-        }
-    })
-    p.future
-  }
-
-  def apply[A](op: FixtureAccessOperation[A,Stack[Int],StackStates.Value]): Future[(A,this.type)] =
+  def apply[A](f: Stack[Int] => A): Future[(A,this.type)] =
   {
     val p = Promise[(A,this.type)]
     executor.submit(new Runnable(){
         def run():Unit =
         {
-          p complete Try((op.f(stack),StackAccessBox.this))
+          p complete Try((f(stack),StackAccessBox.this))
         }
     })
     p.future

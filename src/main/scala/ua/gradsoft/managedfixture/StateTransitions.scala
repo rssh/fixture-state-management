@@ -20,7 +20,7 @@ object OperationIndex
 }
 
 
-class StateTransitions[A,State](operations:Seq[IndexedByFixtureUsage[A,State]])
+class StateTransitions[A,State](val operations:Seq[IndexedByFixtureUsage[A,State]])
 {
 
    case class PathInfo(ops:Seq[(OperationIndex,StateIndex)],weight:Int)
@@ -61,6 +61,8 @@ class StateTransitions[A,State](operations:Seq[IndexedByFixtureUsage[A,State]])
    def stateIndex(s:State) = stateIndexes.byState(s)
 
    lazy val incidenceMatrix = buildIncidenceMatrix() 
+
+   def operation(x:OperationIndex) = operations(x.v)
 
    class IncidenceMatrix
    {
@@ -193,5 +195,11 @@ class StateTransitions[A,State](operations:Seq[IndexedByFixtureUsage[A,State]])
      build()
    }
 
+   def applyChange(si:StateIndex, change: FixtureStateChange[State]):StateIndex =
+    change match {
+      case SameState => si
+      case NewState(x) => stateIndex(x)
+      case UndefinedState => terminationStateIndex
+    }
 
 }

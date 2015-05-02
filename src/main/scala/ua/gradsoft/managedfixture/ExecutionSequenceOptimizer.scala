@@ -14,7 +14,26 @@ object ExecutionSequenceOptimizer {
     * st.operations
     **/
    def apply[A,S](st:StateTransitions[A,S], n: Int):IndexedSeq[IndexedSeq[Int]] =
-             ???
+   {
+    val v = StateVariant(st, IndexedSeq(), IndexedSeq(), st.initialStateIndex, 
+                         Set(), ((0 until st.operations.length) map (new OperationIndex(_))).toSet, 0 )
+    var next = IndexedSeq(v)
+    var finished = IndexedSeq()
+    var found = false 
+    var retval: IndexedSeq[IndexedSeq[Int]] = IndexedSeq()
+    while(!found) {
+       var candidates = for( c <- next;
+                             x <- genNVariants(c,n)) yield x
+       val (finished, nonFinished) = candidates.partition(_.rest.isEmpty)
+       if (! finished.isEmpty) {
+           retval = finished.sortBy(_.weight).head.buildPart map (_ map (_.v))
+           found=true
+       } else {
+           candidates = nonFinished.sortBy(_.weight).take(n) 
+       }
+    }
+    retval 
+  }
 
    
    case class StateVariant[A,S](

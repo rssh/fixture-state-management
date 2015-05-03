@@ -13,6 +13,7 @@ import scala.util._
 import org.reflections._
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalatest.Suite._
 
 /**
  * GroupSuite[F,S] scans all managedfixture.FunSuite in subpackages
@@ -39,10 +40,12 @@ abstract class GroupSuite[F,S] extends Suite
         val (g,gw) = (groupIndex, groupIndexWidth)
         val iw = log10(testIndexes.length)+1
         testIndexes.zipWithIndex foreach {
-          case (k,i) => retval += "${i2s(g,gw):${i2s(i,iw)}:${registeredTests(k).name}"
+          case (k,i) => retval += s"${i2s(g,gw)}:${i2s(i,iw)}:${registeredTests(k).name}"
         }
         retval
       }
+
+      override def tags() = autoTagClassAnnotations(Map(),this)
 
       override def runTests(testName:Option[String], args:Args):Status =
         testName match {

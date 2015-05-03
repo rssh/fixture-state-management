@@ -29,7 +29,7 @@ object ExecutionSequenceOptimizer {
            retval = finished.sortBy(_.weight).head.buildPart map (_ map (_.v))
            found=true
        } else {
-           candidates = nonFinished.sortBy(_.weight).take(n) 
+           next = nonFinished.sortBy(_.weight).take(n) 
        }
     }
     retval 
@@ -78,8 +78,9 @@ object ExecutionSequenceOptimizer {
              case States(states) => states map (v.st.stateIndexes.byState(_))
          }
          for(s <- ns) {
-             val pi = v.st.initialPathes.get(s).getOrElse(
-                        throw new IllegalStateException(s"state $s is unreachable"))
+             val pi = v.st.initialPathes.get(s).getOrElse{
+                        throw new IllegalStateException(s"state ${v.st.printState(s)} is unreachable")
+                      }
              val iniOps = pi.ops.map(_._1)
              val iniOpsSet = iniOps.toSet
              val newRest = (v.rest - c) &~ iniOpsSet

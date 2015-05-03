@@ -58,6 +58,16 @@ class StateTransitions[A,State](val operations:Seq[IndexedByFixtureUsage[A,State
    val initialStateIndex = new StateIndex(stateIndexes.nStates)
    val terminationStateIndex = new StateIndex(stateIndexes.nStates+1)
 
+   def printState(si:StateIndex):String = 
+     if (si.v < stateIndexes.nStates)
+        s"${si.v} (${stateIndexes.byIndex(si.v)})"
+     else if (si.v == initialStateIndex.v) 
+        s"${si.v} (initial)"
+     else if (si.v == terminationStateIndex.v) 
+        s"${si.v} (termination)"
+     else  
+        s"${si.v} (invalid)"
+
    def stateIndex(s:State) = stateIndexes.byState(s)
 
    lazy val incidenceMatrix = buildIncidenceMatrix() 

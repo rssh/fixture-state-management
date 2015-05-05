@@ -23,7 +23,7 @@ import org.scalatest.Suite._
 abstract class GroupSuite[F,S] extends Suite
 {
 
-    val testTimeout = 1 minute
+    val xtestTimeout = 1 minute
     val defaultTestsInBox = 5
     def fixtureAccessBoxFactory: FixtureAccessBoxFactory[F] 
 
@@ -49,9 +49,15 @@ abstract class GroupSuite[F,S] extends Suite
 
       override def runTests(testName:Option[String], args:Args):Status =
         testName match {
-          case Some(_) => super.runTests(testName,args)
-          case None =>
+          case Some(name) => 
+                       System.err.println(s"Before sequentialGroupPart:runTest($name,args)");
                        val retval = super.runTests(testName,args)
+                       System.err.println(s"After sequentialGroupPart:runTest($name,args)");
+                       retval
+          case None =>
+                       System.err.println(s"Before sequentialGroupPart:runTest(None,args)");
+                       val retval = super.runTests(testName,args)
+                       System.err.println(s"After sequentialGroupPart:runTest(None,args)");
                        retval.whenCompleted{ _ =>
                           fixtureAccessBox.foreach(_.close())
                        }
@@ -61,8 +67,10 @@ abstract class GroupSuite[F,S] extends Suite
 
       override def runTest(testName:String, args:Args):Status =
       {
+         System.err.println(s"runTest: $testName");
          val (i,name) = extractNameIndex(testName)
          val test = registeredTests(i)
+         System.err.println("test found for $testName");
          val res = fixtureAccessBox flatMap(_(f=>test.value.runInCopy(GroupSuite.this,f,name,args)))
 
         // TODO: make promise, which will cancel test on timeoit.
@@ -71,7 +79,7 @@ abstract class GroupSuite[F,S] extends Suite
 
            override def succeeds() =
             try {
-              Await.result(res, testTimeout)._1.succeeds()
+              Await.result(res, xtestTimeout)._1.succeeds()
             } catch {
                case ex: TimeoutException =>
                   //args.reporter(NoteProvided(ordinal,"timeout exception",NameInfo(suiteName,suiteId,Some(SequentialGroupPart.this.getClass.getName),Some(testName)),Some(ex)))
@@ -111,7 +119,7 @@ abstract class GroupSuite[F,S] extends Suite
 
     }
 
-    override def nestedSuites(): scala.collection.immutable.IndexedSeq[org.scalatest.Suite] =
+    override lazy val nestedSuites: scala.collection.immutable.IndexedSeq[org.scalatest.Suite] =
     {
       val tests = findInheritedFromInThisPackage[managedfixture.FunSuite[F,S]](classOf[managedfixture.FunSuite[F,S]])
       tests.foreach( createTestInstance(_) ) // will call register
@@ -123,15 +131,17 @@ abstract class GroupSuite[F,S] extends Suite
         // TODO: split on number of parallelism .
         val st = new StateTransitions(registeredTests)
         val indexes = ExecutionSequenceOptimizer(st,nAvailableBoxes)
+        System.err.println("optimizer result:"+indexes)
         val nBoxes = if (indexes.length < nAvailableBoxes)
                         indexes.length
                      else
                         nAvailableBoxes
-        val parts = (0 until nBoxes) map {i=> 
+        val parts = (0 until indexes.length) map {i=> 
                             new SequentialGroupPart(
                                   indexes(i),i,log10(nBoxes)+1,
                                   bf.box())
                     } 
+        System.err.println("parts:"+parts+", nBoxes="+nBoxes);
         parts
       }
     }
@@ -149,7 +159,7 @@ abstract class GroupSuite[F,S] extends Suite
       registeredTests :+= RegisteredTest(usage,value,name) 
     }
 
-    private var registeredTests: IndexedSeq[RegisteredTest] = IndexedSeq()
+    var registeredTests: IndexedSeq[RegisteredTest] = IndexedSeq()
 
     private def i2s(x:Int, maxLen: Int) =
      x.toString + "0"*(maxLen - log10(x)-1)

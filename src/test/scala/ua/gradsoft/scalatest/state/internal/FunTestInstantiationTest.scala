@@ -7,7 +7,7 @@ import ua.gradsoft.managedfixture._
 import scala.concurrent.ExecutionContext.Implicits.global
 import java.util.concurrent.atomic.AtomicInteger
 
-class MyGroupSuite extends managedfixture.GroupSuite[AtomicInteger,Int]
+class MyFunGroupSuite extends managedfixture.GroupSuite[AtomicInteger,Int]
 {
 
    val fixtureAccessBoxFactory = new FixtureAccessBoxFactory[AtomicInteger] {
@@ -65,11 +65,13 @@ class FunTestInstantiationTest extends FunSuite
 {
 
   test("fixture FunTest must be able to instantiate yourself") {
-    val g = new MyGroupSuite
+    val g = new MyFunGroupSuite
+    System.err.println("v1: g.registeredTests="+g.registeredTests);
     val t0 = new MyFunTest(g,None,None)
     val t1_2 = t0.createCopy(g,Some(new AtomicInteger(2)),Some("TEST-2"))
     assert(t1_2.isInstanceOf[MyFunTest])
     val t1_3 = t0.createCopy(g,Some(new AtomicInteger(3)),Some("TEST-3"))
+    System.err.println("v2: g.registeredTests="+g.registeredTests);
     //t1_2.run
   }
 

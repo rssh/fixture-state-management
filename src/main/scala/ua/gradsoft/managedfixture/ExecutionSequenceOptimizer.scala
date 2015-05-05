@@ -24,8 +24,10 @@ object ExecutionSequenceOptimizer {
     while(!found) {
        var candidates = for( c <- next;
                              x <- genNVariants(c,n)) yield x
+       System.err.println(s"candidates build parts ${candidates map (_.buildPart)}")
        val (finished, nonFinished) = candidates.partition(_.rest.isEmpty)
        if (! finished.isEmpty) {
+           System.err.println(s"finished: ${finished}")
            retval = finished.sortBy(_.weight).head.buildPart map (_ map (_.v))
            found=true
        } else {
@@ -46,10 +48,18 @@ object ExecutionSequenceOptimizer {
           weight:  Int
    )
 
+   def finEmpty[A,S](v:StateVariant[A,S]):StateVariant[A,S] =
+     if (v.rest.isEmpty) {
+         v.copy(buildPart = v.buildPart :+ v.current,
+                current = IndexedSeq() )
+     } else v
+
    def  genNVariants[A,S](v:StateVariant[A,S],nVariants:Int):IndexedSeq[StateVariant[A,S]] =
    {
+      System.err.println(s"genNVariants, v=$v");
       var nextCandidates=v.st.incidenceMatrix.outEdjes(v.lastState)
       var retval: IndexedSeq[StateVariant[A,S]] = IndexedSeq()
+      var crest = v.rest 
       while(!nextCandidates.isEmpty && retval.size < nVariants) {
           val c = nextCandidates.head
           nextCandidates = nextCandidates.tail
@@ -60,11 +70,11 @@ object ExecutionSequenceOptimizer {
                           used = v.used + c._1,
                           rest = v.rest - c._1
                       )
-             retval = retval :+ nv
+             retval = retval :+ finEmpty(nv)
+             crest = crest - c._1
           }
       }
 
-      var crest = v.rest
       while (retval.size < nVariants && !crest.isEmpty) {
          val c = crest.head 
          crest  = crest.tail
@@ -94,7 +104,7 @@ object ExecutionSequenceOptimizer {
                          used = newUsed,
                          weight = v.weight + iniOps.size - newAdded.size
                       )
-             retval = retval :+ nv
+             retval = retval :+ finEmpty(nv)
          }
       }
 

@@ -33,7 +33,6 @@ class FunSuite[Fixture,State](group:GroupSuite[Fixture,State],
 
   protected override def fixtureUsageDSLValueAction(value: => FixtureStateUsageDescription[State]): Unit =
   { 
-    System.err.println("action for "+value);
     usage = Some(value)
   }
 

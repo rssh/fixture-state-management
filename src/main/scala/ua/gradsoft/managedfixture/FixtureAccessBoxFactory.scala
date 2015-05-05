@@ -25,6 +25,13 @@ trait FixtureAccessBoxFactory[Fixture]
    */
   def close(): Future[Unit]
 
+  /**
+   * if set to true, than caller contract is to call 'box()' no more then 'nBoxes' times,
+   * otherwise - box() canbe called any times and will return future to FixtureAccessBox
+   *  which become available after freeing of one of previously buzy instances.
+   **/ 
+  def requirePreallocation(): Boolean = true
+
 }
 
 

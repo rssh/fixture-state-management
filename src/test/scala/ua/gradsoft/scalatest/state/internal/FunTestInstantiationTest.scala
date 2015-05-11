@@ -15,8 +15,8 @@ class MyFunGroupSuite extends managedfixture.GroupSuite[AtomicInteger,Int]
    class AtomicIntegerBox(factory: AtomicIntegerBoxFactory) extends FixtureAccessBox[AtomicInteger]
    {
        
-       def apply[A](f: AtomicInteger=>A ): Future[(A, this.type)] = {
-          Future successful (f(v), this) 
+       def apply[A](f: AtomicInteger=>A ): Future[A] = {
+          Future successful f(v) 
         }
 
        def close() = {

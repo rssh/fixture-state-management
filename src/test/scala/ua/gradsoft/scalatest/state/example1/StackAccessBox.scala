@@ -18,13 +18,13 @@ object StackStates extends Enumeration
 class StackAccessBox extends FixtureAccessBox[Stack[Int]]
 {
 
-  def apply[A](f: Stack[Int] => A): Future[(A,this.type)] =
+  def apply[A](f: Stack[Int] => A): Future[A] =
   {
-    val p = Promise[(A,this.type)]
+    val p = Promise[A]
     executor.submit(new Runnable(){
         def run():Unit =
         {
-          p complete Try((f(stack),StackAccessBox.this))
+          p complete Try(f(stack))
         }
     })
     p.future

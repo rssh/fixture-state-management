@@ -13,7 +13,7 @@ trait FixtureAccessBox[Fixture]
   /**
    * apply operation on fixture
    **/
-  def apply[A](f: Fixture => A): Future[(A,this.type)]
+  def apply[A](f: Fixture => A): Future[A]
 
   /**
    * close (if necessory) fixture access box, after all currently evaluated

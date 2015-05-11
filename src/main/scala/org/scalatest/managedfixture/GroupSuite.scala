@@ -94,7 +94,7 @@ abstract class GroupSuite[F,S] extends Suite
 
            override def succeeds() =
             try {
-              Await.result(res, xtestTimeout)._1.succeeds()
+              Await.result(res, xtestTimeout).succeeds()
             } catch {
                case ex: TimeoutException =>
                   //args.reporter(NoteProvided(ordinal,"timeout exception",NameInfo(suiteName,suiteId,Some(SequentialGroupPart.this.getClass.getName),Some(testName)),Some(ex)))
@@ -112,7 +112,7 @@ abstract class GroupSuite[F,S] extends Suite
            override def whenCompleted(f:Boolean => Unit):Unit=
             res.onComplete {
                 case Failure(ex) => f(false)              
-                case Success(s) => s._1.whenCompleted(f)
+                case Success(s) => s.whenCompleted(f)
             }
            
         }

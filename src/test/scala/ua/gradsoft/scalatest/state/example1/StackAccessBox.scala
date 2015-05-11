@@ -30,8 +30,7 @@ class StackAccessBox extends FixtureAccessBox[Stack[Int]]
     p.future
   }
        
-  def close(): Future[Unit] =
-         Future successful (())
+  def close() = {}
 
   private val stack = new Stack[Int]()
   private val executor = Executors.newSingleThreadExecutor() 

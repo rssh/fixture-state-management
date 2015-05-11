@@ -21,9 +21,9 @@ trait FixtureAccessBoxFactory[Fixture]
 
   /**
    * release all resources (i.e. shuodown external tools, etc)
-   * needed for boxes.  Will be called after all work in boxes will be finished.
+   * needed for boxes.  Will be called after all work in all boxes will be finished.
    */
-  def close(): Future[Unit]
+  def shutdown(): Unit = {}
 
   /**
    * if set to true, than caller contract is to call 'box()' no more then 'nBoxes' times,

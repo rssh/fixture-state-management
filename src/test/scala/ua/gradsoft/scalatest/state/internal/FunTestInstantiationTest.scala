@@ -6,30 +6,67 @@ import org.scalatest._
 import ua.gradsoft.managedfixture._
 import scala.concurrent.ExecutionContext.Implicits.global
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.ConcurrentLinkedQueue
 
 class MyFunGroupSuite extends managedfixture.GroupSuite[AtomicInteger,Int]
 {
 
-   val fixtureAccessBoxFactory = new FixtureAccessBoxFactory[AtomicInteger] {
-          def box() = Future successful _box
-          def close() = Future successful (())
-          def nBoxes: Option[Int] = Some(1)
-   }
+   class AtomicIntegerBox(factory: AtomicIntegerBoxFactory) extends FixtureAccessBox[AtomicInteger]
+   {
+       
+       def apply[A](f: AtomicInteger=>A ): Future[(A, this.type)] = {
+          Future successful (f(v), this) 
+        }
 
-   val _box = new FixtureAccessBox[AtomicInteger] {
-
-       def apply[A](f: AtomicInteger=>A ): Future[(A, this.type)] = 
-       {
-          val lp: Future[(A,this.type)] = last map { _ => (f(v), this ) }
-          last = lp map (_._2)
-          lp
+       def close() = {
+         factory.boxReturn()
        }
 
-       def close(): scala.concurrent.Future[Unit] = Future successful (())
+       val v = new AtomicInteger
 
-       private[this] var last: Future[this.type] = Future successful this
-       private[this] var v:AtomicInteger = new AtomicInteger(0)
    }
+
+   class AtomicIntegerBoxFactory extends FixtureAccessBoxFactory[AtomicInteger]
+   {
+
+       def box() =
+       {
+         val p = Promise[AtomicIntegerBox]()
+         val br = boxRef.getAndSet(null)
+         if (br!=null) {
+            p success br
+         } else {
+            waitQueue.offer(p)
+            val br = boxRef.getAndSet(null)
+            if (br != null) {
+              p success br
+              waitQueue.remove(p)
+            }
+         }
+         p.future
+       }
+
+       def boxReturn() =
+       {
+         System.err.println("boxReturn for $_box")
+         Option(waitQueue.poll()) match {
+            case Some(x) => {
+                    x success _box 
+                 }
+            case None => 
+                 boxRef.set(_box)
+         }
+       }
+
+       def nBoxes = Some(1)
+
+       private[this] val waitQueue = new ConcurrentLinkedQueue[Promise[AtomicIntegerBox]]()
+       private[this] val _box = new AtomicIntegerBox(this)
+       private[this] val boxRef = new AtomicReference(_box)
+   }
+
+   val fixtureAccessBoxFactory = new AtomicIntegerBoxFactory()
 
 }
 
@@ -41,21 +78,25 @@ class MyFunTest(g: managedfixture.GroupSuite[AtomicInteger,Int],
 
   start state(2) change nothing
   test("TEST-2") { x =>
-     assert(x==2)
+     System.err.println("in TEST-2")
+     assert(x.get()==2)
   }
 
   start state(3) change nothing
   test("TEST-3") { x =>
-     assert(x==3)
+     System.err.println("in TEST-3")
+     assert(x.get()==3)
   }
   
   start state(any) finish state(2)
   test("TEST:any->2") { x =>
+     System.err.println("in TEST:any->2")
      x.set(2)
   }
 
   start state(any) finish state(3)
   test("TEST:any->3") { x =>
+     System.err.println("in TEST:any->3")
      x.set(3)
   }
 

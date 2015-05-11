@@ -19,7 +19,7 @@ trait FixtureAccessBox[Fixture]
    * close (if necessory) fixture access box, after all currently evaluated
    * operations will be finished.
    **/
-  def close(): Future[Unit]
+  def close(): Unit
 
 }
 

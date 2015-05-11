@@ -9,6 +9,7 @@ import scala.collection.JavaConversions._
 import scala.concurrent._
 import scala.concurrent.duration._
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 import scala.util._
 import org.reflections._
 
@@ -55,23 +56,37 @@ abstract class GroupSuite[F,S] extends Suite
                        System.err.println(s"After sequentialGroupPart:runTest($name,args)");
                        retval
           case None =>
-                       System.err.println(s"Before sequentialGroupPart:runTest(None,args)");
+                       System.err.println(s"Before sequentialGroupPart:runTest(None,args), testNames= "+testNames);
                        val retval = super.runTests(testName,args)
                        System.err.println(s"After sequentialGroupPart:runTest(None,args)");
                        retval.whenCompleted{ _ =>
-                          fixtureAccessBox.foreach(_.close())
+                          System.err.println("runTets completed")
+                          fixtureAccessBox.foreach{x => 
+                                                   System.err.println(s"calling close for ${x}")
+                                                   x.close()
+                                                  }
                        }
                        retval
         }
 
+      val orderRef = new AtomicReference[Promise[Boolean]]
+      orderRef.set(Promise successful true)
 
       override def runTest(testName:String, args:Args):Status =
       {
-         System.err.println(s"runTest: $testName");
+         val nextOrder = Promise[Boolean]()
+         val prevOrder = orderRef.getAndSet(nextOrder)
          val (i,name) = extractNameIndex(testName)
          val test = registeredTests(i)
-         System.err.println("test found for $testName");
-         val res = fixtureAccessBox flatMap(_(f=>test.value.runInCopy(GroupSuite.this,f,name,args)))
+         System.err.println(s"test found for $testName");
+         val res = for{box <- fixtureAccessBox;
+                        ord <- prevOrder.future;
+                        r <- box.apply{ f =>
+                               System.err.println("before runInCopy, f="+f+", name="+name)
+                               test.value.runInCopy(GroupSuite.this,f,name,args)
+                             }
+                      } yield r
+         res.onComplete( _ => nextOrder success true)
 
         // TODO: make promise, which will cancel test on timeoit.
         new Status {
@@ -109,12 +124,12 @@ abstract class GroupSuite[F,S] extends Suite
         if (parts.size < 3) {
            throw new IllegalArgumentException("Invalid format for testName: must be {g}:{i}:{name} we have"+packed);
         }
-        val sg = parts.head
-        val sgr = parts.tail
-        val si = sgr.head
-        val sir = sgr.tail
-        val name = sir.tail.mkString(":")
-        (Integer.parseInt(si), name)
+        val h1 = parts.head
+        val t1 = parts.tail
+        val h2 = t1.head
+        val t2 = t1.tail
+        val name = t2.mkString(":")
+        (Integer.parseInt(h2), name)
       }
 
     }

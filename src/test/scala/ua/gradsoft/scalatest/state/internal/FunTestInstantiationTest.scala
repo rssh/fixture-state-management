@@ -49,7 +49,6 @@ class MyFunGroupSuite extends managedfixture.GroupSuite[AtomicInteger,Int]
 
        def boxReturn() =
        {
-         System.err.println("boxReturn for $_box")
          Option(waitQueue.poll()) match {
             case Some(x) => {
                     x success _box 
@@ -78,25 +77,21 @@ class MyFunTest(g: managedfixture.GroupSuite[AtomicInteger,Int],
 
   start state(2) change nothing
   test("TEST-2") { x =>
-     System.err.println("in TEST-2")
      assert(x.get()==2)
   }
 
   start state(3) change nothing
   test("TEST-3") { x =>
-     System.err.println("in TEST-3")
      assert(x.get()==3)
   }
   
   start state(any) finish state(2)
   test("TEST:any->2") { x =>
-     System.err.println("in TEST:any->2")
      x.set(2)
   }
 
   start state(any) finish state(3)
   test("TEST:any->3") { x =>
-     System.err.println("in TEST:any->3")
      x.set(3)
   }
 
@@ -107,12 +102,10 @@ class FunTestInstantiationTest extends FunSuite
 
   test("fixture FunTest must be able to instantiate yourself") {
     val g = new MyFunGroupSuite
-    System.err.println("v1: g.registeredTests="+g.registeredTests);
     val t0 = new MyFunTest(g,None,None)
     val t1_2 = t0.createCopy(g,Some(new AtomicInteger(2)),Some("TEST-2"))
     assert(t1_2.isInstanceOf[MyFunTest])
     val t1_3 = t0.createCopy(g,Some(new AtomicInteger(3)),Some("TEST-3"))
-    System.err.println("v2: g.registeredTests="+g.registeredTests);
     //t1_2.run
   }
 

@@ -20,7 +20,7 @@ libraryDependencies += "org.reflections" % "reflections" % "0.9.9"
 // for examples:
 
 //libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-6" % "test
-libraryDependencies +=  "com.typesafe.slick" %% "slick" % "2.1.0" % "test"
+libraryDependencies +=  "com.typesafe.slick" %% "slick" % "3.0.0" % "test"
 
 libraryDependencies +=  "com.h2database" % "h2" % "1.4.180" % "test"
 

@@ -24,10 +24,8 @@ object ExecutionSequenceOptimizer {
     while(!found) {
        var candidates = for( c <- next;
                              x <- genNVariants(c,n)) yield x
-       System.err.println(s"candidates build parts ${candidates map (_.buildPart)}")
        val (finished, nonFinished) = candidates.partition(_.rest.isEmpty)
        if (! finished.isEmpty) {
-           System.err.println(s"finished: ${finished}")
            retval = finished.sortBy(_.weight).head.buildPart map (_ map (_.v))
            found=true
        } else {
@@ -56,7 +54,6 @@ object ExecutionSequenceOptimizer {
 
    def  genNVariants[A,S](v:StateVariant[A,S],nVariants:Int):IndexedSeq[StateVariant[A,S]] =
    {
-      System.err.println(s"genNVariants, v=$v");
       var nextCandidates=v.st.incidenceMatrix.outEdjes(v.lastState)
       var retval: IndexedSeq[StateVariant[A,S]] = IndexedSeq()
       var crest = v.rest 

@@ -48,21 +48,18 @@ abstract class GroupSuite[F,S] extends Suite
 
       override def tags() = autoTagClassAnnotations(Map(),this)
 
+      override def suiteName() = 
+         s"${GroupSuite.this.getClass.getSimpleName}:SeqGroup:${groupIndex}"
+
       override def runTests(testName:Option[String], args:Args):Status =
         testName match {
           case Some(name) => 
-                       System.err.println(s"Before sequentialGroupPart:runTest($name,args)");
                        val retval = super.runTests(testName,args)
-                       System.err.println(s"After sequentialGroupPart:runTest($name,args)");
                        retval
           case None =>
-                       System.err.println(s"Before sequentialGroupPart:runTest(None,args), testNames= "+testNames);
                        val retval = super.runTests(testName,args)
-                       System.err.println(s"After sequentialGroupPart:runTest(None,args)");
                        retval.whenCompleted{ _ =>
-                          System.err.println("runTets completed")
                           fixtureAccessBox.foreach{x => 
-                                                   System.err.println(s"calling close for ${x}")
                                                    x.close()
                                                   }
                        }
@@ -78,11 +75,9 @@ abstract class GroupSuite[F,S] extends Suite
          val prevOrder = orderRef.getAndSet(nextOrder)
          val (i,name) = extractNameIndex(testName)
          val test = registeredTests(i)
-         System.err.println(s"test found for $testName");
          val res = for{box <- fixtureAccessBox;
                         ord <- prevOrder.future;
                         r <- box.apply{ f =>
-                               System.err.println("before runInCopy, f="+f+", name="+name)
                                test.value.runInCopy(GroupSuite.this,f,name,args)
                              }
                       } yield r
@@ -146,7 +141,6 @@ abstract class GroupSuite[F,S] extends Suite
         // TODO: split on number of parallelism .
         val st = new StateTransitions(registeredTests)
         val indexes = ExecutionSequenceOptimizer(st,nAvailableBoxes)
-        System.err.println("optimizer result:"+indexes)
         val nBoxes = if (indexes.length < nAvailableBoxes)
                         indexes.length
                      else
@@ -156,7 +150,6 @@ abstract class GroupSuite[F,S] extends Suite
                                   indexes(i),i,log10(nBoxes)+1,
                                   bf.box())
                     } 
-        System.err.println("parts:"+parts+", nBoxes="+nBoxes);
         parts
       }
     }

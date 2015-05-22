@@ -7,12 +7,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object MPSchema 
 {
 
- //val predictedEvents = table[PredictedEvent];
- //on(predictedEvents)(e => declare(e.idname is(unique,indexed)));
 
  val members = TableQuery[Members]
 
- //val authority = oneToManyRelation(members,predictedEvents).via( (m,p) => m.id===p.authorId);
+ val predictedEvents = TableQuery[PredictedEvents]
 
  val bids = TableQuery[Bids]
 

@@ -6,7 +6,7 @@ import slick.driver.H2Driver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
-case class Member(val id: Long,
+case class Member(val id: Option[Long],
                   val name: String,
                   val balance: BigDecimal
                  ) 
@@ -14,11 +14,11 @@ case class Member(val id: Long,
 
 class Members(tag:Tag) extends Table[Member](tag,"members")
 {
-  def id = column[Long]("id",O.PrimaryKey)
+  def id = column[Long]("id",O.PrimaryKey,O.AutoInc)
   def name = column[String]("name")
   def balance = column[BigDecimal]("balance")
 
-  def * = (id, name, balance) <> (Member.tupled, Member.unapply)
+  def * = (id.? , name, balance) <> (Member.tupled, Member.unapply)
 
 }
 

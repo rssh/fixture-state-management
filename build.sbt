@@ -13,7 +13,7 @@ version:="0.8.x-SNAPSHOT"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" 
 
-libraryDependencies += "org.reflections" % "reflections" % "0.9.9" 
+libraryDependencies += "org.reflections" % "reflections" % "0.9.10" 
 
 // TODO: upgrade to latest spec2
 

@@ -77,18 +77,18 @@ object ExecutionSequenceOptimizer {
          crest  = crest.tail
          val ns: Set[StateIndex] =  v.st.operation(c).usage.precondition match {
             case AnyState =>
-                   throw new IllegalStateException(
-                     s"""Invalid stateTransitions: AnyState rest must be in out edjes 
-                          c=${c}  lastState=${c}
-                      """
-                   )
+                   Set(v.st.initialStateIndex)
              case States(states) => states map (v.st.stateIndexes.byState(_))
          }
          for(s <- ns) {
-             val pi = v.st.initialPathes.get(s).getOrElse{
+             val iniOps = if (s==v.st.initialStateIndex) {
+                                  Seq[OperationIndex]()
+               } else {
+                  val pi = v.st.initialPathes.get(s).getOrElse{
                         throw new IllegalStateException(s"state ${v.st.printState(s)} is unreachable")
                       }
-             val iniOps = pi.ops.map(_._1)
+                  pi.ops.map(_._1)
+             }
              val iniOpsSet = iniOps.toSet
              val newRest = (v.rest - c) &~ iniOpsSet
              val newAdded = (v.rest - c) & iniOpsSet

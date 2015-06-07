@@ -186,12 +186,16 @@ abstract class GroupSuite[F,S] extends Suite
 
 
    def findInheritedFromInThisPackage[T](tClass: Class[T]):Seq[Class[_ <: T]]
-    = reflections.getSubTypesOf(tClass).toSeq
+    = {
+        reflections.getSubTypesOf(tClass).toSeq
+      }
 
    def createTestInstance[X <: FunSuite[F,S]](f:Class[X]):X =
     ReflectUtil.constructor3(f,this,None,None)
 
-   private lazy val reflections = new Reflections(this.getClass.getPackage)
+   private lazy val reflections = {
+     new Reflections(this.getClass.getPackage.getName)
+   }
 
 }
 

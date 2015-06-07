@@ -27,6 +27,7 @@ class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
                    extends managedfixture.FunSuite[Database,DBState](g,f,testToRun)
 {
 
+  System.err.println("LoadStateTestConstructor, g="+g)
 
   start state(any) finish state(EMPTY)
   test("load empty state") { db =>

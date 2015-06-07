@@ -19,7 +19,6 @@ trait EngineContext
 
    def db: Database
 
-
 }
 
 // vim: set ts=4 sw=4 et:

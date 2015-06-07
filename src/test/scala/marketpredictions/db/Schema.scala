@@ -14,14 +14,23 @@ object MPSchema
 
  val bids = TableQuery[Bids]
 
+  def schema = (members.schema ++ predictedEvents.schema ++ bids.schema)
 
-  def postInit: Unit = 
+  def create: DBIO[Unit] =
+    schema.create
+
+  def drop: DBIO[Unit] =
+    schema.drop
+
+  def postInit: DBIO[Unit] = 
   {
+    DBIO.successful(())
     //PredictedEvent.schemaInit;
   }
 
-  def preClear: Unit = 
+  def preClear: DBIO[Unit] = 
   {
+    DBIO.successful(())
     //PredictedEvent.schemaClear;
   }
 

@@ -21,6 +21,10 @@ case object EMPTY extends DBState
 case object S1_USERS_WITHOUT_MONEY extends DBState
 case object S2_USERS_WITH_MONEY extends DBState
 
+object MPFixtureAccessBoxFactory extends OneInstanceFixtureAccessBoxFactory(
+  Database.forURL("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
+                                                                           )
+
 class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
                      f: Option[Database],
                      testToRun:Option[String])

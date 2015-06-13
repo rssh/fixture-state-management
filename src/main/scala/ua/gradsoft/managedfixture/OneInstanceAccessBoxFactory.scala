@@ -60,7 +60,7 @@ class OneInstanceFixtureAccessBox[T <: AnyRef](x: T, factory: OneInstanceFixture
 
 }
 
-class OneInstanceFixtureAccessBoxFactory[T<:AnyRef](t:T) extends FixtureAccessBoxFactory[T]
+case class OneInstanceFixtureAccessBoxFactory[T<:AnyRef](t:T) extends FixtureAccessBoxFactory[T]
                                                           with RefBorrowQueue[OneInstanceFixtureAccessBox[T]]
 {
 

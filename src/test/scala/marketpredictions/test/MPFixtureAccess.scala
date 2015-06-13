@@ -21,17 +21,13 @@ case object EMPTY extends DBState
 case object S1_USERS_WITHOUT_MONEY extends DBState
 case object S2_USERS_WITH_MONEY extends DBState
 
-object MPFixtureAccessBoxFactory extends OneInstanceFixtureAccessBoxFactory(
-  Database.forURL("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
-                                                                           )
-
 class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
                      f: Option[Database],
                      testToRun:Option[String])
                    extends managedfixture.FunSuite[Database,DBState](g,f,testToRun)
 {
 
-  System.err.println("LoadStateTestConstructor, g="+g)
+  System.err.println("LoadStateTestConstructor, g="+g+", testToRun:"+testToRun)
 
   start state(any) finish state(EMPTY)
   test("load empty state") { db =>
@@ -62,7 +58,7 @@ class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
   }
 
   start state(S1_USERS_WITHOUT_MONEY) finish state(S2_USERS_WITH_MONEY)
-  test("load s1 state") { db =>
+  test("load s2 state") { db =>
     val testApi = TestApi(db, CalendarUtil.timestamp(2012,2,1,0,0));
     val io = for{
        alice <- testApi.findUser("alice") map (_.get);

@@ -14,13 +14,21 @@ object MPSchema
 
  val bids = TableQuery[Bids]
 
-  def schema = (members.schema ++ predictedEvents.schema ++ bids.schema)
+ def schema = (members.schema ++ predictedEvents.schema ++ bids.schema)
 
   def create: DBIO[Unit] =
+  {
+    System.err.println("schema:create");
+    schema.create.statements.foreach(System.err.println(_))
     schema.create
+  }
 
   def drop: DBIO[Unit] =
+  {
+    System.err.println("schema:drop");
+    schema.drop.statements.foreach(System.err.println(_))
     schema.drop
+  }
 
   def postInit: DBIO[Unit] = 
   {

@@ -20,6 +20,7 @@ sealed trait DBState
 case object EMPTY extends DBState
 case object S1_USERS_WITHOUT_MONEY extends DBState
 case object S2_USERS_WITH_MONEY extends DBState
+case object S3_MORE_PREDICTIONS extends DBState
 
 class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
                      f: Option[Database],
@@ -31,19 +32,28 @@ class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
 
   start state(any) finish state(EMPTY)
   test("load empty state") { db =>
+       System.err.println("load empty state:start");
+       Await.ready(db.run(recreateDB(db)), 1 minute)
+       System.err.println("load empty state:end");
+  }
+
+  start state(EMPTY) finish state(S1_USERS_WITHOUT_MONEY)
+  test("create users") { db =>
+      System.err.println("load s1 state:start");
       val testApi = TestApi(db, CalendarUtil.timestamp(2012,1,1,0,0) )
       val io = for{ 
-           u <- recreateDB(db);
            aliceId <- testApi.createUser("alice") ;
            bobId <- testApi.createUser("bob") ;
            alexId <- testApi.createUser("alex")     
          } yield (aliceId, bobId, alexId)
       val f = db.run(io)
       val r = Await.ready(f, 1 minute)
+      System.err.println("load s1 state:end");
   }
 
-  start state(EMPTY) finish state(S1_USERS_WITHOUT_MONEY)
-  test("load s1 state") { db =>
+  start state(S1_USERS_WITHOUT_MONEY) finish state(S2_USERS_WITH_MONEY)
+  test("load s2 state= give money to users") { db =>
+    System.err.println("load s2 state:start");
     val testApi = TestApi(db, CalendarUtil.timestamp(2012,2,1,0,0));
     val io = for{
       alice <- testApi.findUser("alice") map (_.get);
@@ -55,10 +65,12 @@ class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
     } yield (())
     val f = db.run(io)
     val r = Await.ready(f, 1 minute)
+    System.err.println("load s2 state:end");
   }
 
-  start state(S1_USERS_WITHOUT_MONEY) finish state(S2_USERS_WITH_MONEY)
-  test("load s2 state") { db =>
+  start state(S2_USERS_WITH_MONEY) finish state(S3_MORE_PREDICTIONS)
+  test("load s3 state") { db =>
+    System.err.println("load s3 state:start");
     val testApi = TestApi(db, CalendarUtil.timestamp(2012,2,1,0,0));
     val io = for{
        alice <- testApi.findUser("alice") map (_.get);
@@ -80,6 +92,7 @@ class LoadStatesTest(g: managedfixture.GroupSuite[Database,DBState],
      } yield ce2
      val f = db.run(io)
      val r = Await.ready(f, 1 minute)
+     System.err.println("load s3 state:end");
   }
 
   private def recreateDB(db: Database): DBIO[Unit] = {

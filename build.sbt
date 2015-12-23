@@ -3,7 +3,7 @@ name:="fixture-state-management"
 
 organization:="ua.gradsoft"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq("-deprecation","-feature")
 
@@ -20,9 +20,9 @@ libraryDependencies += "org.reflections" % "reflections" % "0.9.10"
 // for examples:
 
 //libraryDependencies +=  "org.squeryl" %% "squeryl" % "0.9.5-6" % "test
-libraryDependencies +=  "com.typesafe.slick" %% "slick" % "3.0.0" % "test"
+libraryDependencies +=  "com.typesafe.slick" %% "slick" % "3.1.0" % "test"
 
-libraryDependencies +=  "com.h2database" % "h2" % "1.4.180" % "test"
+libraryDependencies +=  "com.h2database" % "h2" % "1.4.190" % "test"
 
 
 

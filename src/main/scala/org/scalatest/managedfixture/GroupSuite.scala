@@ -52,65 +52,35 @@ abstract class GroupSuite[F,S] extends Suite
          s"${GroupSuite.this.getClass.getSimpleName}:SeqGroup:${groupIndex}"
 
       override def runTests(testName:Option[String], args:Args):Status =
-        testName match {
-          case Some(name) => 
-                       val retval = super.runTests(testName,args)
-                       retval
-          case None =>
-                       val retval = super.runTests(testName,args)
-                       retval.whenCompleted{ _ =>
-                          fixtureAccessBox.foreach{x => 
-                                                   x.close()
-                                                  }
-                       }
-                       retval
-        }
+      {
+        System.err.println("!!! managedfixture.GroupSuite.runTests: "+testName+" all="+testNames)
 
-      val orderRef = new AtomicReference[Promise[Boolean]]
-      orderRef.set(Promise successful true)
+        def runInBox(fun: =>Status ):Future[Status] =
+             for{box <- fixtureAccessBox ;
+                 status <- box { fixture =>
+                   currentFixture.withValue(Some(fixture)) {
+                     fun
+                   }
+                 }
+              } yield status
+
+        val result = runInBox{
+               super.runTests(testName, args)
+        }
+        result.onComplete{ _ =>
+            fixtureAccessBox.foreach{x => x.close() }
+        }
+        new FutureStatus(result)
+      }
+
+      val currentFixture: DynamicVariable[Option[F]] = new DynamicVariable(None)
 
       override def runTest(testName:String, args:Args):Status =
       {
-         val nextOrder = Promise[Boolean]()
-         val prevOrder = orderRef.getAndSet(nextOrder)
+         System.err.println("!!! managedfixture.GroupSuite.runTest: "+suiteName()+" "+testName)
          val (i,name) = extractNameIndex(testName)
          val test = registeredTests(i)
-         val res = for{box <- fixtureAccessBox;
-                        ord <- prevOrder.future;
-                        r <- box.apply{ f =>
-                               test.value.runInCopy(GroupSuite.this,f,name,args)
-                             }
-                      } yield r
-         res.onComplete( _ => nextOrder success true)
-
-        // TODO: make promise, which will cancel test on timeoit.
-        new Status {
-           override def isCompleted() = res.isCompleted
-
-           override def succeeds() =
-            try {
-              Await.result(res, xtestTimeout).succeeds()
-            } catch {
-               case ex: TimeoutException =>
-                  //args.reporter(NoteProvided(ordinal,"timeout exception",NameInfo(suiteName,suiteId,Some(SequentialGroupPart.this.getClass.getName),Some(testName)),Some(ex)))
-                  false
-               case ex: Throwable =>
-                  //args.reporter(AlertProvided(ordinal,"timeout exception",NameInfo(suiteName,suiteId,Some(SequentialGroupPart.this.getClass.getName),Some(testName)),Some(ex)))
-                  false
-            }
-
-           override def waitUntilCompleted(): Unit =
-           {
-            succeeds()
-           }
-
-           override def whenCompleted(f:Boolean => Unit):Unit=
-            res.onComplete {
-                case Failure(ex) => f(false)              
-                case Success(s) => s.whenCompleted(f)
-            }
-           
-        }
+         test.value.runInCopy(GroupSuite.this,currentFixture.value.get,name,args)
       }
 
       def extractNameIndex(packed:String):(Int,String) =

@@ -42,6 +42,8 @@ class FunSuite[Fixture,State](group:GroupSuite[Fixture,State],
  
   override def test(name:String, tags:Tag*)(f:FixtureParam=>Any):Unit =
   {
+   val threadId = Thread.currentThread.getId
+   System.err.println(s"!!! managedFixture::FunSuite.test name = ${name}, testToRun=${testToRun} this=${this} threadId=${threadId}")
    testToRun match {
        case None => testAnalyze(name,tags:_*)(f)
        case Some(testName) =>
@@ -64,7 +66,16 @@ class FunSuite[Fixture,State](group:GroupSuite[Fixture,State],
     ReflectUtil.constructor3(getClass,g,f,testToRun)
 
    def runInCopy(g:GroupSuite[Fixture,State],f:Fixture,name:String, args:Args):Status =
-     createCopy(g,Some(f),Some(name)).runTests(Some(name),args)
+   {
+     System.err.println("!!!: managedFixture.FunSuite::runInCopy for "+g.suiteName+" test "+name+" thread "+Thread.currentThread.getId()+" this= "+this)
+     try {
+       createCopy(g,Some(f),Some(name)).runTests(Some(name),args)
+     } catch {
+       case ex: Exception =>
+                  System.err.println("exception catched, test name = "+name+", testToRun:"+testToRun+", registedTests in g:"+g.registeredTests.map(_.name))
+                  throw ex
+     }
+   }
 
 
 
